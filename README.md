@@ -61,6 +61,7 @@
 
 # 2. Structura proiectului (React + Vite + Tailwind)
 
+```text
 vive-credit/
 ├── public/
 │ ├── index.html
@@ -95,6 +96,7 @@ src/
 ├── tsconfig.json
 ├── vite.config.ts
 └── README.md
+```
 
 # 3. Pași pentru rulare locală
 
