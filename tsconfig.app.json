@@ -25,8 +25,10 @@
     "noUncheckedSideEffectImports": true,
 
     /* ALIAS-uri */
+    "ignoreDeprecations": "6.0",
     "baseUrl": "./src",
     "paths": {
+      "@/*": ["./*"],
       "@core/*": ["core/*"],
       "@modules/*": ["modules/*"],
       "@types/*": ["types/*"],
