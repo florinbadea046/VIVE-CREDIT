@@ -1,37 +1,15 @@
-const mockRiskApp = [
-  {
-    id: "R001",
-    client: "Ana Popescu",
-    score: 500,
-    status: "pending",
-  },
-  {
-    id: "R002",
-    client: "Ion Popescu",
-    score: 700,
-    status: "approved",
-  },
-  {
-    id: "R003",
-    client: "Ion Ion",
-    score: 100,
-    status: "rejected",
-  },
-  {
-    id: "R004",
-    client: "Marius Marius",
-    score: 300,
-    status: "manual_review",
-  },
-];
-
 interface Props {
+  applications: any[];
   filters: { status: string; search: string };
   onSelect: (add: any) => void;
 }
 
-export default function RiskApplicationsTable({ filters, onSelect }: Props) {
-  const filtered = mockRiskApp.filter((app) => {
+export default function RiskApplicationsTable({
+  applications,
+  filters,
+  onSelect,
+}: Props) {
+  const filtered = applications.filter((app) => {
     const matchesStatus = !filters.status || app.status === filters.status;
     const matchesSearch =
       !filters.search ||

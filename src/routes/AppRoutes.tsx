@@ -1,5 +1,5 @@
+import { RiskDashboard } from "@modules/operator-dashboard/risk";
 import { Routes, Route } from "react-router-dom";
-import RiskDashboard from "@modules/operator-dashboard/risk/RiskDashboard";
 
 const AppRoutes = () => {
   return (
