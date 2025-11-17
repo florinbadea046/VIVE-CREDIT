@@ -60,40 +60,102 @@
 - Jobs pentru queue / notificări / reconciliere
 
 # 2. Structura proiectului (React + Vite + Tailwind)
+
 ```text
 vive-credit/
 ├── public/
 │   └── index.html
+
 ├── src/
 │   ├── core/
 │   │   ├── components/
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── Loader.tsx
 │   │   ├── layouts/
+│   │   │   ├── MainLayout.tsx
+│   │   │   └── AuthLayout.tsx
 │   │   ├── services/
+│   │   │   ├── api.ts
+│   │   │   └── auth.ts
 │   │   └── utils/
+│   │       ├── formatters.ts
+│   │       ├── validators.ts
+│   │       └── constants.ts
+
 │   ├── modules/
 │   │   ├── onboarding/
+│   │   │   └── Onboarding.tsx
 │   │   ├── kyc/
+│   │   │   └── KYC.tsx
 │   │   ├── applications/
+│   │   │   └── CreditApplication.tsx
 │   │   ├── scoring/
+│   │   │   └── Scoring.tsx
 │   │   ├── contract/
+│   │   │   └── Contract.tsx
 │   │   ├── payments/
+│   │   │   └── Payments.tsx
 │   │   ├── collections/
+│   │   │   └── Collections.tsx
 │   │   ├── admin/
-│   │   └── reports/
+│   │   │   └── Admin.tsx
+│   │   ├── reports/
+│   │   │   └── Reports.tsx
+│   │   └── operator-dashboard/
+│   │       ├── sales/
+│   │       │   ├── SalesDashboard.tsx
+│   │       │   ├── ApplicationDetail.tsx
+│   │       │   └── index.ts
+│   │       ├── risk/
+│   │       │   ├── RiskDashboard.tsx
+│   │       │   └── index.ts
+│   │       └── collections/
+│   │           ├── CollectionsDashboard.tsx
+│   │           ├── CollectionTasks.tsx
+│   │           ├── PTPManagement.tsx
+│   │           └── index.ts
+
 │   ├── routes/
 │   │   └── AppRoutes.tsx
+
 │   ├── store/
+│   │   ├── index.ts
+│   │   └── slices/
+│   │       ├── userSlice.ts
+│   │       ├── appSlice.ts
+│   │       └── dashboardSlice.ts
+
 │   ├── hooks/
+│   │   ├── useAuth.ts
+│   │   ├── useFetch.ts
+│   │   └── useDashboard.ts
+
 │   ├── types/
-│   ├── styles/
+│   │   ├── user.ts
+│   │   ├── application.ts
+│   │   ├── kyc.ts
+│   │   └── logs.ts
+
 │   ├── utils/
+│   │   ├── logger.ts
+│   │   ├── eventIds.ts
+│   │   └── helpers.ts
+
+│   ├── styles/
+│   │   └── index.css
+
 │   ├── App.tsx
 │   └── main.tsx
-├── tailwind.config.js
-├── postcss.config.js
+
+├── .gitignore
 ├── package.json
 ├── tsconfig.json
+├── tsconfig.app.json
 ├── vite.config.ts
+├── tailwind.config.cjs
+├── postcss.config.js
 └── README.md
 ```
 
