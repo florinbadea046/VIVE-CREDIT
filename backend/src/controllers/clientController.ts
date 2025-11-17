@@ -1,83 +1,88 @@
-import { Request, Response } from 'express';
-import {
-  createClient,
-  findClientByEmail,
-  findClientById,
-  updateClient
-} from '../data/clients';
+  import { Request, Response } from 'express';
+  import {
+    createClient,
+    findClientByEmail,
+    findClientById,
+    updateClient, 
+    findClientByCnp
+  } from '../data/clients';
 
-function isValidCnp(cnp: string): boolean {
-  return typeof cnp === 'string' && /^\d{13}$/.test(cnp);
-}
-
-function isValidEmail(email: string): boolean {
-  return typeof email === 'string' && email.includes('@');
-}
-
-function isValidPhone(phone: string): boolean {
-  return typeof phone === 'string' && phone.replace(/\D/g, '').length >= 10;
-}
-
-// POST /client
-export const createClientHandler = (req: Request, res: Response) => {
-  const { firstName, lastName, cnp, email, phone, address } = req.body;
-
-  if (!firstName || !lastName || !cnp || !email || !phone || !address) {
-    return res.status(400).json({ error: 'Missing required fields' });
+  function isValidCnp(cnp: string): boolean {
+    return typeof cnp === 'string' && /^\d{13}$/.test(cnp);
   }
 
-  if (!isValidCnp(cnp)) {
-    return res.status(400).json({ error: 'Invalid CNP' });
+  function isValidEmail(email: string): boolean {
+    return typeof email === 'string' && email.includes('@');
   }
 
-  if (!isValidEmail(email)) {
-    return res.status(400).json({ error: 'Invalid email' });
+  function isValidPhone(phone: string): boolean {
+    return typeof phone === 'string' && phone.replace(/\D/g, '').length >= 10;
   }
 
-  if (findClientByEmail(email)) {
-    return res.status(409).json({ error: 'Email already exists' });
-  }
+  // POST /client
+  export const createClientHandler = (req: Request, res: Response) => {
+    const { firstName, lastName, cnp, email, phone, address } = req.body;
 
-  if (!isValidPhone(phone)) {
-    return res.status(400).json({ error: 'Invalid phone' });
-  }
+    if (!firstName || !lastName || !cnp || !email || !phone || !address) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
 
-  const client = createClient({ firstName, lastName, cnp, email, phone, address });
+    if (!isValidCnp(cnp)) {
+      return res.status(400).json({ error: 'Invalid CNP' });
+    }
 
-  console.log('[AUDIT] CLIENT_CREATED', {
-    clientId: client.id,
-    email: client.email,
-    createdAt: client.createdAt
-  });
+    if (findClientByCnp(cnp)) {
+      return res.status(409).json({ error: 'CNP already exists' });
+    }
 
-  return res.status(201).json(client);
-};
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: 'Invalid email' });
+    }
 
-// GET /client/:id
-export const getClientHandler = (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const client = findClientById(id);
+    if (findClientByEmail(email)) {
+      return res.status(409).json({ error: 'Email already exists' });
+    }
 
-  if (!client) {
-    return res.status(404).json({ error: 'Client not found' });
-  }
+    if (!isValidPhone(phone)) {
+      return res.status(400).json({ error: 'Invalid phone' });
+    }
 
-  return res.json(client);
-};
+    const client = createClient({ firstName, lastName, cnp, email, phone, address });
 
-// PUT /client/:id
-export const updateClientHandler = (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-  const updated = updateClient(id, req.body);
+    console.log('[AUDIT] CLIENT_CREATED', {
+      clientId: client.id,
+      email: client.email,
+      createdAt: client.createdAt
+    });
 
-  if (!updated) {
-    return res.status(404).json({ error: 'Client not found' });
-  }
+    return res.status(201).json(client);
+  };
 
-  console.log('[AUDIT] CLIENT_UPDATED', {
-    clientId: updated.id,
-    updatedAt: updated.updatedAt
-  });
+  // GET /client/:id
+  export const getClientHandler = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const client = findClientById(id);
 
-  return res.json(updated);
-};
+    if (!client) {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+
+    return res.json(client);
+  };
+
+  // PUT /client/:id
+  export const updateClientHandler = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const updated = updateClient(id, req.body);
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+
+    console.log('[AUDIT] CLIENT_UPDATED', {
+      clientId: updated.id,
+      updatedAt: updated.updatedAt
+    });
+
+    return res.json(updated);
+  };

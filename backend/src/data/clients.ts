@@ -28,6 +28,10 @@ export function findClientByEmail(email: string): Client | undefined {
   return clients.find(c => c.email === email);
 }
 
+export function findClientByCnp(cnp: string): Client | undefined {
+  return clients.find(c => c.cnp === cnp);
+}
+
 export function findClientById(id: number): Client | undefined {
   return clients.find(c => c.id === id);
 }
