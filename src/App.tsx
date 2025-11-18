@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
@@ -7,9 +7,9 @@ function App() {
   const showHeader = location.pathname === "/";
 
   return (
-    <BrowserRouter>
+    <div>
       <AppRoutes />
-    </BrowserRouter>
+    </div>
   );
 }
 export default App;

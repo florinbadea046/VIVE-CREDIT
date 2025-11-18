@@ -3,6 +3,7 @@ import RiskFiltersBar from "./components/RiskFiltersBar";
 import RiskApplicationsTable from "./components/RiskApplicationsTable";
 import RiskDetailsModal from "./components/RiskDetailsModal";
 import { mockRiskApp } from "./mock-data";
+import RiskKpiCards from "./components/RiskKpiCards";
 
 export default function RiskDashboard() {
   const [applications, setApplications] = useState(mockRiskApp);
@@ -19,6 +20,7 @@ export default function RiskDashboard() {
       <h1 className="text-xl font-semibold text-blue-500 mb-4 text-start">
         Risk Dashboard
       </h1>
+      <RiskKpiCards />
       <RiskFiltersBar filters={filters} onChange={setFilters} />
       <RiskApplicationsTable
         applications={applications}
