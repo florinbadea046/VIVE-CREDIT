@@ -105,7 +105,7 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-b from-blue-50 to-white pt-8 md:pt-12 pb-10 px-4 transition-all duration-500">
       <div className="w-full max-w-2xl mb-4 md:mb-6">
-        <div className="flex justify-between items-center mb-4 md:mb-5">
+        <div className="hidden md:flex justify-between items-center mb-5">
           {steps.map((label, index) => {
             const current = index + 1;
             const isActive = current === step;
@@ -114,17 +114,55 @@ export default function OnboardingPage() {
             return (
               <div key={index} className="flex flex-col items-center flex-1">
                 <div
-                  className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all ${
-                    isCompleted
-                      ? "bg-blue-600 border-blue-600 text-white"
-                      : isActive
-                      ? "bg-blue-300 border-blue-400 text-blue-800"
-                      : "bg-blue-100 border-blue-300 text-blue-400"
-                  }`}
+                  className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all
+              ${
+                isCompleted
+                  ? "bg-blue-600 border-blue-600 text-white"
+                  : isActive
+                  ? "bg-blue-300 border-blue-400 text-blue-800"
+                  : "bg-blue-100 border-blue-300 text-blue-400"
+              }
+            `}
                 >
                   {isCompleted ? <Check size={18} /> : current}
                 </div>
-                <span className="text-xs mt-2 text-blue-700">{label}</span>
+                <span className="text-xs mt-2 text-blue-700 text-center">
+                  {label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="flex md:hidden justify-between items-start mb-4 w-full px-1 gap-1">
+          {steps.map((label, index) => {
+            const current = index + 1;
+            const isActive = current === step;
+            const isCompleted = current < step;
+
+            return (
+              <div
+                key={index}
+                className="flex flex-col items-center"
+                style={{ width: "20%" }}
+              >
+                <div
+                  className={`flex items-center justify-center w-7 h-7 rounded-full border-[2px] text-xs transition
+              ${
+                isCompleted
+                  ? "bg-blue-600 border-blue-600 text-white"
+                  : isActive
+                  ? "bg-blue-200 border-blue-400 text-blue-800"
+                  : "bg-blue-100 border-blue-300 text-blue-400"
+              }
+            `}
+                >
+                  {isCompleted ? <Check size={14} /> : current}
+                </div>
+
+                <span className="text-[10px] mt-1 text-blue-700 leading-tight text-center">
+                  {label}
+                </span>
               </div>
             );
           })}
