@@ -1,9 +1,9 @@
+import { ScoringPage } from './modules/scoring/pages/ScoringPage';
+
 function App() {
   return (
     <div>
-      <h1 className="text-4xl font-bold text-blue-600 text-center mt-5">
-        Vive Credit
-      </h1>
+      <ScoringPage />
     </div>
   );
 }
