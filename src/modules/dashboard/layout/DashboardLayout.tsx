@@ -21,7 +21,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     "flex items-center gap-3 px-3 py-2 rounded-lg transition font-medium";
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex min-h-screen bg-gray-50 items-stretch dark:bg-gray-900">
       <div className="md:hidden fixed top-0 left-0 w-full bg-white dark:bg-gray-800 shadow-sm z-30 p-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400">
           Vive Credit
@@ -42,7 +42,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         className={`
           fixed md:relative z-50
           top-0 left-0
-          h-full md:h-screen w-64 
+          w-64
+          min-h-screen
           bg-white dark:bg-gray-800
           border-r border-gray-200 dark:border-gray-700 
           p-6 flex flex-col shadow-sm
@@ -81,6 +82,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <nav className="space-y-2">
           <NavLink
             to="/dashboard"
+            end
             className={({ isActive }) =>
               `${linkClasses} ${
                 isActive
