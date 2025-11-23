@@ -1,4 +1,4 @@
-import UiCard from "../../components/ui/UiCard";
+import UiCard from "../../../components/ui/UiCard";
 import { mockRiskApp } from "../mock-data";
 import {
   CheckCircle,

@@ -1,5 +1,5 @@
-import FilterInput from "../../components/ui/FilterInput";
-import FilterSelect from "../../components/ui/FilterSelect";
+import FilterInput from "../../../components/ui/FilterInput";
+import FilterSelect from "../../../components/ui/FilterSelect";
 
 export default function RiskFiltersBar({ filters, onChange }: Props) {
   const statusOptions = [

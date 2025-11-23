@@ -5,8 +5,10 @@ import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
 import LoanPage from "@/modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
-import { RiskDashboard } from "@modules/operator-dashboard/risk";
+
 import OperatorDashboardLayout from "@/modules/operator-dashboard/layout/OperatorDashboardLayout";
+import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
+import Dashboard from "@/modules/operator-dashboard/pages/Dasboard";
 
 const AppRoutes = () => {
   return (
@@ -26,9 +28,9 @@ const AppRoutes = () => {
 
       {/* OPERATOR DASHBOARD SALES/RISK/COLLENTIONS */}
       <Route path="/operator" element={<OperatorDashboardLayout />}>
-        {/* <Route path="sales" element={<SalesDashboard />} /> */}
-        <Route path="risk" element={<RiskDashboard />} />
-        {/* <Route path="collections" element={<Collectionsashboard />} /> */}
+        {/* <Route path="sales" element={<SalesPage />} /> */}
+        <Route path="risk" element={<RiskPage />} />
+        {/* <Route path="collection" element={<CollectionPage />} /> */}
       </Route>
 
       {/* Fallback */}
