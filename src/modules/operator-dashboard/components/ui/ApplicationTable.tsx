@@ -30,10 +30,10 @@ export default function ApplicationTable<T>({
   const gridColsClass = `grid-cols-${columns.length}`;
 
   return (
-    <div className="mt-4 bg-white border-gray-200 rounded-xl shadow-sm overflow-hidden">
+    <div className="mt-4 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
       {/* table header */}
       <div
-        className={` grid ${gridColsClass} px-4 py-4 bg-gray-50 font-semibold text-gray-700`}
+        className={` grid ${gridColsClass} px-4 py-4 bg-gray-100 dark:bg-gray-700 font-semibold text-gray-700 dark:text-gray-100`}
       >
         {columns.map((col) => (
           <div key={col.key} className={col.className}>
@@ -52,10 +52,18 @@ export default function ApplicationTable<T>({
         <div
           key={rowIndex}
           onClick={() => onRowClick?.(item)}
-          className={`grid ${gridColsClass} px-6 py-4 border-t border-greay-100 hover:bg-blue-50 cursor-pointer transition`}
+          className={`grid ${gridColsClass} px-6 py-4 border-t border-gray-100 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer transition
+    ${
+      rowIndex === paginatedData.length - 1
+        ? "border-b border-gray-100 dark:border-gray-600"
+        : ""
+    }`}
         >
           {columns.map((col) => (
-            <div key={col.key} className={col.className}>
+            <div
+              key={col.key}
+              className={`${col.className} text-gray-800 dark:text-gray-100`}
+            >
               {col.render ? col.render(item) : (item as any)[col.key]}
             </div>
           ))}

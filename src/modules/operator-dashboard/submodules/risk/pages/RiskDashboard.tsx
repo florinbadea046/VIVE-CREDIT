@@ -108,7 +108,7 @@ export default function RiskDashboard() {
       <ApplicationTable
         data={filteredApplications}
         columns={columns}
-        pageSize={5}
+        pageSize={6}
         onRowClick={setSelectedApp}
         noResultsText="Nicio aplicatie gasita"
       />

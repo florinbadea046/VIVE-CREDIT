@@ -7,8 +7,8 @@ import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
 
 import OperatorDashboardLayout from "@/modules/operator-dashboard/layout/OperatorDashboardLayout";
+import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDasboardPage";
 import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
-import Dashboard from "@/modules/operator-dashboard/pages/Dasboard";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +28,7 @@ const AppRoutes = () => {
 
       {/* OPERATOR DASHBOARD SALES/RISK/COLLENTIONS */}
       <Route path="/operator" element={<OperatorDashboardLayout />}>
+        <Route index element={<OperatorDashboardPage />} />
         {/* <Route path="sales" element={<SalesPage />} /> */}
         <Route path="risk" element={<RiskPage />} />
         {/* <Route path="collection" element={<CollectionPage />} /> */}
