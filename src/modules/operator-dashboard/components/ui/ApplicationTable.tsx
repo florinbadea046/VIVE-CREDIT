@@ -27,13 +27,14 @@ export default function ApplicationTable<T>({
   const totalPages = Math.ceil(data.length / pageSize);
   const paginatedData = data.slice((page - 1) * pageSize, page * pageSize);
 
-  const gridColsClass = `grid-cols-${columns.length}`;
-
   return (
     <div className="mt-4 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
       {/* table header */}
       <div
-        className={` grid ${gridColsClass} px-4 py-4 bg-gray-100 dark:bg-gray-700 font-semibold text-gray-700 dark:text-gray-100`}
+        className="grid px-4 py-4 bg-gray-100 dark:bg-gray-700 font-semibold text-gray-700 dark:text-gray-100"
+        style={{
+          gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))`,
+        }}
       >
         {columns.map((col) => (
           <div key={col.key} className={col.className}>
@@ -52,12 +53,14 @@ export default function ApplicationTable<T>({
         <div
           key={rowIndex}
           onClick={() => onRowClick?.(item)}
-          className={`grid ${gridColsClass} px-6 py-4 border-t border-gray-100 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer transition
-    ${
-      rowIndex === paginatedData.length - 1
-        ? "border-b border-gray-100 dark:border-gray-600"
-        : ""
-    }`}
+          className={`grid px-6 py-4 border-t border-gray-100 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer transition ${
+            rowIndex === paginatedData.length - 1
+              ? "border-b border-gray-100 dark:border-gray-600"
+              : ""
+          }`}
+          style={{
+            gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))`,
+          }}
         >
           {columns.map((col) => (
             <div

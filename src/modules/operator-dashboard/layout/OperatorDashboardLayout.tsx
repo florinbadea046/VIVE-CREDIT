@@ -13,7 +13,7 @@ import {
 import { useTheme } from "@/context/ThemeContext";
 
 const navItems = [
-  { label: "Dashboard", path: "/operator", icon: Home },
+  { label: "Dashboard", path: "", icon: Home },
   { label: "Sales", path: "sales", icon: DollarSign },
   { label: "Risk", path: "risk", icon: ShieldCheck },
   { label: "Collections", path: "collections", icon: Users },
@@ -92,8 +92,8 @@ export default function OperatorDashboardLayout() {
           {navItems.map(({ label, path, icon: Icon }) => (
             <NavLink
               key={path}
-              to={path === "/operator" ? "/operator" : `/operator/${path}`}
-              end={path === "/operator"}
+              to={path}
+              // end={path === "/operator"}
               className={({ isActive }) =>
                 `${linkClasses} ${
                   isActive
