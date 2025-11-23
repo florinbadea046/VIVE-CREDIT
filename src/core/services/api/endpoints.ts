@@ -5,6 +5,16 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
     REGISTER: '/auth/register',
+    ME: '/auth/me',
+  },
+  
+  // Users
+  USERS: {
+    LIST: '/users',
+    CREATE: '/users',
+    GET: (id: string) => `/users/${id}`,
+    UPDATE: (id: string) => `/users/${id}`,
+    DELETE: (id: string) => `/users/${id}`,
   },
   
   // Roles & Permissions

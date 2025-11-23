@@ -22,7 +22,7 @@ export const UserManagement: React.FC = () => {
     const loadUsers = async () => {
         setLoading(true);
         try {
-            const response = await apiClient.get<User[]>(API_ENDPOINTS.AUTH.ME);
+            const response = await apiClient.get<User[]>(API_ENDPOINTS.USERS.LIST);
             setUsers(response.data || []);
         } catch (error) {
             console.error('Error loading users:', error);

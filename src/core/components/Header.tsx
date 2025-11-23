@@ -137,14 +137,14 @@ export const Header: React.FC = () => {
                                 className='absolute left-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-50'
                                 >
                                     <Link
-                                    to="/config/products"
+                                    to="/admin/risk-config"
                                     onClick={closeAllMenus}
                                     className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition'>
                                         <span className='font-semibold'>Configurari Risc</span>
                                         <p className='text-xs text-gray-500'>Reguli scor, Praguri venit/datorii</p>
                                     </Link>
                                     <Link
-                                    to="/config/notifications"
+                                    to="/admin/products"
                                     onClick={closeAllMenus}
                                     className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition'>
                                         <span className='font-semibold'>Configurari Produse</span>
@@ -345,10 +345,10 @@ export const Header: React.FC = () => {
                             </button>
                             {showConfigMenu && (
                                 <div className='pl-4 space-y-1'>
-                                    <Link to="/config/products" onClick={() => {closeAllMenus(); setShowMobileMenu(false);}} className='block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50'>
+                                    <Link to="/admin/risk-config" onClick={() => {closeAllMenus(); setShowMobileMenu(false);}} className='block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50'>
                                         Configurari Risc
                                     </Link>
-                                    <Link to="/config/notifications" onClick={() => {closeAllMenus(); setShowMobileMenu(false);}} className='block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50'>
+                                    <Link to="/admin/products" onClick={() => {closeAllMenus(); setShowMobileMenu(false);}} className='block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50'>
                                         Configurari Produse
                                     </Link>
                                 </div>
