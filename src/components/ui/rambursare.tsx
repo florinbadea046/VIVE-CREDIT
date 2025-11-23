@@ -1,64 +1,89 @@
+import * as React from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
-export type Scadentar = {
-  NrCrt: number
-  Data: string
-  Principal: string
-  Dobanda: string
-  Total: string
-  Comisioane: string
-  Rata: string
-  Sold: string,
-}
-
-const data:  Scadentar: [
-  {NrCrt: 1},
-  {Data: "0"},
-  {Principal: "0"},
-  {Dobanda: "0"},
-  {Total: "0"},
-  {Comisioane: "0"},
-  {Rata: "0"},
-  {Sold: "0"},
-]
+// const principal =
+// const rata = (principal + dobanda + comisioane);
+// const dobandaPrincipal = dobanda + principal;
+// const sold = rata - 1;
 
 const rambursare = () => {
   return (
     <div>
-      <Table className="border border-solid rounded-md p-5">
-        <TableCaption>Scadentar</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {Scadentar.map((u: { NrCrt: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Data: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Principal: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Dobanda: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Total: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Comisioane: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Rata: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; Sold: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
-          <TableRow>
-            <TableCell className="font-medium">{u.NrCrt}</TableCell>
-            <TableCell>{u.Data}</TableCell>
-            <TableCell>{u.Principal}</TableCell>
-            <TableCell>{u.Dobanda}</TableCell>
-            <TableCell>{u.Total}</TableCell>
-            <TableCell>{u.Comisioane}</TableCell>
-            <TableCell>{u.Rata}</TableCell>
-            <TableCell>{u.Sold}</TableCell>
-          </TableRow>
-          ))},
-        </TableBody>
-      </Table>
+      <div>
+        <label className="">Valoare credit</label>
+        <input
+          className="border border-solid rounded-lg"
+          type="number"
+          name="number"
+          id="number"
+        ></input>
+
+        <label className="">Durata credit</label>
+        <input
+          className="border border-solid rounded-lg"
+          type="number"
+          name="number"
+          id="number"
+        ></input>
+        <label className="">Dobanda</label>
+        <input
+          className="border border-solid rounded-lg"
+          type="number"
+          name="number"
+          id="number"
+        ></input>
+        <label className="">Comisioane</label>
+        <input
+          className="border border-solid rounded-lg"
+          type="number"
+          name="number"
+          id="number"
+        ></input>
+        <label className="">Total</label>
+        <input
+          className="border border-solid rounded-lg"
+          type="number"
+          name="number"
+          id="number"
+        ></input>
+      </div>
+      <div>
+        <Table className="mt-10 mx-4 border border-solid">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-right w-[1px]">Nr crt</TableHead>
+              <TableHead className="text-right w-[20px]">Data</TableHead>
+              <TableHead className="text-right w-[20px]">Principal</TableHead>
+              <TableHead className="text-right w-[20px]">Dobanda</TableHead>
+              <TableHead className="text-right w-[20px] ">
+                Dobanda + Principal
+              </TableHead>
+              <TableHead className="text-right w-[20px]">Comisioane</TableHead>
+              <TableHead className="text-right w-[20px]">Rata</TableHead>
+              <TableHead className="text-right w-[20px]">Sold Credit</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="text-right">001</TableCell>
+              <TableCell className="text-right">zz-ll-aaaa</TableCell>
+              <TableCell className="text-right">suma</TableCell>
+              <TableCell className="text-right">9.5%</TableCell>
+              <TableCell className="text-right">a+b</TableCell>
+              <TableCell className="text-right">5</TableCell>
+              <TableCell className="text-right">rata</TableCell>
+              <TableCell className="text-right">sold</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

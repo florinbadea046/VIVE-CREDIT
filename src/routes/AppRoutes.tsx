@@ -6,6 +6,7 @@ import LoanPage from "@modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@modules/dashboard/pages/PaymentsPage";
 import DocumentsPage from "@modules/dashboard/pages/DocumentsPage";
 import { RiskDashboard } from "@modules/operator-dashboard/risk";
+import * as React from "react";
 
 const AppRoutes = () => {
   return (
