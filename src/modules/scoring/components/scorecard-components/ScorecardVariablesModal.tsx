@@ -95,7 +95,11 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
     value: string | number
   ) => {
     const newRules = [...rules];
-    (newRules[index] as any)[field] = value;
+    if (field === "score") {
+      newRules[index].score = Number(value);
+    } else if (field === "condition") {
+      newRules[index].condition = String(value);
+    }
     setRules(newRules);
   };
 
@@ -240,7 +244,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
           {!(isBoolean && rules.length >= 2) && (
             <button
               onClick={addRule}
-              className="bg-white border border-blue-300 shadow-md px-4 py-1 w-full rounded-lg hover:bg-gray-50 shadow-md shadow-indigo-500/50"
+              className="bg-white border border-blue-300 px-4 py-1 w-full rounded-lg hover:bg-gray-50 shadow-md shadow-indigo-500/50"
             >
               Adaugă regulă
             </button>

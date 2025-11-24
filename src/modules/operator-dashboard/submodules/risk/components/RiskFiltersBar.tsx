@@ -1,6 +1,14 @@
 import FilterInput from "../../../components/ui/FilterInput";
 import FilterSelect from "../../../components/ui/FilterSelect";
 
+interface Props {
+  filters: {
+    status: string;
+    search: string;
+  };
+  onChange: (filters: { status: string; search: string }) => void;
+}
+
 export default function RiskFiltersBar({ filters, onChange }: Props) {
   const statusOptions = [
     { label: "Toate", value: "" },

@@ -6,11 +6,11 @@ import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
 import LoanPage from "@/modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
-import { PolicyEnginePage } from "@/modules/scoring";
-import OperatorDashboardLayout from "@/modules/operator-dashboard/layout/OperatorDashboardLayout";
-import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDasboardPage";
-import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
 import { AuditDashboard } from "@/modules/admin-audit/AuditDashboard";
+import OperatorDashboardLayout from "@/modules/operator/OperatorDashboardLayout";
+import OperatorDashboardPage from "@/modules/operator/pages/OperatorDashboardPage";
+import RiskPage from "@/modules/operator/pages/RiskPage";
+import PolicyEnginePage from "@/modules/policy-engine/PolicyEnginePage";
 
 const AppRoutes = () => {
   return (
@@ -41,9 +41,6 @@ const AppRoutes = () => {
 
       {/* Audit Dashboard */}
       <Route path="/audit" element={<AuditDashboard />} />
-
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

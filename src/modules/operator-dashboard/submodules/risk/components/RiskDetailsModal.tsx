@@ -1,8 +1,9 @@
 import Modal from "../../../components/ui/Modal";
 import RiskActionButtons from "./RiskActionButtons";
+import type { RiskApplication } from "../pages/RiskDashboard";
 
 interface Props {
-  application: any;
+  application: RiskApplication;
   isOpen: boolean;
   onClose: () => void;
   onApprove: () => void;

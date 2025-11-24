@@ -14,10 +14,18 @@ import {
 } from "@/components/ui/tooltip";
 import { reasonCodeMap } from "../constants/reasoneCodeMap";
 
+export interface RiskApplication {
+  id: string;
+  client: string;
+  score: number;
+  status: string;
+  reasonCodes: string[];
+}
+
 export default function RiskDashboard() {
-  const [applications, setApplications] = useState(mockRiskApp);
+  const [applications, setApplications] = useState<RiskApplication[]>(mockRiskApp);
   const [filters, setFilters] = useState({ status: "", search: "" });
-  const [selectedApp, setSelectedApp] = useState<any | null>(null);
+  const [selectedApp, setSelectedApp] = useState<RiskApplication | null>(null);
 
   // update application status
   function updateStatus(id: string, newStatus: string) {
@@ -35,7 +43,7 @@ export default function RiskDashboard() {
   });
 
   // table columns
-  const columns: Column<any>[] = [
+  const columns: Column<RiskApplication>[] = [
     { key: "id", label: "ID Aplicatie" },
     { key: "client", label: "Client" },
     {
