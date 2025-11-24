@@ -1,29 +1,29 @@
-import '../../style/scorecard.css';
-import { useEffect, useState } from 'react';
+import "../../style/scorecard.css";
+import { useEffect, useState } from "react";
 import {
   variableOptions,
   type PropsModal,
   type Rule,
   type Variable,
-} from '../../types/Scorecard.types';
+} from "../../types/Scorecard.types";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const ScorecardVariablesModal: React.FC<PropsModal> = ({
   onClose,
   onSave,
   initialVariable = null,
 }) => {
-  const [name, setName] = useState<(typeof variableOptions)[number] | ''>('');
-  const [type, setType] = useState<'numeric' | 'enum' | 'boolean' | ''>('');
+  const [name, setName] = useState<(typeof variableOptions)[number] | "">("");
+  const [type, setType] = useState<"numeric" | "enum" | "boolean" | "">("");
   const [weight, setWeight] = useState<number>(0);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [active, setActive] = useState(false);
   const [rules, setRules] = useState<Rule[]>([]);
 
@@ -35,8 +35,8 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
       setActive(initialVariable.active);
       setRules(initialVariable.rules);
     } else {
-      setName('');
-      setType('numeric');
+      setName("");
+      setType("numeric");
       setWeight(0);
       setActive(true);
       setRules([]);
@@ -46,9 +46,9 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (value === '') {
+    if (value === "") {
       setWeight(0);
-      setError('');
+      setError("");
       return;
     }
 
@@ -60,22 +60,22 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
     const num = parseFloat(value);
 
     if (isNaN(num)) {
-      setError('Valoarea nu este validă.');
+      setError("Valoarea nu este validă.");
       return;
     }
 
     if (num < 0) {
-      setError('Valoarea nu poate fi negativă.');
+      setError("Valoarea nu poate fi negativă.");
       return;
     }
 
     if (num > 1) {
-      setError('Valoarea trebuie să fie ≤ 1.00.');
+      setError("Valoarea trebuie să fie ≤ 1.00.");
       return;
     }
 
     setWeight(num);
-    setError('');
+    setError("");
   };
 
   const handleWeightBlur = () => {
@@ -86,7 +86,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
   };
 
   const addRule = () => {
-    setRules([...rules, { condition: '', score: 0 }]);
+    setRules([...rules, { condition: "", score: 0 }]);
   };
 
   const updateRule = (
@@ -101,7 +101,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
 
   const handleSave = () => {
     if (!type) {
-      alert('Trebuie să selectezi un tip!');
+      alert("Trebuie să selectezi un tip!");
       return;
     }
     const newVariable: Variable = {
@@ -121,14 +121,14 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
     setRules(newRules);
   };
 
-  const isBoolean = type === 'boolean';
+  const isBoolean = type === "boolean";
   const isEditing = !!initialVariable;
 
   return (
     <div className="fixed inset-0 bg-black/30 backdrop-blur-md  flex items-center justify-center z-50 p-6">
       <div className="bg-white mx-auto w-full max-w-md shadow-2xl rounded-xl p-6">
         <h1 className="text-lg lg:text-xl font-bold text-center">
-          {isEditing ? 'Editează variabilă' : 'Adaugă variabilă'}
+          {isEditing ? "Editează variabilă" : "Adaugă variabilă"}
         </h1>
 
         {/* Variabila */}
@@ -154,19 +154,19 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                     key={opt}
                     value={opt}
                     className={`hover:bg-blue-200 ${
-                      index === variableOptions.length - 1 ? 'rounded-b-md' : ''
+                      index === variableOptions.length - 1 ? "rounded-b-md" : ""
                     }`}
                   >
-                    {opt === 'varsta'
-                      ? 'Vârstă'
-                      : opt === 'venit'
-                      ? 'Venit'
-                      : opt === 'sector'
-                      ? 'Sector'
-                      : opt === 'istorice'
-                      ? 'Istorice plăți'
-                      : opt === 'kyc'
-                      ? 'KYC Flags'
+                    {opt === "varsta"
+                      ? "Vârstă"
+                      : opt === "venit"
+                      ? "Venit"
+                      : opt === "sector"
+                      ? "Sector"
+                      : opt === "istorice"
+                      ? "Istorice plăți"
+                      : opt === "kyc"
+                      ? "KYC Flags"
                       : opt}
                   </SelectItem>
                 ))}
@@ -181,7 +181,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
             <Select
               value={type}
               onValueChange={(val) =>
-                setType(val as 'numeric' | 'enum' | 'boolean')
+                setType(val as "numeric" | "enum" | "boolean")
               }
             >
               <SelectTrigger className="w-full border-blue-300 text-blue-950 shadow-md shadow-indigo-500/50  focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none">
@@ -248,7 +248,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
         </div>
 
         {rules.length === 0 ? (
-          ''
+          ""
         ) : (
           <div className="space-y-2 mt-4">
             {rules.map((rule, i) => (
@@ -256,7 +256,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                 {isBoolean ? (
                   <select
                     value={rule.condition}
-                    onChange={(e) => updateRule(i, 'condition', e.target.value)}
+                    onChange={(e) => updateRule(i, "condition", e.target.value)}
                     className="flex-1 border rounded-lg p-2 bg-gray-50"
                   >
                     <option value="">Selectează Valoare</option>
@@ -267,12 +267,12 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                   <input
                     type="text"
                     placeholder={
-                      type === 'numeric'
-                        ? 'Ex: >5000 sau [2000,5000]'
-                        : 'Ex: >5000 sau [2000,5000]'
+                      type === "numeric"
+                        ? "Ex: >5000 sau [2000,5000]"
+                        : "Ex: >5000 sau [2000,5000]"
                     }
                     value={rule.condition}
-                    onChange={(e) => updateRule(i, 'condition', e.target.value)}
+                    onChange={(e) => updateRule(i, "condition", e.target.value)}
                     className="flex-1 border rounded-lg p-2"
                   />
                 )}
@@ -281,7 +281,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                   placeholder="Scor"
                   value={rule.score}
                   onChange={(e) =>
-                    updateRule(i, 'score', parseInt(e.target.value) || 0)
+                    updateRule(i, "score", parseInt(e.target.value) || 0)
                   }
                   className="w-24 border rounded-lg p-2"
                 />
