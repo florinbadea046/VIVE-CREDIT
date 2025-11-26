@@ -15,5 +15,6 @@ export interface OnboardingData {
     idCard: File | null;
     incomeProof: File | null;
     otherDocs: File[];
+    uploadedLinks: string[];
   };
 }
