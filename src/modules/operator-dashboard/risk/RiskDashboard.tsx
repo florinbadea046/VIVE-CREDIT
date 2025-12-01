@@ -2,12 +2,12 @@ import { useState } from "react";
 import RiskFiltersBar from "./components/RiskFiltersBar";
 import RiskApplicationsTable from "./components/RiskApplicationsTable";
 import RiskDetailsModal from "./components/RiskDetailsModal";
-import { mockRiskApp } from "./mock-data";
+import { mockRiskApp, type RiskApplication } from "./mock-data";
 
 export default function RiskDashboard() {
   const [applications, setApplications] = useState(mockRiskApp);
   const [filters, setFilters] = useState({ status: "", search: "" });
-  const [selectedApp, setSelectedApp] = useState<any | null>(null);
+  const [selectedApp, setSelectedApp] = useState<RiskApplication | null>(null);
 
   function updateStatus(id: string, newStatus: string) {
     setApplications((prev) =>

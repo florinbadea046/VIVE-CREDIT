@@ -1,4 +1,11 @@
-export const mockRiskApp = [
+export interface RiskApplication {
+  id: string;
+  client: string;
+  score: number;
+  status: string;
+}
+
+export const mockRiskApp: RiskApplication[] = [
   {
     id: "R001",
     client: "Ana Popescu",
