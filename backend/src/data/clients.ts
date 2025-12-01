@@ -1,3 +1,4 @@
+export type KycStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 export interface Client {
   id: number;
   firstName: string;
@@ -8,6 +9,8 @@ export interface Client {
   address: string;
   createdAt: string;
   updatedAt?: string;
+
+  kycStatus?: KycStatus;
 }
 
 // “baza de date” în memorie
@@ -18,6 +21,7 @@ export function createClient(data: Omit<Client, 'id' | 'createdAt' | 'updatedAt'
   const client: Client = {
     id: nextId++,
     createdAt: new Date().toISOString(),
+    kycStatus: 'PENDING',
     ...data
   };
   clients.push(client);
