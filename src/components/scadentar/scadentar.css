@@ -1,0 +1,7 @@
+.standard-input-error {
+  color: red;
+}
+.standard-input-error p {
+  margin: 0;
+  font-size: 12px;
+}
