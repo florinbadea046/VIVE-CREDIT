@@ -24,12 +24,12 @@ import type { FormEvent } from "react";
 //      dobanda: "Required"}
 
 interface ErrorState {
-  value?: string;
-  time?: string | undefined;
-  interest?: string | undefined;
-  commision?: string | undefined;
-  anualInterest?: string | undefined;
-  penalty?: string | undefined;
+  value?: string | number;
+  time?: string | number;
+  interest?: string | number;
+  commision?: string | number;
+  anualInterest?: string | number;
+  penalty?: string | number;
 }
 
 interface TotalResult {
@@ -46,7 +46,7 @@ const initialTotalResult = {
 
 function Scadentar() {
   const [selectedTotal, setSelectedTotal] = useState(0);
-  const [errors, setErrors] = useState(" ");
+  const [errors, setErrors] = useState("" as unknown as ErrorState);
   const [totalResult, setTotalResult] =
     useState<TotalResult>(initialTotalResult);
   const [displayScadentar, setDisplayScadentar] = useState(false);
@@ -76,14 +76,31 @@ function Scadentar() {
 
     setDisplayScadentar(true);
 
-    // const value = data.get("value");
-    // const principalIsValid = validatePrincipal(typeof value === "string" ? value : "");
+    const value = data.get("value");
     const principalIsValid = validatePrincipal(
-      (data.get("value") ?? "").toString()
+      typeof value === "string" ? value : ""
     );
-    const dobandaIsValid = validateDobanda(data.get("anualInterest"));
-    const comisioaneIsValid = validateComisioane(data.get("commision"));
-    const penaltyIsValid = validatePenalty(data.get("penalty"));
+
+    const interest = data.get("anualInterest");
+    const dobandaIsValid = validateDobanda(
+      typeof interest === "string" ? interest : ""
+    );
+
+    const commision = data.get("commision");
+    const comisioaneIsValid = validateComisioane(
+      typeof commision === "string" ? commision : ""
+    );
+
+    const penaltyRaw = data.get("penalty");
+    // pass penalty *as a string*, or "" if null
+    const penaltyInput = typeof penaltyRaw === "string" ? penaltyRaw : "";
+    const penaltyIsValid = validatePenalty(penaltyInput);
+
+    // const penaltyRaw = data.get("penalty") ?? "";
+    // const penaltyIsValid = validatePenalty(penaltyRaw);
+
+    // if (!penaltyIsValid) return;
+    // const penalty = Number(penaltyRaw);
 
     if (
       principalIsValid === false ||
@@ -97,12 +114,12 @@ function Scadentar() {
     const principal = Number(data.get("value"));
     const time = Number(data.get("time"));
     const comision = Number(data.get("commision"));
-    const penalty = Number(data.get("penalty"));
     const interestRate =
       (Number(data.get("anualInterest")) / 100 / 12) * principal;
+    const penalty = Number(data.get("penalty"));
     const rata = principal + interestRate;
     const total = rata * time + comision;
-    const totalWithPenalty = total + penalty;
+    const totalWithPenalty = total * penalty;
 
     setTotalResult({ rata, total, totalWithPenalty });
 
@@ -111,7 +128,7 @@ function Scadentar() {
   };
 
   //   ---- Validari -----
-  const validatePrincipal = (value: " ") => {
+  const validatePrincipal = (value: number | string) => {
     if (value === " ") {
       setErrors((prev) => ({
         ...prev,
@@ -128,15 +145,15 @@ function Scadentar() {
       return false;
     }
 
-    // setErrors((prev) => ({
-    //   ...prev,
-    //   value: undefined,
-    // }));
+    setErrors((prev) => ({
+      ...prev,
+      value: undefined,
+    }));
 
-    return true;
+    // return true;
   };
 
-  const validateDobanda = (interest: "") => {
+  const validateDobanda = (interest: number | string) => {
     if (interest === "") {
       setErrors((prev) => ({
         ...prev,
@@ -153,15 +170,15 @@ function Scadentar() {
       return false;
     }
 
-    // setErrors((prev) => ({
-    //   ...prev,
-    //   interest: undefined,
-    // }));
+    setErrors((prev) => ({
+      ...prev,
+      interest: undefined,
+    }));
 
-    return true;
+    // return true;
   };
 
-  const validateComisioane = (commision: "") => {
+  const validateComisioane = (commision: number | string) => {
     if (commision === "") {
       setErrors((prev) => ({
         ...prev,
@@ -178,37 +195,37 @@ function Scadentar() {
       return false;
     }
 
-    // setErrors((prev) => ({
-    //   ...prev,
-    //   commision: undefined,
-    // }));
+    setErrors((prev) => ({
+      ...prev,
+      commision: undefined,
+    }));
 
-    return true;
+    // return true;
+  };
 
-    const validatePenalty = (penalty: "") => {
-      if (penalty === "") {
-        setErrors((prev) => ({
-          ...prev,
-          penalty: "Requierd",
-        }));
-        return false;
-      }
+  const validatePenalty = (penalty: number | string) => {
+    if (penalty === "") {
+      setErrors((prev) => ({
+        ...prev,
+        penalty: "Requierd",
+      }));
+      return false;
+    }
 
-      if (Number(penalty) <= 0) {
-        setErrors((prev) => ({
-          ...prev,
-          penalty: "Must be greater then 0",
-        }));
-        return false;
-      }
+    if (Number(penalty) <= 0) {
+      setErrors((prev) => ({
+        ...prev,
+        penalty: "Must be greater then 0",
+      }));
+      return false;
+    }
 
-      //   setErrors((prev) => ({
-      //     ...prev,
-      //     penalty: undefined,
-      //   }));
+    setErrors((prev) => ({
+      ...prev,
+      penalty: undefined,
+    }));
 
-      return true;
-    };
+    // return true;
   };
 
   return (
@@ -300,13 +317,13 @@ function Scadentar() {
             id="number"
             placeholder="Total"
             // onChange={handleTotal}
-            value={totalResult.total}
+            // value={totalResult.total}
           ></input>
           <button
             className="flex mt-2 px-2 bg-blue-300 hover:text-white border border-solid rounded-lg"
             onClick={() => handleRaport()}
-            onChange={handleRaport}
-            value={totalResult.total}
+            // onChange={handleRaport}
+            // value={totalResult.total}
           >
             Afisare scadentar
           </button>
