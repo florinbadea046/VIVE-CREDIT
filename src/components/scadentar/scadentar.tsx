@@ -9,17 +9,6 @@ import {
 import { useState } from "react";
 import type { FormEvent } from "react";
 
-// export type Scadentar = [
-//   NrCrt: number,
-//   Data: number | string,
-//   Principal: number,
-//   Dobanda: number | string,
-//   Rata: number,
-//   Comisioane: number,
-//   Total: number,
-//   SoldCredit: number
-// ];
-
 // Descriere erori:
 // 1. nu exista erori in formular:
 //  errors = {}
@@ -40,7 +29,7 @@ interface ErrorState {
   interest?: string | undefined;
   commision?: string | undefined;
   anualInterest?: string | undefined;
-  penalty: string | undefined;
+  penalty?: string | undefined;
 }
 
 interface TotalResult {
@@ -57,7 +46,7 @@ const initialTotalResult = {
 
 function Scadentar() {
   const [selectedTotal, setSelectedTotal] = useState(0);
-  const [errors, setErrors] = useState<ErrorState>({});
+  const [errors, setErrors] = useState(" ");
   const [totalResult, setTotalResult] =
     useState<TotalResult>(initialTotalResult);
   const [displayScadentar, setDisplayScadentar] = useState(false);
@@ -83,19 +72,17 @@ function Scadentar() {
 
     const data = new FormData(e.target as HTMLFormElement);
 
-    setErrors({});
+    setErrors({}); //reseteaza erorile
 
     setDisplayScadentar(true);
 
-    const principalIsValid = validatePrincipal(data.get("value"));
-    const dobandaIsValid = validateDobanda(data.get("anualInterest"));
-    const comisioaneIsValid = validateComisioane(
-      data.get("commision") === null
-        ? " "
-        : data.get("commision") === ""
-        ? " "
-        : Number(data.get("commision"))
+    // const value = data.get("value");
+    // const principalIsValid = validatePrincipal(typeof value === "string" ? value : "");
+    const principalIsValid = validatePrincipal(
+      (data.get("value") ?? "").toString()
     );
+    const dobandaIsValid = validateDobanda(data.get("anualInterest"));
+    const comisioaneIsValid = validateComisioane(data.get("commision"));
     const penaltyIsValid = validatePenalty(data.get("penalty"));
 
     if (
@@ -124,8 +111,8 @@ function Scadentar() {
   };
 
   //   ---- Validari -----
-  const validatePrincipal = (value: unknown) => {
-    if (value === "") {
+  const validatePrincipal = (value: " ") => {
+    if (value === " ") {
       setErrors((prev) => ({
         ...prev,
         value: "Requierd",
@@ -149,7 +136,7 @@ function Scadentar() {
     return true;
   };
 
-  const validateDobanda = (interest: unknown) => {
+  const validateDobanda = (interest: "") => {
     if (interest === "") {
       setErrors((prev) => ({
         ...prev,
@@ -174,8 +161,8 @@ function Scadentar() {
     return true;
   };
 
-  const validateComisioane = (commision: number | " "): boolean => {
-    if (commision === " ") {
+  const validateComisioane = (commision: "") => {
+    if (commision === "") {
       setErrors((prev) => ({
         ...prev,
         commision: "Requierd",
@@ -183,7 +170,7 @@ function Scadentar() {
       return false;
     }
 
-    if (commision <= 0) {
+    if (Number(commision) <= 0) {
       setErrors((prev) => ({
         ...prev,
         commision: "Must be greater than 0",
@@ -198,8 +185,8 @@ function Scadentar() {
 
     return true;
 
-    const validatePenalty = (penalty: unknown) => {
-      if (penalty === " ") {
+    const validatePenalty = (penalty: "") => {
+      if (penalty === "") {
         setErrors((prev) => ({
           ...prev,
           penalty: "Requierd",
@@ -207,7 +194,7 @@ function Scadentar() {
         return false;
       }
 
-      if (penalty <= 0) {
+      if (Number(penalty) <= 0) {
         setErrors((prev) => ({
           ...prev,
           penalty: "Must be greater then 0",
@@ -312,14 +299,14 @@ function Scadentar() {
             name="total"
             id="number"
             placeholder="Total"
-            // onChange={handleTotalChange}
-            // value={totalResult.total}
+            // onChange={handleTotal}
+            value={totalResult.total}
           ></input>
           <button
             className="flex mt-2 px-2 bg-blue-300 hover:text-white border border-solid rounded-lg"
             onClick={() => handleRaport()}
-            // onChange={handleRaport}
-            // value={totalResult.total}
+            onChange={handleRaport}
+            value={totalResult.total}
           >
             Afisare scadentar
           </button>
