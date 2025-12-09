@@ -145,12 +145,12 @@ function Scadentar() {
       return false;
     }
 
-    setErrors((prev) => ({
-      ...prev,
-      value: undefined,
-    }));
+    // setErrors((prev) => ({
+    //   ...prev,
+    //   value: undefined,
+    // }));
 
-    // return true;
+    return true;
   };
 
   const validateDobanda = (interest: number | string) => {
@@ -170,12 +170,12 @@ function Scadentar() {
       return false;
     }
 
-    setErrors((prev) => ({
-      ...prev,
-      interest: undefined,
-    }));
+    // setErrors((prev) => ({
+    //   ...prev,
+    //   interest: undefined,
+    // }));
 
-    // return true;
+    return true;
   };
 
   const validateComisioane = (commision: number | string) => {
@@ -195,12 +195,12 @@ function Scadentar() {
       return false;
     }
 
-    setErrors((prev) => ({
-      ...prev,
-      commision: undefined,
-    }));
+    // setErrors((prev) => ({
+    //   ...prev,
+    //   commision: undefined,
+    // }));
 
-    // return true;
+    return true;
   };
 
   const validatePenalty = (penalty: number | string) => {
@@ -220,12 +220,12 @@ function Scadentar() {
       return false;
     }
 
-    setErrors((prev) => ({
-      ...prev,
-      penalty: undefined,
-    }));
+    // setErrors((prev) => ({
+    //   ...prev,
+    //   penalty: undefined,
+    // }));
 
-    // return true;
+    return true;
   };
 
   return (
