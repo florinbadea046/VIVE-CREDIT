@@ -33,6 +33,7 @@ import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDa
 import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
 import SalesDashboard from "@/modules/operator-dashboard/submodules/sales/SalesDashboard";
 import ApplicationDetail from "@/modules/operator-dashboard/submodules/sales/ApplicationDetail";
+import ProductSettingsPage from "@/modules/admin-products/pages/ProductSettingsPage";
 
 /* Engines */
 import { PolicyEnginePage } from "@/modules/scoring";
@@ -126,6 +127,7 @@ const AppRoutes = () => {
         <Route path="risk" element={<RiskPage />} />
         <Route path="sales" element={<SalesDashboard />} />
         <Route path="sales/:id" element={<ApplicationDetail />} />
+        <Route path="products-settings" element={<ProductSettingsPage />} />
       </Route>
 
       {/* INTERNAL TOOLS */}
