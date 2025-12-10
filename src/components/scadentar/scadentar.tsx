@@ -46,7 +46,7 @@ const initialTotalResult = {
 
 function Scadentar() {
   const [selectedTotal, setSelectedTotal] = useState(0);
-  const [errors, setErrors] = useState("" as unknown as ErrorState);
+  const [errors, setErrors] = useState<ErrorState>({});
   const [totalResult, setTotalResult] =
     useState<TotalResult>(initialTotalResult);
   const [displayScadentar, setDisplayScadentar] = useState(false);
@@ -81,6 +81,9 @@ function Scadentar() {
       typeof value === "string" ? value : ""
     );
 
+    const time = data.get("time");
+    const timeIsValid = validateTime(typeof time === "string" ? time : "");
+
     const interest = data.get("anualInterest");
     const dobandaIsValid = validateDobanda(
       typeof interest === "string" ? interest : ""
@@ -112,7 +115,6 @@ function Scadentar() {
 
     //calculeaza rata si total
     const principal = Number(data.get("value"));
-    const time = Number(data.get("time"));
     const comision = Number(data.get("commision"));
     const interestRate =
       (Number(data.get("anualInterest")) / 100 / 12) * principal;
@@ -129,7 +131,7 @@ function Scadentar() {
 
   //   ---- Validari -----
   const validatePrincipal = (value: number | string) => {
-    if (value === " ") {
+    if (value === "" || value.trim() === "") {
       setErrors((prev) => ({
         ...prev,
         value: "Requierd",
@@ -170,10 +172,10 @@ function Scadentar() {
       return false;
     }
 
-    // setErrors((prev) => ({
-    //   ...prev,
-    //   interest: undefined,
-    // }));
+    setErrors((prev) => ({
+      ...prev,
+      anualInterest: "Requiered",
+    }));
 
     return true;
   };
@@ -249,9 +251,11 @@ function Scadentar() {
               </div>
               <div>
                 <label htmlFor="commision">Comision</label>
-                {errors.value !== undefined ? (
-                  <p className="standard-input-error">{errors.value}</p>
-                ) : null}
+                {errors.commision && (
+                  <p className="standard-input-error">{errors.commision}</p>
+                )}
+                {/* {errors.commision && <p>{errors.commision}</p>} */}
+                <br />
                 <input
                   className="border border-solid rounded-lg mb-2"
                   type="number"
@@ -303,33 +307,25 @@ function Scadentar() {
                 ></input>
               </div>
             </div>
+            <button
+              className="flex mt-2 w-[100px] px-5 pl-5 bg-blue-300 hover:text-white border border-solid rounded-lg"
+              type="submit"
+              onClick={() => handleTotal(totalResult.total)}
+            >
+              Submit
+            </button>
           </form>
-          <button
-            className="flex mt-2 px-2 bg-blue-300 hover:text-white border border-solid rounded-lg"
-            onClick={() => handleTotal(totalResult.total)}
-          >
-            Total
-          </button>
-          <input
-            className="border border-solid rounded-lg"
-            type="number"
-            name="total"
-            id="number"
-            placeholder="Total"
-            // onChange={handleTotal}
-            // value={totalResult.total}
-          ></input>
-          <button
-            className="flex mt-2 px-2 bg-blue-300 hover:text-white border border-solid rounded-lg"
+        </>
+      ) : (
+        <div className="flex flex-col hide">
+          {/* <button
+            className="flex mt-2 px-2 w-59 text-center bg-blue-300 hover:text-white border border-solid rounded-lg"
             onClick={() => handleRaport()}
             // onChange={handleRaport}
             // value={totalResult.total}
           >
             Afisare scadentar
-          </button>
-        </>
-      ) : (
-        <div className="flex flex-col hide">
+          </button> */}
           <div>
             <Table className="mt-10 mx-4 border border-solid rounded-xl">
               <TableHeader>
@@ -368,7 +364,7 @@ function Scadentar() {
             </Table>
           </div>
           <button
-            className="flex mt-2 px-2 bg-blue-300 hover:text-white border border-solid rounded-lg"
+            className="flex mt-2 px-2 w-16 bg-blue-300 hover:text-white border border-solid rounded-lg"
             onClick={handleReset}
           >
             Reset
