@@ -1,69 +1,196 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, ShieldCheck, Users } from "lucide-react";
+import { AlertTriangle, CheckCircle, Clock, XCircle } from "lucide-react";
+import { mockDB } from "../data/mockDB";
+import UiCard from "../components/ui/UiCard";
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
+import { useEffect, useState } from "react";
 
-import { NavLink } from "react-router-dom";
-
-const operatorModules = [
-  {
-    label: "Sales",
-    description: "Aplicații noi, vânzări și conversii",
-    stats: 23,
-    path: "sales",
-    icon: DollarSign,
-    progress: [70, 50, 90, 30],
-  },
-  {
-    label: "Risk",
-    description: "Scoring, verificări și decizii",
-    stats: 12,
-    path: "risk",
-    icon: ShieldCheck,
-    progress: [40, 60, 30, 80],
-  },
-  {
-    label: "Collections",
-    description: "Gestionare clienți restanțieri",
-    stats: 8,
-    path: "collections",
-    icon: Users,
-    progress: [50, 30, 70, 20],
-  },
-];
+interface PieItem {
+  label: string;
+  value: number;
+  color: string;
+  [key: string]: string | number;
+}
 
 export default function OperatorDashboardPage() {
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const applications = mockDB.riskApplications;
+  const total = applications.length;
+  const approved = applications.filter((a) => a.status === "approved").length;
+  const rejected = applications.filter((a) => a.status === "rejected").length;
+  const pending = applications.filter(
+    (a) => a.status === "pending" || a.status === "manual_review"
+  ).length;
+
+  const totalApplication = total;
+  const approvedPercent = totalApplication
+    ? Math.round((approved / totalApplication) * 100)
+    : 0;
+  // Verdict
+  let verdict = "Nivel sanatos";
+  let icon = <CheckCircle className="text-green-500" />;
+
+  if (approvedPercent < 50) {
+    verdict = "Atentie!";
+    icon = <AlertTriangle className="text-red-500" />;
+  } else if (approvedPercent < 75) {
+    verdict = "În monitorizare";
+  }
+
+  const kpiCards = [
+    { label: "Total aplicații", value: total, icon: <AlertTriangle /> },
+    { label: "Aprobate", value: approved, icon: <CheckCircle /> },
+    { label: "Respinse", value: rejected, icon: <XCircle /> },
+    { label: "În aşteptare", value: pending, icon: <Clock /> },
+  ];
+
+  const pieData: PieItem[] = [
+    { label: "Aprobate", value: approved, color: "#22C55E" },
+    { label: "Respinse", value: rejected, color: "#EF4444" },
+    { label: "În aşteptare", value: pending, color: "#EAB308" },
+  ];
+
+  // MOCK
+  const previosApprovedPercent = approvedPercent - 8; //mock trend
+  const trend = approvedPercent - previosApprovedPercent;
+  const trendUp = trend >= 0;
+
   return (
-    <div className="flex items-center justify-center min-h-[70vh] p-4 ">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full max-w-6xl">
-        {operatorModules.map(
-          ({ label, description, stats, path, icon: Icon, progress }) => (
-            <NavLink key={path} to={path} className="block">
-              <Card className="p-6 rounded-xl cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition hover:bg-blue-50/40 dark:hover:bg-blue-900/20">
-                <CardContent className="flex flex-col gap-4 items-center">
-                  <Icon
-                    size={36}
-                    className="text-blue-600 dark:text-blue-400"
-                  />
-                  <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
-                    {label}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {description}
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-400">{stats}</p>
-                  <div className="flex gap-1 mt-2 w-full h-4 items-end">
-                    {progress.map((val, idx) => (
-                      <div
-                        key={idx}
-                        className="bg-blue-500 dark:bg-blue-400 rounded-t"
-                        style={{ height: `${val}%`, flex: 1 }}
-                      />
+    <div className="w-full max-w-7xl mx-auto p-6 flex flex-col gap-10">
+      {/* HEADER */}
+      <h1 className="text-2xl font-semibold tracking-tight text-blue-500 dark:text-gray-300">
+        Dashboard Monitorizare
+      </h1>
+
+      {/* SUMMARY CARD */}
+      <div
+        className={`flex flex-col sm:flex-row flex-wrap items-center justify-between p-4 sm:p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm gap-4`}
+      >
+        {/* Left: icon + text */}
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div
+            className={`flex items-center justify-center rounded-full 
+        ${
+          approvedPercent >= 75
+            ? "bg-green-100"
+            : approvedPercent >= 59
+            ? "bg-yellow-100 text-yellow-600"
+            : "bg-red-100 text-red-600"
+        }
+        ${windowWidth < 640 ? "w-10 h-10" : "w-12 h-12"}`}
+          >
+            {icon}
+          </div>
+
+          <div className="truncate min-w-0">
+            <h3
+              className={`font-semibold text-gray-900 dark:text-gray-100 ${
+                windowWidth < 640 ? "text-base" : "text-lg"
+              }`}
+            >
+              Rata de aprobare
+            </h3>
+            <p
+              className={`text-gray-600 dark:text-gray-400 ${
+                windowWidth < 640 ? "text-xs" : "text-sm"
+              }`}
+            >
+              {verdict}
+            </p>
+            <div
+              className={`flex items-center gap-1 mt-1 ${
+                trendUp ? "text-green-600" : "text-red-600"
+              } ${windowWidth < 640 ? "text-xs" : "text-sm"}`}
+            >
+              <span className="font-medium">
+                {trendUp ? "▲" : "▼"}
+                {Math.abs(trend)}%
+              </span>
+              <span className="text-gray-500 dark:text-gray-400">
+                vs perioada anterioara
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: procent rotund */}
+        <div
+          className={`flex items-center justify-center rounded-full ${
+            windowWidth < 640 ? "w-10 h-10 text-sm" : "w-12 h-12 text-base"
+          } bg-gray-100 dark:bg-gray-700 font-semibold text-gray-900 dark:text-gray-100 flex-shrink-0`}
+        >
+          {approvedPercent}%
+        </div>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <div className="flex flex-col lg:flex-row gap-10">
+        {/* KPI CARDS*/}
+        <div className="grid gap-5 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2">
+          {kpiCards.map((card, idx) => (
+            <UiCard
+              key={idx}
+              icon={card.icon}
+              label={card.label}
+              value={card.value}
+            />
+          ))}
+        </div>
+
+        {/* PIE CHART */}
+        <div className="flex items-center justify-center w-full lg:w-[45%] bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 ">
+          <div className="flex flex-col items-center gap-6 w-full">
+            <div className="relative w-full h-[320px]">
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    nameKey="label"
+                    innerRadius={innerWidth < 640 ? 60 : 100}
+                    outerRadius={innerWidth < 640 ? 90 : 140}
+                    paddingAngle={3}
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell key={index} fill={entry.color} />
                     ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </NavLink>
-          )
-        )}
+                  </Pie>
+                  <Legend
+                    verticalAlign="bottom"
+                    height={36}
+                    wrapperStyle={{ fontSize: windowWidth < 640 ? 10 : 12 }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+
+              {/* TEXT CENTRAL */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span
+                  className={` font-semibold text-gray-900 dark:text-gray-100 ${
+                    windowWidth < 600 ? "text-2xl" : "text-4xl"
+                  }`}
+                >
+                  {approvedPercent}%
+                </span>
+                <span
+                  className={`text-gray-500 dark:text-gray-400 ${
+                    windowWidth < 640 ? "text-xs" : "text-sm"
+                  }`}
+                >
+                  Aprobate
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

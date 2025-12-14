@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 import Modal from "../../../components/ui/Modal";
 import Button from "@/modules/operator-dashboard/components/ui/Button";
-import type { RiskApplication } from "../pages/RiskDashboard";
+
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import toast from "react-hot-toast";
+import type { RiskApplication } from "../types";
 
 interface Props {
   application: RiskApplication;

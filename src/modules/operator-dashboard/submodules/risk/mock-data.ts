@@ -3,7 +3,7 @@ export const mockRiskApp = [
     id: "APP-001",
     client: "Ion Popescu",
     score: 420,
-    status: "manual_review",
+    status: "rejected",
     reasonCodes: ["INC_INCOME", "MISSING_DOC"],
     kyc: {
       idFront: "/mocks/id-front.jpg",
@@ -30,7 +30,7 @@ export const mockRiskApp = [
     id: "APP-002",
     client: "Maria Ionescu",
     score: 760,
-    status: "pending",
+    status: "approved",
     reasonCodes: [],
     kyc: {
       idFront: "/mocks/id-front-2.jpg",
