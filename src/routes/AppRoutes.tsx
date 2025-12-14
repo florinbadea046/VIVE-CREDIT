@@ -21,7 +21,10 @@ import OnboardingPage from "@/modules/onboarding/pages/OnboardingPage";
 import SuccessPage from "@/modules/onboarding/pages/SuccessPage";
 
 /* Dashboard Client */
+import ClientHomePage from "@/modules/dashboard/pages/ClientHomePage";
 import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
+import HelpPage from "@/modules/dashboard/pages/HelpPage";
+import UploadDocumentPage from "@/modules/dashboard/pages/UploadDocumentPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
 import LoanPage from "@/modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
@@ -69,10 +72,28 @@ const AppRoutes = () => {
 
       {/* CLIENT DASHBOARD */}
       <Route
+        path="/dashboard/home"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <ClientHomePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/dashboard"
         element={
           <ProtectedRoute allowedRoles={["client"]}>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/help"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <HelpPage />
           </ProtectedRoute>
         }
       />
@@ -100,6 +121,15 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={["client"]}>
             <DocumentsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/documents/upload"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <UploadDocumentPage />
           </ProtectedRoute>
         }
       />
