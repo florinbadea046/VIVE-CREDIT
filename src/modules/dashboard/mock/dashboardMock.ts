@@ -45,3 +45,14 @@ export const dashboardMock: DashboardData = {
     },
   ],
 };
+
+export const dashboardApplicationsMock = [
+  { id: 1, amount: 5000, status: "pending", date: "2025-01-10" },
+  { id: 2, amount: 10000, status: "approved", date: "2025-01-05" },
+];
+
+export const dashboardCreditsMock = [
+  { id: 1, totalAmount: 70000, remainingAmount: 35000, monthlyPayment: 1750 },
+  { id: 2, totalAmount: 15000, remainingAmount: 9000, monthlyPayment: 650 },
+  { id: 3, totalAmount: 5000, remainingAmount: 1200, monthlyPayment: 250 },
+];

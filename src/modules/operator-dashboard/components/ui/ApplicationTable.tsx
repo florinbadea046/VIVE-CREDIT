@@ -30,70 +30,85 @@ export default function ApplicationTable<T>({
 
   return (
     <div className="mt-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
-      {/* HEADER */}
-      <div
-        className="
-          grid px-4 py-3 
+      {/* SCROLL WRAPPER */}
+      <div className="overflow-x-auto w-full">
+        {/* HEADER */}
+        <div
+          className="
+          grid px-4 py-3 gap-x-2 min-w-max
           bg-gray-100 dark:bg-gray-700 
           font-semibold text-gray-700 dark:text-gray-100 
           text-sm
         "
-        style={{
-          gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))`,
-        }}
-      >
-        {columns.map((col) => (
+          style={{
+            gridTemplateColumns: columns
+              .map((_, i) =>
+                i === columns.length - 1 ? "max-content" : "minmax(120px,1fr)"
+              )
+              .join(" "),
+          }}
+        >
+          {columns.map((col) => (
+            <div
+              key={String(col.key)}
+              className={`truncate ${
+                col.headerClassName ?? col.className ?? ""
+              }`}
+            >
+              {col.label}
+            </div>
+          ))}
+        </div>
+
+        {/* EMPTY STATE*/}
+        {data.length === 0 && (
+          <div className="text-center py-6 text-gray-500">{noResultsText}</div>
+        )}
+
+        {/* ROWS */}
+        {paginated.map((item, idx) => (
           <div
-            key={String(col.key)}
-            className={`${col.headerClassName ?? col.className ?? ""}`}
-          >
-            {col.label}
-          </div>
-        ))}
-      </div>
-
-      {/* EMPTY */}
-      {data.length === 0 && (
-        <div className="text-center py-6 text-gray-500">{noResultsText}</div>
-      )}
-
-      {/* ROWS */}
-      {paginated.map((item, idx) => (
-        <div
-          key={idx}
-          onClick={() => onRowClick?.(item)}
-          className="
-            grid px-4 py-3 
+            key={idx}
+            onClick={() => onRowClick?.(item)}
+            className="
+            grid  px-4 py-3 gap-x-2 min-w-max
             border-b border-gray-100 dark:border-gray-700
             text-sm text-gray-800 dark:text-gray-100
             hover:bg-blue-50 dark:hover:bg-gray-700
             transition cursor-pointer
           "
-          style={{
-            gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))`,
-          }}
-        >
-          {columns.map((col) => {
-            const value = item[col.key];
+            style={{
+              gridTemplateColumns: columns
+                .map((_, i) =>
+                  i === columns.length - 1 ? "max-content" : "minmax(120px,1fr)"
+                )
+                .join(" "),
+            }}
+          >
+            {columns.map((col) => {
+              const value = item[col.key];
 
-            return (
-              <div
-                key={String(col.key)}
-                className={`${col.className ?? ""} flex items-center`}
-              >
-                {col.render
-                  ? col.render(item)
-                  : value !== undefined &&
-                    (typeof value === "string" ||
-                      typeof value === "number" ||
-                      typeof value === "boolean")
-                  ? String(value)
-                  : null}
-              </div>
-            );
-          })}
-        </div>
-      ))}
+              return (
+                <div
+                  key={String(col.key)}
+                  className={`${
+                    col.className ?? ""
+                  } flex items-center break-words whitespace-normal min-w-0`}
+                >
+                  {col.render
+                    ? col.render(item)
+                    : value !== undefined &&
+                      (typeof value === "string" ||
+                        typeof value === "number" ||
+                        typeof value === "boolean")
+                    ? String(value)
+                    : null}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
 
       {/* PAGINATION */}
       {totalPages > 1 && (

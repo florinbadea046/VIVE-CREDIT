@@ -1,6 +1,6 @@
 import UiCard from "../../../components/ui/UiCard";
 import { AlertTriangle, CheckCircle, XCircle, Clock } from "lucide-react";
-import type { RiskApplication } from "../pages/RiskDashboard";
+import type { RiskApplication } from "../types";
 
 interface Props {
   applications: RiskApplication[];

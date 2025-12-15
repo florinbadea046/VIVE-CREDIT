@@ -9,7 +9,7 @@ const LoginPage = () => {
 
   const loginClient = () => {
     dispatch(login("client"));
-    navigate("/dashboard");
+    navigate("/dashboard/home");
   };
 
   const loginOperator = () => {

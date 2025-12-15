@@ -148,8 +148,8 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
 
   const isEditing = !!initialVariable;
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-md flex justify-center z-50 p-6 overflow-y-auto">
-      <div className="bg-white mx-auto w-full max-w-md shadow-2xl rounded-xl p-6 my-auto">
+    <div className="fixed inset-0 bg-black/30  backdrop-blur-md flex justify-center z-50 p-6 overflow-y-auto">
+      <div className="bg-white dark:bg-slate-800 mx-auto w-full max-w-md shadow-2xl rounded-xl p-6 my-auto">
         <h1 className="text-lg lg:text-xl font-bold text-center">
           {isEditing ? 'Editează variabilă' : 'Adaugă variabilă'}
         </h1>
@@ -168,11 +168,11 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                 setError((prev) => ({ ...prev, name: '' }));
               }}
             >
-              <SelectTrigger className="w-full border-blue-300 text-blue-950  focus:outline-none focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="w-full border-blue-300 text-blue-950 dark:!text-white  focus:outline-none focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder="Alege variabila" />
               </SelectTrigger>
 
-              <SelectContent className="rounded-b-md">
+              <SelectContent className="rounded-b-md ">
                 {variableOptions.map((opt) => (
                   <SelectItem key={opt} value={opt}>
                     {opt === 'venit'
@@ -192,7 +192,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
             </Select>
           </div>
           {error.name && (
-            <span className="text-red-500 text-[10px] text-end w-full">
+            <span className="text-red-500 dark:text-red-400 text-[10px] text-end w-full">
               {error.name}
             </span>
           )}
@@ -208,7 +208,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                 setError((prev) => ({ ...prev, typeModal: '' }));
               }}
             >
-              <SelectTrigger className="w-full border-blue-300 text-blue-950   focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none">
+              <SelectTrigger className="w-full border-blue-300 text-blue-950 dark:!text-white  focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none">
                 <SelectValue placeholder="Selectează tipul" />
               </SelectTrigger>
               <SelectContent className="rounded-b-md">
@@ -229,7 +229,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
 
           {typeModal === 'boolean' ? (
             <div className="flex flex-col md:flex-row gap-2">
-              <label className="w-full text-blue-700">
+              <label className="w-full text-blue-700 dark:!text-white">
                 Este adevărat sau fals?
               </label>
               <Select
@@ -238,7 +238,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                   setBooleanValue(val as 'true' | 'false')
                 }
               >
-                <SelectTrigger className="w-full border-blue-300 text-blue-950 focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none">
+                <SelectTrigger className="w-full border-blue-300 text-blue-950 dark:!text-white focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none">
                   <SelectValue placeholder="Selectează o opțiune" />
                 </SelectTrigger>
                 <SelectContent>
@@ -252,7 +252,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
           )}
 
           {error.typeModal && (
-            <span className="text-red-500 text-[10px] text-end w-full">
+            <span className="text-red-500 dark:text-red-400 text-[10px] text-end w-full">
               {error.typeModal}
             </span>
           )}
@@ -267,11 +267,11 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
               value={weight}
               onChange={handleWeightChange}
               onBlur={handleWeightBlur}
-              className="w-full border border-blue-300 text-blue-950 px-4 py-1 rounded-md no-spinner  focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none"
+              className="w-full border border-blue-300 text-blue-950 dark:text-white dark:bg-slate-800 px-4 py-1 rounded-md no-spinner  focus:outline-none focus:ring-0 focus:ring-offset-0 data-[state=open]:ring-0 data-[state=open]:outline-none"
             />
           </div>
           {error.weight && (
-            <span className="text-red-500 text-[10px] text-end w-full">
+            <span className="text-red-500 dark:text-red-400 text-[10px] text-end w-full">
               {error.weight}
             </span>
           )}
@@ -284,7 +284,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
           <Checkbox
             checked={active}
             onCheckedChange={() => setActive(!active)}
-            className=" rounded-md w-10 h-8 border-blue-400 md:ml-8 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 "
+            className=" rounded-md w-10 h-8 border-2 border-blue-400 data-[state=checked]:dark:bg-blue-400 md:ml-5 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 "
           />
         </div>
 
@@ -293,7 +293,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
           <label className="text-md font-semibold w-full">Reguli</label>
           <button
             onClick={addRules}
-            className="bg-blue-50/30 border border-blue-300 px-4 py-1 w-full rounded-lg hover:bg-gray-50 focus:outline-none "
+            className="bg-blue-50/30 border border-blue-300 dark:bg-slate-800 hover:dark:bg-slate-700/50 px-4 py-1 w-full rounded-lg hover:bg-gray-50 focus:outline-none "
           >
             Adaugă regulă
           </button>
@@ -307,7 +307,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                   placeholder="Ex: >5000 sau [2000,5000]"
                   value={rule.condition}
                   onChange={(e) => updateRules(i, 'condition', e.target.value)}
-                  className="flex-1 border w-52 md:w-60 rounded-lg p-2 focus:outline-none focus:border-blue-300"
+                  className="flex-1 dark:bg-slate-800 dark:border-slate-300 border w-52 md:w-60 rounded-lg p-2 focus:outline-none focus:border-blue-300"
                 />
                 <input
                   type="number"
@@ -315,12 +315,12 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
                   onChange={(e) =>
                     updateRules(i, 'score', parseInt(e.target.value))
                   }
-                  className="w-16 border rounded-lg p-2 no-spinner focus:outline-none focus:border-blue-300 self-end md:self-auto"
+                  className="w-16 border dark:bg-slate-800 dark:border-slate-300 rounded-lg p-2 no-spinner focus:outline-none focus:border-blue-300 self-end md:self-auto"
                 />
               </div>
               <button
                 onClick={() => removeRule(i)}
-                className="px-2 py-2 bg-blue-100 text-blue-500 rounded-md hover:bg-blue-200"
+                className="px-2 py-2 bg-blue-100 dark:bg-red-600 dark:text-white hover:dark:bg-red-600/90 text-blue-500 rounded-md hover:bg-blue-200"
               >
                 Șterge
               </button>
@@ -330,7 +330,7 @@ export const ScorecardVariablesModal: React.FC<PropsModal> = ({
         <div className="flex flex-col md:flex-row gap-2 mt-14 center md:justify-between ">
           <button
             onClick={onClose}
-            className="bg-blue-50/30 border border-blue-300 px-4 py-1 rounded-lg hover:bg-gray-50 focus:outline-none "
+            className="bg-blue-50/30 dark:bg-slate-800 hover:dark:bg-slate-700/50 border border-blue-300 px-4 py-1 rounded-lg hover:bg-gray-50 focus:outline-none "
           >
             Anulează
           </button>

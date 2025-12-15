@@ -21,7 +21,10 @@ import OnboardingPage from "@/modules/onboarding/pages/OnboardingPage";
 import SuccessPage from "@/modules/onboarding/pages/SuccessPage";
 
 /* Dashboard Client */
+import ClientHomePage from "@/modules/dashboard/pages/ClientHomePage";
 import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
+import HelpPage from "@/modules/dashboard/pages/HelpPage";
+import UploadDocumentPage from "@/modules/dashboard/pages/UploadDocumentPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
 import LoanPage from "@/modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
@@ -70,10 +73,28 @@ const AppRoutes = () => {
 
       {/* CLIENT DASHBOARD */}
       <Route
+        path="/dashboard/home"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <ClientHomePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/dashboard"
         element={
           <ProtectedRoute allowedRoles={["client"]}>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/help"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <HelpPage />
           </ProtectedRoute>
         }
       />
@@ -106,6 +127,15 @@ const AppRoutes = () => {
       />
 
       <Route
+        path="/dashboard/documents/upload"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <UploadDocumentPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/dashboard/loan-form"
         element={
           <ProtectedRoute allowedRoles={["client"]}>
@@ -130,33 +160,10 @@ const AppRoutes = () => {
         <Route path="products-settings" element={<ProductSettingsPage />} />
       </Route>
 
-      {/* INTERNAL TOOLS */}
-      <Route
-        path="/policy-engine"
-        element={
-          <ProtectedRoute allowedRoles={["operator"]}>
-            <PolicyEnginePage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/decision-engine"
-        element={
-          <ProtectedRoute allowedRoles={["operator"]}>
-            <DecisionPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/scorecard"
-        element={
-          <ProtectedRoute allowedRoles={["operator"]}>
-            <ScorecardEngine />
-          </ProtectedRoute>
-        }
-      />
+        <Route path="policy-engine" element={<PolicyEnginePage />} />
+        <Route path="decision-engine" element={<DecisionPage />} />
+        <Route path="scorecard" element={<ScorecardEngine />} />
+      </Route>
 
       <Route
         path="/audit"

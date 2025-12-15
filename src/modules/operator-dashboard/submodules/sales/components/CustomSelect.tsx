@@ -34,12 +34,12 @@ export default function CustomSelect({
   return (
     <div className="flex flex-col w-full relative" ref={ref}>
       {label && (
-        <span className="mb-1 text-sm text-gray-700 font-medium">{label}</span>
+        <span className="mb-1 text-sm text-gray-700 dark:text-gray-300 font-medium">{label}</span>
       )}
 
       {/* Trigger */}
       <div
-        className="border rounded-lg px-3 py-2 bg-white cursor-pointer shadow-sm flex items-center justify-between"
+        className="border dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 cursor-pointer shadow-sm flex items-center justify-between text-gray-900 dark:text-gray-100"
         onClick={() => setOpen((prev) => !prev)}
       >
         <span>
@@ -48,7 +48,7 @@ export default function CustomSelect({
 
         {/* Săgeata */}
         <svg
-          className={`w-4 h-4 text-gray-500 transition-transform ${
+          className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${
             open ? "rotate-180" : ""
           }`}
           fill="none"
@@ -62,11 +62,11 @@ export default function CustomSelect({
 
       {/* Dropdown */}
       {open && (
-        <div className="border rounded-lg mt-1 bg-white shadow-lg absolute left-0 z-50 w-full">
+        <div className="border dark:border-gray-600 rounded-lg mt-1 bg-white dark:bg-gray-800 shadow-lg absolute left-0 z-50 w-full">
           {options.map((opt) => (
             <div
               key={opt.value}
-              className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+              className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100"
               onClick={() => {
                 onChange(opt.value);
                 setOpen(false);

@@ -9,6 +9,11 @@ import {
   DollarSign,
   Sun,
   Moon,
+  ChevronDown,
+  Cpu,
+  Calculator,
+  FileText,
+  Gavel,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import UserBadge from "@/components/UserBadge";
@@ -22,6 +27,7 @@ const navItems = [
 
 export default function OperatorDashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isScoringOpen, setIsScoringOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   const linkClasses =
@@ -121,6 +127,78 @@ export default function OperatorDashboardLayout() {
                 <Icon size={20} /> {label}
               </NavLink>
             ))}
+
+            {/* operator-engines */}
+            <div className="pt-2">
+              {/* Butonul principal */}
+              <button
+                onClick={() => setIsScoringOpen(!isScoringOpen)}
+                className={`
+                  flex items-center justify-between w-full px-3 py-2 rounded-lg transition font-medium
+                  text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700
+                `}
+              >
+                <div className="flex items-center gap-3">
+                  <Cpu size={20} />
+                  <span>Engines</span>
+                </div>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-200 ${
+                    isScoringOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isScoringOpen && (
+                <div className="mt-1 ml-4 pl-3 border-l-2 border-gray-100 dark:border-gray-700 space-y-1">
+                  {/* Link Scorecard */}
+                  <NavLink
+                    to="scorecard"
+                    className={({ isActive }) =>
+                      `${linkClasses} text-sm ${
+                        isActive
+                          ? "text-blue-600 font-semibold"
+                          : "text-gray-600 dark:text-gray-400 hover:text-blue-600"
+                      }`
+                    }
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <Calculator size={18} /> Scorecard
+                  </NavLink>
+
+                  {/* Link Policy Engine */}
+                  <NavLink
+                    to="policy-engine"
+                    className={({ isActive }) =>
+                      `${linkClasses} text-sm ${
+                        isActive
+                          ? "text-blue-600 font-semibold"
+                          : "text-gray-600 dark:text-gray-400 hover:text-blue-600"
+                      }`
+                    }
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <FileText size={18} /> Policy
+                  </NavLink>
+
+                  {/* Link Decision Engine */}
+                  <NavLink
+                    to="decision-engine"
+                    className={({ isActive }) =>
+                      `${linkClasses} text-sm ${
+                        isActive
+                          ? "text-blue-600 font-semibold"
+                          : "text-gray-600 dark:text-gray-400 hover:text-blue-600"
+                      }`
+                    }
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <Gavel size={18} /> Decision
+                  </NavLink>
+                </div>
+              )}
+            </div>
           </nav>
         </div>
 

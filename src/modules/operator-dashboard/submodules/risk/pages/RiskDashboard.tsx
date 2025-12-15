@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import RiskFiltersBar from "../components/RiskFiltersBar";
 import RiskDetailsModal from "../components/RiskDetailsModal";
-import { mockRiskApp } from "../mock-data";
 import RiskKpiCards from "../components/RiskKpiCards";
+import { mockDB } from "@/modules/operator-dashboard/data/mockDB";
 import ApplicationTable, {
   type Column,
 } from "../../../components/ui/ApplicationTable";
@@ -13,23 +13,12 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { reasonCodeMap } from "../constants/reasoneCodeMap";
-
-export interface RiskApplication {
-  id: string;
-  client: string;
-  score: number;
-  status: string;
-  reasonCodes: string[];
-  kyc?: Record<string, string>;
-  income?: Record<string, number>;
-  documents?: { name: string; url: string; uploadedAt: string }[];
-  notes?: { text: string; time: string }[];
-  requestedDocuments?: string[];
-}
+import type { RiskApplication } from "../types";
 
 export default function RiskDashboard() {
-  const [applications, setApplications] =
-    useState<RiskApplication[]>(mockRiskApp);
+  const [applications, setApplications] = useState<RiskApplication[]>(
+    mockDB.riskApplications
+  );
   const [filters, setFilters] = useState({ status: "", search: "" });
   const [selectedApp, setSelectedApp] = useState<RiskApplication | null>(null);
 
@@ -89,7 +78,7 @@ export default function RiskDashboard() {
     { key: "id", label: "ID" },
     { key: "client", label: "Client" },
     {
-      key: "risk",
+      key: "score",
       label: "Risk",
       render: (app) => {
         const score = app.score ?? 0;
@@ -99,12 +88,6 @@ export default function RiskDashboard() {
           Medium: "text-yellow-700 bg-yellow-100",
           High: "text-red-700 bg-red-100",
         };
-        // transform text status
-        const formatStatus = (status: string) =>
-          status
-            .split("_")
-            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-            .join(" ");
 
         return (
           <span
@@ -188,7 +171,7 @@ export default function RiskDashboard() {
             }}
             className="px-2 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
           >
-            Detalii
+            Review
           </button>
         </div>
       ),
@@ -214,10 +197,10 @@ export default function RiskDashboard() {
         />
       </div>
 
-      {selectedApp && (
+      {selectedApp !== null && (
         <RiskDetailsModal
           application={selectedApp}
-          isOpen={!!selectedApp}
+          isOpen={selectedApp !== null}
           onClose={() => setSelectedApp(null)}
           onApprove={(id) => {
             updateStatus(id, "approved");
