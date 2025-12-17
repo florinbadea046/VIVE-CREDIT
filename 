@@ -1,0 +1,44 @@
+Merge remote-tracking branch 'upstream/main' into feature/notifications
+
+# Conflicts:
+#	src/modules/dashboard/components/documents/DocumentUploader.tsx
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please run
+#	git update-ref -d MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch feature/notifications
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   Details project.pdf
+#	new file:   ana'
+#	modified:   package-lock.json
+#	modified:   package.json
+#	new file:   src/modules/admin-products/api/productSettingsService.ts
+#	new file:   src/modules/admin-products/components/ProductSettingsForm.tsx
+#	new file:   src/modules/admin-products/components/ProductSettingsTable.tsx
+#	new file:   src/modules/admin-products/layout/AdminLayout.tsx
+#	new file:   src/modules/admin-products/pages/ProductSettingsPage.tsx
+#	modified:   src/modules/operator-dashboard/components/ui/UiCard.tsx
+#	new file:   src/modules/operator-dashboard/data/mockDB.ts
+#	modified:   src/modules/operator-dashboard/pages/OperatorDasboardPage.tsx
+#	modified:   src/modules/operator-dashboard/submodules/risk/components/RiskDetailsModal.tsx
+#	modified:   src/modules/operator-dashboard/submodules/risk/components/RiskFiltersBar.tsx
+#	modified:   src/modules/operator-dashboard/submodules/risk/components/RiskKpiCards.tsx
+#	modified:   src/modules/operator-dashboard/submodules/risk/index.ts
+#	modified:   src/modules/operator-dashboard/submodules/risk/mock-data.ts
+#	modified:   src/modules/operator-dashboard/submodules/risk/pages/RiskDashboard.tsx
+#	new file:   src/modules/operator-dashboard/submodules/risk/types.ts
+#	modified:   src/routes/AppRoutes.tsx
+#	new file:   src/types/productSettings.ts
+:wq
+:wq!
+B
+:wq!
+#

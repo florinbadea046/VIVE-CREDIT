@@ -15,10 +15,19 @@ import PublicLayout from "@/modules/landing/layout/PublicLayout";
 
 /* Auth */
 import LoginPage from "@/modules/auth/pages/LoginPage";
+import RegisterPage from "@/modules/auth/pages/RegisterPage";
 
-/* Onboarding */
+import ClientLoginPage from "@/modules/auth/pages/ClientLoginPage";
+import ClientRegisterPage from "@/modules/auth/pages/ClientRegisterPage";
+
+import OperatorLoginPage from "@/modules/auth/pages/OperatorLoginPage";
+
+/* Onboarding CLIENT */
 import OnboardingPage from "@/modules/onboarding/pages/OnboardingPage";
 import SuccessPage from "@/modules/onboarding/pages/SuccessPage";
+import OnboardingWizardPage from "@/modules/auth/pages/OnboardingWizardPage";
+import ProfileSuccessPage from "@/modules/auth/pages/ProfileSuccessPage";
+import OnboardingGuard from "@/components/OnboardingGuard";
 
 /* Dashboard Client */
 import ClientHomePage from "@/modules/dashboard/pages/ClientHomePage";
@@ -50,26 +59,51 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* PUBLIC ROUTES with layout */}
+      {/* PUBLIC ROUTES */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
 
-        {/* Legal pages */}
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/anpc" element={<AnpcPage />} />
         <Route path="/cookies" element={<CookiePolicyPage />} />
       </Route>
 
-      {/* AUTH */}
+      {/* AUTH ENTRY */}
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
-      {/* ONBOARDING */}
+      {/* CLIENT AUTH */}
+      <Route path="/login/client" element={<ClientLoginPage />} />
+      <Route path="/register/client" element={<ClientRegisterPage />} />
+
+      {/* OPERATOR AUTH */}
+      <Route path="/login/operator" element={<OperatorLoginPage />} />
+
+      {/* CLIENT ONBOARDING */}
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/onboarding/success" element={<SuccessPage />} />
+
+      <Route
+        path="/onboarding/profile"
+        element={
+          <OnboardingGuard>
+            <OnboardingWizardPage />
+          </OnboardingGuard>
+        }
+      />
+
+      <Route
+        path="/onboarding/profile/success"
+        element={
+          <OnboardingGuard>
+            <ProfileSuccessPage />
+          </OnboardingGuard>
+        }
+      />
 
       {/* CLIENT DASHBOARD */}
       <Route
@@ -158,11 +192,15 @@ const AppRoutes = () => {
         <Route path="sales" element={<SalesDashboard />} />
         <Route path="sales/:id" element={<ApplicationDetail />} />
         <Route path="products-settings" element={<ProductSettingsPage />} />
+        <Route path="policy-engine" element={<PolicyEnginePage />} />
+        <Route path="decision-engine" element={<DecisionPage />} />
+        <Route path="scorecard" element={<ScorecardEngine />} />
       </Route>
 
-      <Route path="policy-engine" element={<PolicyEnginePage />} />
-      <Route path="decision-engine" element={<DecisionPage />} />
-      <Route path="scorecard" element={<ScorecardEngine />} />
+      {/* ENGINES */}
+      <Route path="/policy-engine" element={<PolicyEnginePage />} />
+      <Route path="/decision-engine" element={<DecisionPage />} />
+      <Route path="/scorecard" element={<ScorecardEngine />} />
 
       <Route
         path="/audit"

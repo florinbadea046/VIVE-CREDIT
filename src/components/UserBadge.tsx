@@ -13,7 +13,7 @@ export default function UserBadge() {
   const handleLogout = () => {
     dispatch(clearUser());
     dispatch(logout());
-    navigate("/");
+    navigate("/login");
   };
 
   return (
