@@ -11,7 +11,10 @@ import {
   AlertCircle,
   Clock,
 } from "lucide-react";
-import type { PolicyRuleType, PolicyRuleStatus } from "../types/policyEngine.types";
+import type {
+  PolicyRuleType,
+  PolicyRuleStatus,
+} from "../types/policyEngine.types";
 
 /**
  * Returnează iconița corespunzătoare tipului de regulă
@@ -60,16 +63,16 @@ export const getStatusIcon = (status: PolicyRuleStatus): React.ReactNode => {
 export const getStatusBgClass = (status: PolicyRuleStatus): string => {
   switch (status) {
     case "PASSED":
-      return "bg-green-50 border-green-200";
+      return "bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-900/50";
     case "FAILED":
-      return "bg-red-50 border-red-200";
+      return "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-900/50";
     case "RUNNING":
-      return "bg-blue-50 border-blue-200";
+      return "bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-900/50";
     case "SKIPPED":
-      return "bg-gray-50 border-gray-200";
+      return "bg-gray-50 border-gray-200 dark:bg-slate-800 dark:border-slate-700";
     case "PENDING":
     default:
-      return "bg-white border-gray-200";
+      return "bg-white border-gray-200 dark:bg-slate-900 dark:border-slate-800";
   }
 };
 

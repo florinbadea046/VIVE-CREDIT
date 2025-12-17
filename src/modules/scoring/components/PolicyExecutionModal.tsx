@@ -121,7 +121,7 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
                   return (
                     <div
                       key={rule.id}
-                      className={`p-4 rounded-xl border transition-all ${getStatusBgClass(
+                      className={`p-4 rounded-xl border transition-all dark:border-slate-800 ${getStatusBgClass(
                         status
                       )}`}
                     >
@@ -170,8 +170,8 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
                     <span
                       className={`font-medium ${
                         overallStatus === "PASSED"
-                          ? "text-green-700"
-                          : "text-red-700"
+                          ? "text-green-700 dark:text-green-400"
+                          : "text-red-700 dark:text-red-400"
                       }`}
                     >
                       {overallStatus === "PASSED"
