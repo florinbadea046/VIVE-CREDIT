@@ -3,7 +3,7 @@ import { salesData } from "../submodules/sales/mock-data";
 
 export const mockDB = {
   // Applications for operator dashboard
-  application: [
+  applications: [
     {
       id: "OP - 001",
       customerName: "Ion Popescu",

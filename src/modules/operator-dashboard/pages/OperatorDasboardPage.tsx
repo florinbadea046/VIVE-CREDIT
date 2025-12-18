@@ -2,6 +2,7 @@ import { AlertTriangle, CheckCircle, Clock, XCircle } from "lucide-react";
 import { mockDB } from "../data/mockDB";
 import UiCard from "../components/ui/UiCard";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { useNavigate } from "react-router-dom";
 
 interface PieItem {
   label: string;
@@ -31,11 +32,33 @@ export default function OperatorDashboardPage() {
     verdict = "În monitorizare";
   }
 
+  const navigate = useNavigate();
+
   const kpiCards = [
-    { label: "Total aplicații", value: total, icon: <AlertTriangle /> },
-    { label: "Aprobate", value: approved, icon: <CheckCircle /> },
-    { label: "Respinse", value: rejected, icon: <XCircle /> },
-    { label: "În așteptare", value: pending, icon: <Clock /> },
+    {
+      label: "Total aplicații",
+      value: total,
+      icon: <AlertTriangle />,
+      onClick: () => navigate("/operator/applications?status=all"),
+    },
+    {
+      label: "Aprobate",
+      value: approved,
+      icon: <CheckCircle />,
+      onClick: () => navigate("/operator/applications?status=approved"),
+    },
+    {
+      label: "Respinse",
+      value: rejected,
+      icon: <XCircle />,
+      onClick: () => navigate("/operator/applications?status=rejected"),
+    },
+    {
+      label: "În așteptare",
+      value: pending,
+      icon: <Clock />,
+      onClick: () => navigate("/operator/applications?status=pending"),
+    },
   ];
 
   const pieData: PieItem[] = [

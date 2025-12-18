@@ -5,6 +5,8 @@ export interface RiskApplication {
   status: string;
   reasonCodes: string[];
 
+  creditAmount: number;
+
   kyc?: {
     idFront: string;
     idBack: string;
@@ -18,6 +20,7 @@ export interface RiskApplication {
     contractType: string;
     history: string[];
   };
+
   documents?: { name: string; url: string; uploadedAt: string }[];
   notes?: { text: string; time: string }[];
   requestedDocuments?: string[];

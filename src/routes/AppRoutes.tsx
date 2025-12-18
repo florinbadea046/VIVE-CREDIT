@@ -42,6 +42,7 @@ import LoanForm from "@/pages/loan/LoanForm";
 /* Operator Dashboard */
 import OperatorDashboardLayout from "@/modules/operator-dashboard/layout/OperatorDashboardLayout";
 import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDasboardPage";
+import ApplicationsPage from "@/modules/operator-dashboard/pages/ApplicationsPage";
 import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
 import SalesDashboard from "@/modules/operator-dashboard/submodules/sales/SalesDashboard";
 import ApplicationDetail from "@/modules/operator-dashboard/submodules/sales/ApplicationDetail";
@@ -191,6 +192,7 @@ const AppRoutes = () => {
         <Route path="risk" element={<RiskPage />} />
         <Route path="sales" element={<SalesDashboard />} />
         <Route path="sales/:id" element={<ApplicationDetail />} />
+        <Route path="applications" element={<ApplicationsPage />} />
         <Route path="products-settings" element={<ProductSettingsPage />} />
         <Route path="policy-engine" element={<PolicyEnginePage />} />
         <Route path="decision-engine" element={<DecisionPage />} />
