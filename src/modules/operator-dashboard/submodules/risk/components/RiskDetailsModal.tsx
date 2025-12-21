@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import Modal from "../../../components/ui/Modal";
 import Button from "@/modules/operator-dashboard/components/ui/Button";
-import type { RiskApplication } from "../pages/RiskDashboard";
+
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
+import toast from "react-hot-toast";
+import type { RiskApplication } from "../types";
 
 interface Props {
   application: RiskApplication;
@@ -58,7 +60,7 @@ export default function RiskDetailsModal({
       titleClassName="text-blue-600"
       icon={<ShieldCheck className="w-6 h-6" />}
     >
-      {/* Container cu scroll */}
+      {/* Container */}
       <div className="flex flex-col gap-6 pr-2 pb-4">
         {/* CLIENT INFO */}
         <section className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
@@ -159,6 +161,7 @@ export default function RiskDetailsModal({
                 onRequestDocs(application.id, selectedDocs, customDoc);
                 setSelectedDocs([]);
                 setCustomDoc("");
+                toast(`Application ${application.id} documents requested`);
               }}
               className="mt-2"
             >
@@ -168,37 +171,56 @@ export default function RiskDetailsModal({
         </section>
       </div>
 
-      {/* Sticky action bar la baza modalului */}
+      {/* Sticky action bar */}
       <div className="sticky bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-gray-200 dark:border-gray-700 p-4 flex flex-wrap items-center justify-end gap-2 z-20">
         {/* Desktop buttons */}
         <div className="hidden sm:flex gap-2 justify-end flex-wrap">
           <Button
-            onClick={() => onApprove(application.id)}
+            onClick={() => {
+              onApprove(application.id);
+              toast.success(`Application ${application.id} approved`);
+            }}
             className="bg-blue-600 sm:w-auto w-full"
           >
             Aprobă
           </Button>
           <Button
-            onClick={() => onReject(application.id)}
+            onClick={() => {
+              onReject(application.id);
+              toast.error(`Application ${application.id} rejected`);
+            }}
             className="bg-blue-600 sm:w-auto w-full"
           >
             Respinge
           </Button>
 
           <Button
-            onClick={() => onManualReview(application.id)}
+            onClick={() => {
+              onManualReview(application.id);
+              toast(`Application ${application.id} send to manual review`, {
+                icon: "📝",
+              });
+            }}
             className="bg-blue-600 sm:w-auto w-full"
           >
             Manual Review
           </Button>
           <Button
-            onClick={() => handleScrollToDocs()}
+            onClick={() => {
+              handleScrollToDocs();
+              toast(`Scroll to documents section`, { icon: "📄" });
+            }}
             className="bg-blue-600 sm:w-auto w-full"
           >
             Solicită Documente
           </Button>
           <Button
-            onClick={() => onSendToAML(application.id)}
+            onClick={() => {
+              onSendToAML(application.id);
+              toast(`Application ${application.id} sent to AML`, {
+                icon: "🛡️",
+              });
+            }}
             className="bg-blue-600 sm:w-auto w-full "
           >
             Trimite la AML
@@ -215,7 +237,10 @@ export default function RiskDetailsModal({
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => onApprove(application.id)}
+                    onClick={() => {
+                      onApprove(application.id);
+                      toast.success(`Application ${application.id} approved`);
+                    }}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
                     }`}
@@ -227,7 +252,10 @@ export default function RiskDetailsModal({
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => onReject(application.id)}
+                    onClick={() => {
+                      onReject(application.id);
+                      toast.error(`Application ${application.id} rejected`);
+                    }}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
                     }`}
@@ -239,7 +267,15 @@ export default function RiskDetailsModal({
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => onManualReview(application.id)}
+                    onClick={() => {
+                      onManualReview(application.id);
+                      toast(
+                        `Application ${application.id} send to manual review`,
+                        {
+                          icon: "📝",
+                        }
+                      );
+                    }}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
                     }`}
@@ -251,7 +287,10 @@ export default function RiskDetailsModal({
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => handleScrollToDocs()}
+                    onClick={() => {
+                      handleScrollToDocs();
+                      toast(`Scroll to documents section`, { icon: "📄" });
+                    }}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
                     }`}
@@ -263,7 +302,12 @@ export default function RiskDetailsModal({
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => onSendToAML(application.id)}
+                    onClick={() => {
+                      onSendToAML(application.id);
+                      toast(`Application ${application.id} sent to AML`, {
+                        icon: "🛡️",
+                      });
+                    }}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
                     }`}

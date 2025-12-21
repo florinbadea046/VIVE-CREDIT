@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Filter } from "lucide-react";
+import { Filter, Upload, RotateCcw } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import type {
   DocumentItem,
   DocumentCategory,
@@ -19,6 +20,14 @@ export default function DocumentsFilters({ documents }: Props) {
   const [status, setStatus] = useState<StatusFilter>("all");
   const [year, setYear] = useState<string>("all");
 
+  const navigate = useNavigate();
+
+  const resetFilters = () => {
+    setCategory("all");
+    setStatus("all");
+    setYear("all");
+  };
+
   const years = Array.from(
     new Set(documents.map((d) => new Date(d.uploadedAt).getFullYear()))
   ).sort((a, b) => b - a);
@@ -34,11 +43,40 @@ export default function DocumentsFilters({ documents }: Props) {
   return (
     <div className="space-y-4">
       <div className="bg-white border border-blue-100 rounded-2xl p-4 shadow-sm dark:bg-[#1C2534]/60 dark:border-white/10">
-        <div className="flex items-center gap-2 mb-3">
-          <Filter size={18} className="text-blue-600 dark:text-blue-300" />
-          <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-            Filtrează documentele
-          </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Filter size={18} className="text-blue-600 dark:text-blue-300" />
+            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              Filtrează documentele
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              onClick={resetFilters}
+              className="
+                flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+                bg-gray-100 hover:bg-gray-200 dark:bg-[#2A3B55] dark:hover:bg-[#1C2534] 
+                text-gray-800 dark:text-gray-200
+                transition shadow-sm
+              "
+            >
+              <RotateCcw size={16} />
+              Resetează
+            </button>
+
+            <button
+              onClick={() => navigate("/dashboard/documents/upload")}
+              className="
+                flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+                bg-blue-600 hover:bg-blue-700 text-white
+                transition shadow-sm
+              "
+            >
+              <Upload size={16} />
+              Încarcă document
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -51,9 +89,7 @@ export default function DocumentsFilters({ documents }: Props) {
             value={category}
             onChange={(e) => setCategory(e.target.value as CategoryFilter)}
           >
-            <option value="all" className="text-gray-600 dark:text-gray-300">
-              Toate tipurile
-            </option>
+            <option value="all">Toate tipurile</option>
             <option value="contract">Contracte</option>
             <option value="schedule">Grafice rambursare</option>
             <option value="kyc">Documente KYC</option>
@@ -70,9 +106,7 @@ export default function DocumentsFilters({ documents }: Props) {
             value={status}
             onChange={(e) => setStatus(e.target.value as StatusFilter)}
           >
-            <option value="all" className="text-gray-600 dark:text-gray-300">
-              Toate statusurile
-            </option>
+            <option value="all">Toate statusurile</option>
             <option value="available">Disponibile</option>
             <option value="processing">În prelucrare</option>
             <option value="expired">Expirate</option>
@@ -87,15 +121,9 @@ export default function DocumentsFilters({ documents }: Props) {
             value={year}
             onChange={(e) => setYear(e.target.value)}
           >
-            <option value="all" className="text-gray-600 dark:text-gray-300">
-              Toți anii
-            </option>
+            <option value="all">Toți anii</option>
             {years.map((y) => (
-              <option
-                key={y}
-                value={y.toString()}
-                className="dark:text-gray-200"
-              >
+              <option key={y} value={y.toString()}>
                 {y}
               </option>
             ))}

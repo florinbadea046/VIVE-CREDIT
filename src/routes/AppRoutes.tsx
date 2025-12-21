@@ -21,7 +21,10 @@ import OnboardingPage from "@/modules/onboarding/pages/OnboardingPage";
 import SuccessPage from "@/modules/onboarding/pages/SuccessPage";
 
 /* Dashboard Client */
+import ClientHomePage from "@/modules/dashboard/pages/ClientHomePage";
 import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
+import HelpPage from "@/modules/dashboard/pages/HelpPage";
+import UploadDocumentPage from "@/modules/dashboard/pages/UploadDocumentPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
 import LoanPage from "@/modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
@@ -33,6 +36,7 @@ import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDa
 import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
 import SalesDashboard from "@/modules/operator-dashboard/submodules/sales/SalesDashboard";
 import ApplicationDetail from "@/modules/operator-dashboard/submodules/sales/ApplicationDetail";
+import ProductSettingsPage from "@/modules/admin-products/pages/ProductSettingsPage";
 
 /* Engines */
 import { PolicyEnginePage } from "@/modules/scoring";
@@ -69,10 +73,28 @@ const AppRoutes = () => {
 
       {/* CLIENT DASHBOARD */}
       <Route
+        path="/dashboard/home"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <ClientHomePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/dashboard"
         element={
           <ProtectedRoute allowedRoles={["client"]}>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard/help"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <HelpPage />
           </ProtectedRoute>
         }
       />
@@ -105,6 +127,15 @@ const AppRoutes = () => {
       />
 
       <Route
+        path="/dashboard/documents/upload"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <UploadDocumentPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/dashboard/loan-form"
         element={
           <ProtectedRoute allowedRoles={["client"]}>
@@ -126,11 +157,12 @@ const AppRoutes = () => {
         <Route path="risk" element={<RiskPage />} />
         <Route path="sales" element={<SalesDashboard />} />
         <Route path="sales/:id" element={<ApplicationDetail />} />
-
-        <Route path="policy-engine" element={<PolicyEnginePage />} />
-        <Route path="decision-engine" element={<DecisionPage />} />
-        <Route path="scorecard" element={<ScorecardEngine />} />
+        <Route path="products-settings" element={<ProductSettingsPage />} />
       </Route>
+
+      <Route path="policy-engine" element={<PolicyEnginePage />} />
+      <Route path="decision-engine" element={<DecisionPage />} />
+      <Route path="scorecard" element={<ScorecardEngine />} />
 
       <Route
         path="/audit"
