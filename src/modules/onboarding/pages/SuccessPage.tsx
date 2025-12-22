@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -9,12 +10,19 @@ export default function SuccessPage() {
 
   const { applicationId, fullName } = location.state || {};
 
+  useEffect(() => {
+    localStorage.setItem("onboardingCompleted", "true");
+    localStorage.setItem("showRegistrationSuccess", "true");
+  }, []);
+
   return (
     <div
       className="
         min-h-screen flex items-center justify-center 
         bg-gradient-to-b from-blue-50 to-white 
-        dark:bg-gradient-to-br dark:from-[#0b162f] dark:via-[#0f1c3d] dark:to-[#0a1124] dark:shadow-[0_0_80px_rgba(0,102,255,0.25)] dark:ring-1 dark:ring-blue-900/20
+        dark:bg-gradient-to-br dark:from-[#0b162f] dark:via-[#0f1c3d] dark:to-[#0a1124] 
+        dark:shadow-[0_0_80px_rgba(0,102,255,0.25)] 
+        dark:ring-1 dark:ring-blue-900/20
         px-4 py-10
       "
     >
@@ -38,7 +46,7 @@ export default function SuccessPage() {
               text-green-700 dark:text-green-400
             "
           >
-            Cererea ta a fost trimisă cu succes!
+            Aplicația ta a fost finalizată cu succes!
           </CardTitle>
         </CardHeader>
 
@@ -46,13 +54,14 @@ export default function SuccessPage() {
           <p className="text-gray-700 dark:text-[#c7d5ff] text-lg">
             Mulțumim,{" "}
             <span className="font-semibold text-blue-700 dark:text-blue-400">
-              {fullName}
+              {fullName || "client"}
             </span>
             !
           </p>
 
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Cererea ta a fost înregistrată în sistemul nostru.
+            Datele tale au fost înregistrate și aplicația a fost trimisă spre
+            analiză.
           </p>
 
           {applicationId && (
@@ -64,7 +73,7 @@ export default function SuccessPage() {
               "
             >
               <p className="text-sm text-green-800 dark:text-green-400">
-                Număr cerere de credit:
+                Număr aplicație:
               </p>
               <p className="text-xl font-semibold text-green-900 dark:text-green-300 tracking-wide">
                 {applicationId}
@@ -73,20 +82,20 @@ export default function SuccessPage() {
           )}
 
           <p className="text-gray-600 dark:text-gray-400 mt-6">
-            Un consultant va analiza documentele și te va contacta în cel mai
-            scurt timp pentru finalizarea procesului.
+            Un consultant va analiza informațiile furnizate și te va contacta în
+            cel mai scurt timp pentru pașii următori.
           </p>
 
           <div className="mt-8 flex justify-center">
             <Button
-              onClick={() => navigate("/login?redirect=/dashboard")}
+              onClick={() => navigate("/dashboard/home")}
               className="
                 bg-blue-600 hover:bg-blue-700 
                 dark:bg-blue-700 dark:hover:bg-blue-600
                 text-white px-8 py-3 rounded-md text-lg
               "
             >
-              Mergi la Dashboard →
+              Accesează contul tău →
             </Button>
           </div>
         </CardContent>

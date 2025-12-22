@@ -1,7 +1,7 @@
 export const mockRiskApp = [
   {
     id: "APP-001",
-    client: "Ion Popescu",
+    client: "Codreanu Matei Sergiu",
     score: 420,
     status: "rejected",
     reasonCodes: ["INC_INCOME", "MISSING_DOC"],
@@ -11,6 +11,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie.jpg",
       status: "unclear",
     },
+    creditAmount: 10000,
     income: {
       amount: 3500,
       employer: "SC Ex SRL",
@@ -28,7 +29,7 @@ export const mockRiskApp = [
   },
   {
     id: "APP-002",
-    client: "Maria Ionescu",
+    client: "Ionescu Marian Andra",
     score: 760,
     status: "approved",
     reasonCodes: [],
@@ -38,6 +39,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie-2.jpg",
       status: "verified",
     },
+    creditAmount: 20000,
     income: {
       amount: 6200,
       employer: "Firma SRL",
@@ -50,7 +52,7 @@ export const mockRiskApp = [
   },
   {
     id: "APP-003",
-    client: "Ion Popescu",
+    client: "Popescu Alexandru",
     score: 420,
     status: "manual_review",
     reasonCodes: ["INC_INCOME", "MISSING_DOC"],
@@ -60,6 +62,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie.jpg",
       status: "unclear",
     },
+    creditAmount: 10000,
     income: {
       amount: 3500,
       employer: "SC Ex SRL",
@@ -87,6 +90,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie-2.jpg",
       status: "verified",
     },
+    creditAmount: 30000,
     income: {
       amount: 6200,
       employer: "Firma SRL",
@@ -109,6 +113,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie.jpg",
       status: "unclear",
     },
+    creditAmount: 10000,
     income: {
       amount: 3500,
       employer: "SC Ex SRL",
@@ -136,6 +141,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie-2.jpg",
       status: "verified",
     },
+    creditAmount: 5000,
     income: {
       amount: 6200,
       employer: "Firma SRL",
@@ -158,6 +164,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie.jpg",
       status: "unclear",
     },
+    creditAmount: 2000,
     income: {
       amount: 3500,
       employer: "SC Ex SRL",
@@ -185,6 +192,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie-2.jpg",
       status: "verified",
     },
+    creditAmount: 10000,
     income: {
       amount: 6200,
       employer: "Firma SRL",
@@ -207,6 +215,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie-2.jpg",
       status: "verified",
     },
+    creditAmount: 25000,
     income: {
       amount: 6200,
       employer: "Firma SRL",
@@ -229,6 +238,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie.jpg",
       status: "unclear",
     },
+    creditAmount: 10000,
     income: {
       amount: 3500,
       employer: "SC Ex SRL",
@@ -256,6 +266,7 @@ export const mockRiskApp = [
       selfie: "/mocks/selfie-2.jpg",
       status: "verified",
     },
+    creditAmount: 44000,
     income: {
       amount: 6200,
       employer: "Firma SRL",

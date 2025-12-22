@@ -1,20 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/hooks/reduxHooks";
-import { login } from "@/store/authSlice";
 import { ArrowLeft } from "lucide-react";
 
 const LoginPage = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const loginClient = () => {
-    dispatch(login("client"));
-    navigate("/dashboard/home");
+  const goToClientLogin = () => {
+    navigate("/login/client");
   };
 
-  const loginOperator = () => {
-    dispatch(login("operator"));
-    navigate("/operator");
+  const goToOperatorLogin = () => {
+    navigate("/login/operator");
   };
 
   return (
@@ -23,10 +18,10 @@ const LoginPage = () => {
         <button
           onClick={() => navigate("/")}
           className="absolute top-4 left-4 
-                     bg-white dark:bg-slate-700 
-                     shadow-md rounded-full p-2.5 
-                     hover:bg-slate-100 dark:hover:bg-slate-600 
-                     transition"
+            bg-white dark:bg-slate-700 
+            shadow-md rounded-full p-2.5 
+            hover:bg-slate-100 dark:hover:bg-slate-600 
+            transition"
         >
           <ArrowLeft className="w-5 h-5 text-slate-600 dark:text-slate-200" />
         </button>
@@ -40,18 +35,19 @@ const LoginPage = () => {
         </p>
 
         <button
-          onClick={loginClient}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white 
-                     font-semibold py-3 rounded-lg transition"
+          onClick={goToClientLogin}
+          className="w-full bg-blue-600 hover:bg-blue-700 
+            text-white font-semibold py-3 rounded-lg transition"
         >
           Client
         </button>
 
         <button
-          onClick={loginOperator}
+          onClick={goToOperatorLogin}
           className="w-full mt-4 border border-slate-300 dark:border-slate-700 
-                     text-slate-700 dark:text-slate-200 hover:bg-slate-100 
-                     dark:hover:bg-slate-700 font-semibold py-3 rounded-lg transition"
+            text-slate-700 dark:text-slate-200 
+            hover:bg-slate-100 dark:hover:bg-slate-700 
+            font-semibold py-3 rounded-lg transition"
         >
           Operator
         </button>

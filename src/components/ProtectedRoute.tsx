@@ -1,20 +1,22 @@
 import { Navigate } from "react-router-dom";
-import { useAppSelector } from "@/hooks/reduxHooks";
 import type { ReactNode } from "react";
+import { useAppSelector } from "@/hooks/reduxHooks";
+
+type Role = "client" | "operator";
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles: string[];
+  allowedRoles?: Role[];
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const { isAuthenticated, role } = useAppSelector((state) => state.auth);
 
   if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
-  if (!allowedRoles.includes(role)) {
+  if (allowedRoles && !allowedRoles.includes(role as Role)) {
     return <Navigate to="/" replace />;
   }
 

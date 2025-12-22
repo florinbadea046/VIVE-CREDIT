@@ -1,6 +1,6 @@
+import { FileText, HelpCircle, Rocket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CardWrapper from "../../components/CardWrapper";
-import { Rocket, FileText, HelpCircle } from "lucide-react";
 
 export default function QuickActions() {
   const navigate = useNavigate();
@@ -9,10 +9,10 @@ export default function QuickActions() {
     "flex items-center justify-center gap-2 p-3 rounded-lg transition font-medium";
 
   return (
-    <CardWrapper title="Acțiuni rapide" icon={<Rocket size={22} />}>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <CardWrapper title='Acțiuni rapide' icon={<Rocket size={22} />}>
+      <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
         <button
-          onClick={() => navigate("/dashboard/test")}
+          onClick={() => navigate("/dashboard/loan-form")}
           className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
         >
           <Rocket size={18} />

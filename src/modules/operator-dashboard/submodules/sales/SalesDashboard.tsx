@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 import { salesData, type SalesApplication } from "./mock-data";
 import SalesStatusBadge from "./components/SalesStatusBadge";
 import CustomSelect from "./components/CustomSelect";
@@ -12,18 +11,16 @@ import { generateClientPdf } from "@/utils/generatePdf";
 
 import ViewModal from "./components/ViewModal";
 
-
-
 export default function SalesDashboard() {
   const [searchClient, setSearchClient] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedAgent, setSelectedAgent] = useState("");
 
-// Pagination
-const [page, setPage] = useState(1);
-const itemsPerPage = 4;
-const totalPages = Math.ceil(salesData.length / itemsPerPage);
+  // Pagination
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(salesData.length / itemsPerPage);
 
   // 📄 PDF modal
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -49,9 +46,8 @@ const totalPages = Math.ceil(salesData.length / itemsPerPage);
     setViewApp(null);
   };
 
-
   // 📁 DOCS modal
-const [, setDocsOpen] = useState(false);
+  const [, setDocsOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState<SalesApplication | null>(null);
 
   const openDocs = (app: SalesApplication) => {
@@ -65,15 +61,15 @@ const [, setDocsOpen] = useState(false);
   };
 
   // 🔍 Filter logic
- const filteredData = salesData
-  .filter((app) => {
-    const matchClient = app.client.toLowerCase().includes(searchClient.toLowerCase());
-    const matchProduct = selectedProduct === "all" || app.productValue === selectedProduct;
-    const matchStatus = selectedStatus === "all" || app.statusValue === selectedStatus;
-    const matchAgent = selectedAgent === "" || app.agent.toLowerCase().includes(selectedAgent.toLowerCase());
-    return matchClient && matchProduct && matchStatus && matchAgent;
-  })
-  .slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const filteredData = salesData
+    .filter((app) => {
+      const matchClient = app.client.toLowerCase().includes(searchClient.toLowerCase());
+      const matchProduct = selectedProduct === "all" || app.productValue === selectedProduct;
+      const matchStatus = selectedStatus === "all" || app.statusValue === selectedStatus;
+      const matchAgent = selectedAgent === "" || app.agent.toLowerCase().includes(selectedAgent.toLowerCase());
+      return matchClient && matchProduct && matchStatus && matchAgent;
+    })
+    .slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   const resetFilters = () => {
     setSearchClient("");
@@ -87,13 +83,10 @@ const [, setDocsOpen] = useState(false);
 
   return (
     <div className="p-6 md:p-10">
-
-
       <h1 className="text-3xl font-bold mb-6">Sales Dashboard</h1>
 
       {/* --- Filters --- */}
       <div className="grid md:grid-cols-4 gap-5 mb-6">
-        
         {/* Client */}
         <div className="flex flex-col gap-1">
           <label className="text-sm font-semibold">Client</label>
@@ -160,20 +153,24 @@ const [, setDocsOpen] = useState(false);
       {/* --- Table --- */}
       <div className="overflow-x-auto border rounded-xl shadow-sm">
         <table className="w-full text-left">
-         <thead className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
-  <tr>
-    <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">ID</th>
-    <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Client</th>
-    <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Produs</th>
-    <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Sumă</th>
-    <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Status</th>
-    <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Acțiuni</th>
-  </tr>
-</thead>
+          <thead className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
+            <tr>
+              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">ID</th>
+              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Client</th>
+              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Produs</th>
+              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Sumă</th>
+              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Status</th>
+              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Acțiuni</th>
+            </tr>
+          </thead>
 
           <tbody>
             {filteredData.map((app) => (
-              <tr key={app.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+              <tr
+                key={app.id}
+                onClick={() => openView(app)}
+                className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
+              >
                 <td className="px-4 py-3">{app.id}</td>
                 <td className="px-4 py-3">{app.client}</td>
                 <td className="px-4 py-3">{app.product}</td>
@@ -181,62 +178,56 @@ const [, setDocsOpen] = useState(false);
                 <td className="px-4 py-3">
                   <SalesStatusBadge status={app.status} />
                 </td>
-                <td className="px-4 py-3 flex gap-3">
+                <td className="px-4 py-3">
+                  <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={() => openView(app)}
+                      className="px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    >
+                      View
+                    </button>
 
-                  <button
-                    onClick={() => openView(app)}
-                    className="px-4 py-1 bg-blue-600 text-white rounded-lg"
-                  >
-                    View
-                  </button>
-
-
-                  {/* DOCS */}
-                  <button
-                    onClick={() => openDocs(app)}
-                    className="px-4 py-1 bg-blue-600 text-white rounded-lg"
-                  >
-                    Docs
-                  </button>
-
+                    {/* DOCS */}
+                    <button
+                      onClick={() => openDocs(app)}
+                      className="px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    >
+                      Docs
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        
       </div>
 
       {/* PAGINATION */}
-{totalPages > 1 && (
-  <div className="flex justify-center gap-3 p-4">
-    <button
-      disabled={page === 1}
-      onClick={() => setPage(page - 1)}
-      className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg disabled:opacity-40"
-    >
-      Prev
-    </button>
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-3 p-4">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+            className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg disabled:opacity-40"
+          >
+            Prev
+          </button>
 
-    <button
-      disabled={page === totalPages}
-      onClick={() => setPage(page + 1)}
-      className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg disabled:opacity-40"
-    >
-      Next
-    </button>
-  </div>
-)}
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+            className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       {/* --- Modals --- */}
       <PDFModal pdfUrl={pdfUrl} onClose={closePdf} />
 
-      <DocsModal 
-        app={selectedApp}
-        onClose={closeDocs}
-      />
+      <DocsModal app={selectedApp} onClose={closeDocs} />
       <ViewModal app={viewApp} open={viewOpen} onClose={closeView} />
-
     </div>
   );
 }

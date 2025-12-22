@@ -26,22 +26,24 @@ export default function DecisionPage() {
   };
 
   return (
-    <div className="p-8 min-h-screen bg-gray-50/50 flex flex-col items-center space-y-8">
+    <div className="p-8 min-h-screen bg-gray-50/50 flex flex-col items-center space-y-8 dark:bg-slate-950">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-blue-700 tracking-tight">
+        <h1 className="text-3xl font-bold text-blue-700 tracking-tight dark:text-blue-400">
           Decision Engine
         </h1>
       </div>
 
       {/* Zona de Control */}
       {!result && (
-        <Card className="p-8 w-full max-w-md flex flex-col items-center text-center space-y-4 shadow-sm">
-          <div className="bg-blue-100 p-4 rounded-full text-blue-600 mb-2">
+        <Card className="p-8 w-full max-w-md flex flex-col items-center text-center space-y-4 shadow-sm dark:bg-slate-900 dark:border-slate-800">
+          <div className="bg-blue-100 p-4 rounded-full text-blue-600 mb-2 dark:bg-blue-900/30 dark:text-blue-400">
             <Play size={32} />
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Pregătit pentru analiză</h3>
-            <p className="text-sm text-gray-500 mt-1">
+            <h3 className="text-lg font-semibold dark:text-white">
+              Pregătit pentru analiză
+            </h3>
+            <p className="text-sm text-gray-500 mt-1 dark:text-gray-400">
               Apăsați butonul de mai jos pentru a trimite datele{" "}
               <code>POST/scoring/run</code>
             </p>

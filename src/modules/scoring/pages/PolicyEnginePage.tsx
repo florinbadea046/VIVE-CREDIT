@@ -122,8 +122,10 @@ export const PolicyEnginePage: React.FC = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Policy Engine</h1>
-            <p className="text-gray-500 mt-1">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+              Policy Engine
+            </h1>
+            <p className="text-gray-500 mt-1 dark:text-gray-400">
               Configurare și monitorizare reguli de aprobare
             </p>
           </div>
@@ -137,15 +139,15 @@ export const PolicyEnginePage: React.FC = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-xl mb-6 w-fit">
+        <div className="flex gap-1 bg-gray-100 p-1 rounded-xl mb-6 w-fit dark:bg-slate-800">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
                 activeTab === tab.id
-                  ? "bg-white text-[#2e57e1] shadow-sm"
-                  : "text-gray-600 hover:text-gray-800"
+                  ? "bg-white text-[#2e57e1] shadow-sm dark:bg-slate-700 dark:text-blue-400" // Activ
+                  : "text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200" // Inactiv
               }`}
             >
               {tab.icon}
@@ -176,7 +178,7 @@ export const PolicyEnginePage: React.FC = () => {
                   ))}
 
                 {rules.length === 0 && (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                     Nu există reguli configurate
                   </div>
                 )}

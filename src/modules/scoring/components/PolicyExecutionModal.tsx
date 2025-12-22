@@ -55,7 +55,7 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden dark:bg-slate-900">
         {/* Header */}
         <div className="bg-[#2e57e1] px-6 py-4 flex items-center justify-between">
           <h2 className="text-white font-semibold text-lg">
@@ -75,10 +75,10 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
           {/* Initial state - before execution */}
           {!hasStarted && (
             <div className="text-center py-8">
-              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-blue-900/20">
                 <Play className="w-8 h-8 text-[#2e57e1]" />
               </div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-6 dark:text-gray-300">
                 Se vor executa {activeRules.length} reguli în ordine
               </p>
               <button
@@ -95,11 +95,11 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
             <>
               {/* Progress bar */}
               <div className="mb-6">
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
+                <div className="flex justify-between text-sm text-gray-600 mb-2 dark:text-gray-300">
                   <span>Progres verificare</span>
                   <span>{Math.round(progress)}%</span>
                 </div>
-                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-2 bg-gray-100 rounded-full overflow-hidden dark:bg-slate-800">
                   <div
                     className="h-full bg-[#2e57e1] transition-all duration-500 rounded-full"
                     style={{ width: `${progress}%` }}
@@ -121,7 +121,7 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
                   return (
                     <div
                       key={rule.id}
-                      className={`p-4 rounded-xl border transition-all ${getStatusBgClass(
+                      className={`p-4 rounded-xl border transition-all dark:border-slate-800 ${getStatusBgClass(
                         status
                       )}`}
                     >
@@ -129,18 +129,18 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
                         <div
                           className={`p-2 rounded-lg ${
                             status === "PENDING" // Replace with the actual string value for PENDING
-                              ? "bg-gray-100"
-                              : "bg-white"
+                              ? "bg-gray-100 dark:bg-slate-800"
+                              : "bg-white dark:bg-slate-700"
                           }`}
                         >
                           {getRuleIcon(rule.type)}
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-gray-800">
+                          <p className="font-medium text-gray-800 dark:text-white">
                             {rule.name}
                           </p>
                           {result && (
-                            <p className="text-sm text-gray-500 mt-0.5">
+                            <p className="text-sm text-gray-500 mt-0.5 dark:text-gray-400">
                               {result.message}
                             </p>
                           )}
@@ -156,7 +156,9 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
               {overallStatus && (
                 <div
                   className={`mt-6 p-4 rounded-xl ${
-                    overallStatus === "PASSED" ? "bg-green-50" : "bg-red-50"
+                    overallStatus === "PASSED"
+                      ? "bg-green-50 dark:bg-green-900/20"
+                      : "bg-red-50 dark:bg-red-900/20"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -168,8 +170,8 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
                     <span
                       className={`font-medium ${
                         overallStatus === "PASSED"
-                          ? "text-green-700"
-                          : "text-red-700"
+                          ? "text-green-700 dark:text-green-400"
+                          : "text-red-700 dark:text-red-400"
                       }`}
                     >
                       {overallStatus === "PASSED"
@@ -185,7 +187,7 @@ export const PolicyExecutionModal: React.FC<PolicyExecutionModalProps> = ({
                 <div className="mt-6 flex gap-3">
                   <button
                     onClick={onReset}
-                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-gray-600 font-medium hover:bg-gray-50 transition-colors dark:border-slate-700 dark:text-gray-300 dark:hover:bg-slate-800"
                   >
                     Resetează
                   </button>

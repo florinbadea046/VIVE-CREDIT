@@ -340,7 +340,7 @@ export default function OnboardingPage() {
           px-6 py-2 rounded-md w-full
         "
                   >
-                    Trimite cererea
+                    Finalizează aplicația
                   </button>
                 </div>
               </div>
