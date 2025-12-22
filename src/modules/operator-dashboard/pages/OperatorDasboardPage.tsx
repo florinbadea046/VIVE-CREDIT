@@ -8,6 +8,7 @@ interface PieItem {
   label: string;
   value: number;
   color: string;
+  [key: string]: string | number;
 }
 
 export default function OperatorDashboardPage() {
@@ -106,7 +107,7 @@ export default function OperatorDashboardPage() {
       </div>
 
       {/* MAIN */}
-      <div className="flex flex-col lg:flex-row gap-10">
+      <div className="flex flex-col lg:flex-row gap-10 min-w-0">
         {/* KPI */}
         <div className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-5">
           {kpiCards.map((card, i) => (
@@ -115,11 +116,11 @@ export default function OperatorDashboardPage() {
         </div>
 
         {/* PIE CARD */}
-        <div className="w-full lg:w-[45%] bg-white dark:bg-gray-800 rounded-2xl p-6 border shadow-sm">
+        <div className="w-full lg:w-[45%] bg-white dark:bg-gray-800 rounded-2xl p-6 border shadow-sm min-w-0">
           <div className="flex flex-col items-center gap-6">
             {/* CHART */}
-            <div className="relative w-full h-[260px] sm:h-[300px]">
-              <ResponsiveContainer>
+            <div className="relative w-full">
+              <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
                     data={pieData}

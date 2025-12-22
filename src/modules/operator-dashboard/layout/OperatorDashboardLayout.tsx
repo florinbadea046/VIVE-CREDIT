@@ -34,7 +34,7 @@ export default function OperatorDashboardLayout() {
     "flex items-center gap-3 px-3 py-2 rounded-lg transition font-medium";
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 left-0 w-full bg-white dark:bg-gray-800 shadow-sm z-30 p-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400">
@@ -209,7 +209,7 @@ export default function OperatorDashboardLayout() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 ml-0  h-screen overflow-auto px-4 pt-20 md:px-8 md:pt-8 dark:bg-gray-900 dark:text-gray-100">
+      <main className="flex-1 min-w-0 min-h-0 overflow-auto px-4 pt-20 md:px-8 md:pt-8 dark:bg-gray-900 dark:text-gray-100">
         <Outlet />
       </main>
     </div>
