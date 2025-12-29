@@ -18,6 +18,7 @@ function App() {
       <CookieBanner />
       <Toaster />
       <AppRoutes />
+      <Scadentar />
     </>
   );
 }

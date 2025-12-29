@@ -30,6 +30,8 @@ import SuccessPage from "@/modules/onboarding/pages/SuccessPage";
 /* Dashboard Client */
 import ClientHomePage from "@/modules/dashboard/pages/ClientHomePage";
 import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
+import HelpPage from "@/modules/dashboard/pages/HelpPage";
+import UploadDocumentPage from "@/modules/dashboard/pages/UploadDocumentPage";
 import DocumentsPage from "@/modules/dashboard/pages/DocumentsPage";
 import HelpPage from "@/modules/dashboard/pages/HelpPage";
 import LoanPage from "@/modules/dashboard/pages/LoanPage";
