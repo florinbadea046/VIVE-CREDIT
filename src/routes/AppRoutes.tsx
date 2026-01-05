@@ -59,6 +59,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import AdminHomePage from "@/modules/admin/pages/AdminHomePage";
 import UsersPage from "@/modules/admin/pages/UsersPage";
 import RequestLoanPage from "@/modules/applications/pages/RequestLoanPage";
+import SettingsPage from "@/modules/admin/pages/SettingsPage";
 import AdminLoginPage from "@/modules/auth/pages/AdminLoginPage";
 
 const AppRoutes = () => {
@@ -75,6 +76,8 @@ const AppRoutes = () => {
         <Route path='/privacy' element={<PrivacyPage />} />
         <Route path='/anpc' element={<AnpcPage />} />
         <Route path='/cookies' element={<CookiePolicyPage />} />
+        <Route path='/admin/settings' element={<SettingsPage />} />
+
       </Route>
 
       {/* AUTH ENTRY */}
