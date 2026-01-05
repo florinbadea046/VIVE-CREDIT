@@ -56,6 +56,7 @@ import { ScorecardEngine } from "@/modules/scoring/pages/ScorecardEngine";
 /* Protected route */
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RequestLoanPage from "@/modules/applications/pages/RequestLoanPage";
+import SettingsPage from "@/modules/admin/pages/SettingsPage";
 
 const AppRoutes = () => {
   return (
@@ -71,6 +72,8 @@ const AppRoutes = () => {
         <Route path='/privacy' element={<PrivacyPage />} />
         <Route path='/anpc' element={<AnpcPage />} />
         <Route path='/cookies' element={<CookiePolicyPage />} />
+        <Route path='/admin/settings' element={<SettingsPage />} />
+
       </Route>
 
       {/* AUTH ENTRY */}
