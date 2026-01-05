@@ -78,6 +78,8 @@ const AppRoutes = () => {
         <Route path='/cookies' element={<CookiePolicyPage />} />
         <Route path='/admin/settings' element={<SettingsPage />} />
 
+        <Route path='/admin/settings' element={<SettingsPage />} />
+
       </Route>
 
       {/* AUTH ENTRY */}
