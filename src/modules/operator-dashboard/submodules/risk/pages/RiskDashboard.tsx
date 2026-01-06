@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import RiskFiltersBar from "../components/RiskFiltersBar";
 import RiskDetailsModal from "../components/RiskDetailsModal";
 import RiskKpiCards from "../components/RiskKpiCards";
-import { mockDB } from "@/modules/operator-dashboard/data/mockDB";
+
 import ApplicationTable, {
   type Column,
 } from "../../../components/ui/ApplicationTable";
@@ -13,56 +13,17 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { reasonCodeMap } from "../constants/reasoneCodeMap";
-import type { RiskApplication } from "../types";
+
+import type { Application } from "@/modules/operator-dashboard/types/Application";
+import { StatusBadge } from "@/modules/operator-dashboard/components/ui/StatusBadge";
+import { useApplications } from "@/modules/operator-dashboard/hooks/ApplicationsContext";
 
 export default function RiskDashboard() {
-  const [applications, setApplications] = useState<RiskApplication[]>(
-    mockDB.riskApplications
-  );
+  const { applications, updateStatus, addNote, requestDocuments } =
+    useApplications();
+
   const [filters, setFilters] = useState({ status: "", search: "" });
-  const [selectedApp, setSelectedApp] = useState<RiskApplication | null>(null);
-
-  const updateStatus = (id: string, newStatus: string) => {
-    setApplications((prev) =>
-      prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app))
-    );
-  };
-
-  const handleAddNote = (id: string, text: string) => {
-    setApplications((prev) =>
-      prev.map((app) =>
-        app.id === id
-          ? {
-              ...app,
-              notes: [
-                ...(app.notes ?? []),
-                { text, time: new Date().toISOString() },
-              ],
-            }
-          : app
-      )
-    );
-  };
-
-  const handleRequestDocs = (id: string, docs: string[], custom: string) => {
-    setApplications((prev) =>
-      prev.map((app) =>
-        app.id === id
-          ? {
-              ...app,
-              requestedDocuments: [
-                ...(app.requestedDocuments ?? []),
-                ...docs,
-                ...(custom ? [custom] : []),
-              ],
-              status: "documents_requested",
-            }
-          : app
-      )
-    );
-  };
-
-  const handleSendToAML = (id: string) => updateStatus(id, "aml_review");
+  const [selectedApp, setSelectedApp] = useState<Application | null>(null);
 
   const filteredApplications = useMemo(() => {
     return applications.filter((app) => {
@@ -74,7 +35,7 @@ export default function RiskDashboard() {
     });
   }, [applications, filters]);
 
-  const columns: Column<RiskApplication>[] = [
+  const columns: Column<Application>[] = [
     {
       key: "id",
       label: "ID",
@@ -112,28 +73,7 @@ export default function RiskDashboard() {
       label: "Status",
       className: "min-w-[100px]",
       render: (app) => {
-        const styleMap: Record<string, string> = {
-          approved: "text-green-700 bg-green-100",
-          rejected: "text-red-700 bg-red-100",
-          manual_review: "text-yellow-700 bg-yellow-100",
-          documents_requested: "text-indigo-700 bg-indigo-100",
-          aml_review: "text-purple-700 bg-purple-100",
-          pending: "text-blue-700 bg-blue-100",
-        };
-        const formatStatus = (s: string) =>
-          s
-            .split("_")
-            .map((w) => w[0].toUpperCase() + w.slice(1))
-            .join(" ");
-        return (
-          <span
-            className={`px-2 py-1 text-xs rounded-lg font-medium ${
-              styleMap[app.status]
-            }`}
-          >
-            {formatStatus(app.status)}
-          </span>
-        );
+        return <StatusBadge status={app.status} />;
       },
     },
     {
@@ -227,14 +167,14 @@ export default function RiskDashboard() {
             setSelectedApp(null);
           }}
           onRequestDocs={(id, docs, custom) => {
-            handleRequestDocs(id, docs, custom);
+            requestDocuments(id, docs, custom || "");
             setSelectedApp(null);
           }}
           onSendToAML={(id) => {
-            handleSendToAML(id);
+            updateStatus(id, "aml_review");
             setSelectedApp(null);
           }}
-          onAddNote={(id, text) => handleAddNote(id, text)}
+          onAddNote={(id, text) => addNote(id, text)}
         />
       )}
     </div>

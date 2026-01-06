@@ -6,6 +6,7 @@ import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import toast from "react-hot-toast";
 import type { RiskApplication } from "../types";
+import { formatStatus } from "@/modules/operator-dashboard/utils/formatters";
 
 interface Props {
   application: RiskApplication;
@@ -74,7 +75,7 @@ export default function RiskDetailsModal({
               <strong>Nume:</strong> {application.client}
             </p>
             <p>
-              <strong>Status:</strong> {application.status.replace("_", " ")}
+              <strong>Status:</strong> {formatStatus(application.status)}
             </p>
             <p>
               <strong>Email:</strong> client@exemplu.com
