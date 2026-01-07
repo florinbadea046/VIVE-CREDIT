@@ -1,8 +1,9 @@
 import { AlertTriangle, CheckCircle, Clock, XCircle } from "lucide-react";
-import { mockDB } from "../data/mockDB";
+
 import UiCard from "../components/ui/UiCard";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useNavigate } from "react-router-dom";
+import { useApplications } from "../hooks/ApplicationsContext";
 
 interface PieItem {
   label: string;
@@ -12,8 +13,7 @@ interface PieItem {
 }
 
 export default function OperatorDashboardPage() {
-  const applications = mockDB;
-
+  const { applications } = useApplications();
   const total = applications.length;
   const approved = applications.filter((a) => a.status === "approved").length;
   const rejected = applications.filter((a) => a.status === "rejected").length;
