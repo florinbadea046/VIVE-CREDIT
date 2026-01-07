@@ -4,6 +4,7 @@ import UiCard from "../components/ui/UiCard";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { useApplications } from "../hooks/ApplicationsContext";
+import { PENDING_STATUSES } from "../constants/applicationStatus";
 
 interface PieItem {
   label: string;
@@ -17,8 +18,9 @@ export default function OperatorDashboardPage() {
   const total = applications.length;
   const approved = applications.filter((a) => a.status === "approved").length;
   const rejected = applications.filter((a) => a.status === "rejected").length;
-  const pending = applications.filter(
-    (a) => a.status === "pending" || a.status === "manual_review"
+
+  const pending = applications.filter((a) =>
+    PENDING_STATUSES.includes(a.status)
   ).length;
 
   const approvedPercent = total ? Math.round((approved / total) * 100) : 0;
@@ -55,7 +57,7 @@ export default function OperatorDashboardPage() {
       onClick: () => navigate("/operator/applications?status=rejected"),
     },
     {
-      label: "În așteptare",
+      label: "În așteptare ",
       value: pending,
       icon: <Clock />,
       onClick: () => navigate("/operator/applications?status=pending"),

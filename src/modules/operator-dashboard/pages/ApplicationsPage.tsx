@@ -9,6 +9,7 @@ import type { Application, ApplicationStatus } from "../types/Application";
 import { formatStatus } from "../utils/formatters";
 import { StatusBadge } from "../components/ui/StatusBadge";
 import { useApplications } from "../hooks/ApplicationsContext";
+import { PENDING_STATUSES } from "../constants/applicationStatus";
 
 type Mode = "view" | "edit" | null;
 
@@ -35,7 +36,7 @@ export default function ApplicationsPage() {
       ? applications
       : applications.filter((a) => {
           if (statusQuery === "pending") {
-            return a.status === "pending" || a.status === "manual_review";
+            return PENDING_STATUSES.includes(a.status);
           }
           return a.status === statusQuery;
         });
