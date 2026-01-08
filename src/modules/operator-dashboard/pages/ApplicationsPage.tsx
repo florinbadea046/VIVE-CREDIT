@@ -1,15 +1,16 @@
-import { useLocation } from "react-router-dom";
 import { useState } from "react";
-
-import ApplicationTable from "../components/ui/ApplicationTable";
-import Modal from "../components/ui/Modal";
+import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import type { Application, ApplicationStatus } from "../types/Application";
-import { formatStatus } from "../utils/formatters";
+import ApplicationTable, {
+  type Column,
+} from "../components/ui/ApplicationTable";
+import Modal from "../components/ui/Modal";
 import { StatusBadge } from "../components/ui/StatusBadge";
 import { useApplications } from "../hooks/ApplicationsContext";
 import { PENDING_STATUSES } from "../constants/applicationStatus";
+import type { Application, ApplicationStatus } from "../types/Application";
+import { formatStatus } from "../utils/formatters";
 
 type Mode = "view" | "edit" | null;
 
@@ -22,7 +23,6 @@ const EDITABLE_STATUS_OPTIONS: ApplicationStatus[] = [
 
 export default function ApplicationsPage() {
   const { applications, updateApplicationFields } = useApplications();
-
   const [selected, setSelected] = useState<Application | null>(null);
   const [mode, setMode] = useState<Mode>(null);
 
@@ -30,18 +30,17 @@ export default function ApplicationsPage() {
   const params = new URLSearchParams(location.search);
   const statusQuery = params.get("status") || "all";
 
-  /* ---------------- FILTER ---------------- */
+  // --------------- FILTER ---------------
   const filteredApplications =
     statusQuery === "all"
       ? applications
       : applications.filter((a) => {
-          if (statusQuery === "pending") {
+          if (statusQuery === "pending")
             return PENDING_STATUSES.includes(a.status);
-          }
           return a.status === statusQuery;
         });
 
-  /* ---------------- TITLE ---------------- */
+  // --------------- TITLE ---------------
   const titleMap: Record<string, string> = {
     all: "Toate aplicațiile",
     approved: "Aplicațiile aprobate",
@@ -52,7 +51,99 @@ export default function ApplicationsPage() {
     aml_review: "AML review",
   };
 
-  /* ---------------- SAVE ---------------- */
+  // --------------- COLUMNS ---------------
+  const columns: Column<Application>[] = [
+    { key: "id", label: "ID", width: "120px" },
+    { key: "client", label: "Client", width: "200px" },
+    {
+      key: "income",
+      label: "Venit",
+      width: "150px",
+      align: "left",
+      render: (app) =>
+        app.income ? `${app.income.amount.toLocaleString()} RON` : "-",
+    },
+    {
+      key: "creditAmount",
+      label: "Suma credit",
+      width: "150px",
+      align: "left",
+      render: (app) => `${app.creditAmount.toLocaleString()} RON`,
+    },
+    {
+      key: "status",
+      label: "Status",
+      width: "150px",
+      align: "left",
+      render: (app) => <StatusBadge status={app.status} />,
+    },
+    {
+      key: "collectionsStatus",
+      label: "Collections",
+      width: "150px",
+      align: "center",
+      render: (app) => {
+        switch (app.collectionsStatus) {
+          case "current":
+            return (
+              <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">
+                La zi
+              </span>
+            );
+          case "overdue":
+            return (
+              <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium">
+                Restant
+              </span>
+            );
+          case "defaulted":
+            return (
+              <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium">
+                Impagat
+              </span>
+            );
+          default:
+            return (
+              <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium">
+                N/A
+              </span>
+            );
+        }
+      },
+    },
+    {
+      key: "actions",
+      label: "Actions",
+      width: "150px",
+      align: "center",
+      render: (app) => (
+        <div className="flex gap-2">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelected(app);
+              setMode("view");
+            }}
+            className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+          >
+            View
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelected(app);
+              setMode("edit");
+            }}
+            className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Edit
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  // --------------- SAVE ---------------
   const handleSave = () => {
     if (!selected) return;
     updateApplicationFields(selected.id, selected);
@@ -61,17 +152,15 @@ export default function ApplicationsPage() {
     toast.success("Modificările au fost salvate cu succes!");
   };
 
-  /* ---------------- RENDER ---------------- */
   return (
     <div className="w-full max-w-7xl mx-auto p-6 flex flex-col gap-6">
-      {/* TITLE */}
       <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
         {titleMap[statusQuery] ?? "Aplicații"}
       </h1>
 
-      {/* TABLE */}
       <ApplicationTable<Application>
         data={filteredApplications}
+        columns={columns}
         pageSize={10}
         selectedRow={selected}
         getRowId={(app) => app.id}
@@ -79,62 +168,6 @@ export default function ApplicationsPage() {
           setSelected(app);
           setMode("view");
         }}
-        columns={[
-          { key: "id", label: "ID", width: "150px" },
-          { key: "client", label: "Client", width: "250px" },
-          {
-            key: "income",
-            label: "Venit",
-            width: "150px",
-            align: "left",
-            render: (app) =>
-              app.income ? `${app.income.amount.toLocaleString()} RON` : "-",
-          },
-          {
-            key: "creditAmount",
-            label: "Suma credit",
-            width: "150px",
-            align: "left",
-            render: (app) => `${app.creditAmount.toLocaleString()} RON`,
-          },
-          {
-            key: "status",
-            label: "Status",
-            width: "160px",
-            align: "left",
-            render: (app) => <StatusBadge status={app.status} />,
-          },
-          {
-            key: "actions",
-            label: "Actions",
-            width: "120px",
-            align: "center",
-            render: (app) => (
-              <div className="flex gap-4 flex-start">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelected(app);
-                    setMode("view");
-                  }}
-                  className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  View
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelected(app);
-                    setMode("edit");
-                  }}
-                  className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  Edit
-                </button>
-              </div>
-            ),
-          },
-        ]}
       />
 
       {/* VIEW MODAL */}
@@ -148,13 +181,10 @@ export default function ApplicationsPage() {
       >
         {selected && (
           <div className="space-y-6 text-sm text-gray-700 dark:text-gray-200">
-            {/* ID, Client, Status, Score */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <span className="font-medium">ID</span>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {selected.id}
-                </p>
+                <p>{selected.id}</p>
               </div>
               <div>
                 <span className="font-medium">Client</span>
@@ -162,10 +192,34 @@ export default function ApplicationsPage() {
               </div>
               <div className="inline-flex items-center gap-2">
                 <span className="font-medium">Status</span>
-                <StatusBadge
-                  status={selected.status}
-                  className="font-semibold"
-                />
+                <StatusBadge status={selected.status} />
+              </div>
+              <div className="border-t pt-4">
+                <h3 className="font-semibold mb-2">Stare plată</h3>
+                <p>
+                  Status:
+                  {selected.collectionsStatus === "current" && (
+                    <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      La zi
+                    </span>
+                  )}
+                  {selected.collectionsStatus === "overdue" && (
+                    <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      Restant
+                    </span>
+                  )}
+                  {selected.collectionsStatus === "defaulted" && (
+                    <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      Impagat
+                    </span>
+                  )}
+                  {!selected.collectionsStatus ||
+                  selected.collectionsStatus === "none" ? (
+                    <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      N/A
+                    </span>
+                  ) : null}
+                </p>
               </div>
               <div>
                 <span className="font-medium">Scor</span>
@@ -202,9 +256,6 @@ export default function ApplicationsPage() {
                 </div>
               </div>
             )}
-
-            {/* Other sections like KYC, reasonCodes, documents, notes */}
-            {/* ... păstrează codul existent */}
           </div>
         )}
       </Modal>
@@ -253,18 +304,12 @@ export default function ApplicationsPage() {
                   selected.status === "approved" ||
                   selected.status === "rejected"
                 }
-                className={`w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 ${
-                  selected.status === "approved" ||
-                  selected.status === "rejected"
-                    ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400"
-                    : ""
-                }`}
+                className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
             {/* Income */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {/* Amount */}
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
                   Venit
@@ -273,58 +318,41 @@ export default function ApplicationsPage() {
                   type="number"
                   value={selected.income?.amount ?? 0}
                   onChange={(e) =>
-                    setSelected((prev) => {
-                      if (!prev) return prev;
-                      return {
-                        ...prev,
-                        income: {
-                          amount: Number(e.target.value),
-                          employer: prev.income?.employer ?? "",
-                          contractType: prev.income?.contractType ?? "",
-                          history: prev.income?.history ?? [],
-                        },
-                      };
-                    })
-                  }
-                  disabled={
-                    selected.status === "approved" ||
-                    selected.status === "rejected"
+                    setSelected((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            income: {
+                              ...prev.income,
+                              amount: Number(e.target.value),
+                            },
+                          }
+                        : prev
+                    )
                   }
                   className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 />
               </div>
 
-              {/* Employer */}
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
                   Angajator
                 </label>
                 <input
-                  type="text"
                   value={selected.income?.employer ?? ""}
                   onChange={(e) =>
                     setSelected((prev) => {
                       if (!prev) return prev;
-                      return {
-                        ...prev,
-                        income: {
-                          amount: prev.income?.amount ?? 0,
-                          employer: e.target.value,
-                          contractType: prev.income?.contractType ?? "",
-                          history: prev.income?.history ?? [],
-                        },
-                      };
+                      const income = prev.income
+                        ? { ...prev.income, employer: e.target.value }
+                        : { amount: 0, employer: e.target.value };
+                      return { ...prev, income };
                     })
-                  }
-                  disabled={
-                    selected.status === "approved" ||
-                    selected.status === "rejected"
                   }
                   className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 />
               </div>
 
-              {/* Contract type */}
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
                   Tip contract
@@ -334,20 +362,14 @@ export default function ApplicationsPage() {
                   onChange={(e) =>
                     setSelected((prev) => {
                       if (!prev) return prev;
-                      return {
-                        ...prev,
-                        income: {
-                          amount: prev.income?.amount ?? 0,
-                          employer: prev.income?.employer ?? "",
-                          contractType: e.target.value,
-                          history: prev.income?.history ?? [],
-                        },
-                      };
+                      const income = prev.income
+                        ? {
+                            ...prev.income,
+                            contractType: e.target.value,
+                          }
+                        : { ammount: 0, contractType: e.target.value };
+                      return { ...prev, income };
                     })
-                  }
-                  disabled={
-                    selected.status === "approved" ||
-                    selected.status === "rejected"
                   }
                   className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 >
@@ -377,12 +399,7 @@ export default function ApplicationsPage() {
                   selected.status === "approved" ||
                   selected.status === "rejected"
                 }
-                className={`w-full px-3 py-2 rounded border bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600 ${
-                  selected.status === "approved" ||
-                  selected.status === "rejected"
-                    ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
-                    : ""
-                }`}
+                className="w-full px-3 py-2 rounded border bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               >
                 {EDITABLE_STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>
@@ -390,14 +407,6 @@ export default function ApplicationsPage() {
                   </option>
                 ))}
               </select>
-              {(selected.status === "approved" ||
-                selected.status === "rejected") && (
-                <p className="text-sm text-red-500 mt-2 text-center">
-                  Aplicatia este
-                  {selected.status === "approved" ? " aprobata" : " respinsa"},
-                  nu mai pot fi facute modificari.
-                </p>
-              )}
             </div>
           </div>
         )}

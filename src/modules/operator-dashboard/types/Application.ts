@@ -6,9 +6,21 @@ export type ApplicationStatus =
   | "documents_requested"
   | "aml_review";
 
+export type CollectionsStatus = "none" | "current" | "overdue" | "defaulted";
+
 export interface Application {
   id: string;
   client: string;
+
+  contact: { email: string; phone: string };
+
+  address?: {
+    street: string;
+    city: string;
+    country?: string;
+    postalCode?: string;
+  };
+
   score?: number;
   status: ApplicationStatus;
   creditAmount: number;
@@ -18,6 +30,8 @@ export interface Application {
     sales?: boolean;
     collections?: boolean;
   };
+
+  collectionsStatus?: CollectionsStatus;
 
   reasonCodes?: string[];
 

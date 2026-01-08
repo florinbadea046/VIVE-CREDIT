@@ -42,7 +42,7 @@ import ProductSettingsPage from "@/modules/admin-products/pages/ProductSettingsP
 import OperatorDashboardLayout from "@/modules/operator-dashboard/layout/OperatorDashboardLayout";
 import ApplicationsPage from "@/modules/operator-dashboard/pages/ApplicationsPage";
 import ClientManagementPage from "@/modules/operator-dashboard/pages/ClientManagement";
-import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDasboardPage";
+import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDashboardPage";
 import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
 import ApplicationDetail from "@/modules/operator-dashboard/submodules/sales/ApplicationDetail";
 import SalesDashboard from "@/modules/operator-dashboard/submodules/sales/SalesDashboard";

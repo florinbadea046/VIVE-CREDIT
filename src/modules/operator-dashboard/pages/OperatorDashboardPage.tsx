@@ -5,6 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { useApplications } from "../hooks/ApplicationsContext";
 import { PENDING_STATUSES } from "../constants/applicationStatus";
+import { isInCollections } from "../utils/collections";
 
 interface PieItem {
   label: string;
@@ -17,8 +18,8 @@ export default function OperatorDashboardPage() {
   const { applications } = useApplications();
   const total = applications.length;
   const approved = applications.filter((a) => a.status === "approved").length;
+  const collections = applications.filter(isInCollections).length;
   const rejected = applications.filter((a) => a.status === "rejected").length;
-
   const pending = applications.filter((a) =>
     PENDING_STATUSES.includes(a.status)
   ).length;
@@ -68,6 +69,7 @@ export default function OperatorDashboardPage() {
     { label: "Aprobate", value: approved, color: "#22C55E" },
     { label: "Respinse", value: rejected, color: "#EF4444" },
     { label: "În așteptare", value: pending, color: "#EAB308" },
+    { label: "În colecții", value: collections, color: "#F43F5E" },
   ];
 
   return (
@@ -141,6 +143,10 @@ export default function OperatorDashboardPage() {
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {verdict}
             </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Aplicații în colecții:{" "}
+              <span className="font-medium">{collections}</span>
+            </p>
           </div>
         </div>
 
@@ -151,8 +157,8 @@ export default function OperatorDashboardPage() {
 
       {/* MAIN */}
       <div className="flex flex-col lg:flex-row gap-6 min-w-0">
-        {/* KPI */}
-        <div className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-5">
+        {/* KPI Cards */}
+        <div className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl-grid-cols-2 gap-5">
           {kpiCards.map((card, i) => (
             <UiCard key={i} {...card} />
           ))}
