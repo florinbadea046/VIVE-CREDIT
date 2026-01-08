@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import Modal from "../../../components/ui/Modal";
 import Button from "@/modules/operator-dashboard/components/ui/Button";
-
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import toast from "react-hot-toast";
-import type { RiskApplication } from "../types";
+import { formatStatus } from "@/modules/operator-dashboard/utils/formatters";
+import type { Application } from "@/modules/operator-dashboard/types/Application";
 
 interface Props {
-  application: RiskApplication;
+  application: Application;
   isOpen: boolean;
   onClose: () => void;
   onApprove: (id: string) => void;
@@ -74,7 +74,7 @@ export default function RiskDetailsModal({
               <strong>Nume:</strong> {application.client}
             </p>
             <p>
-              <strong>Status:</strong> {application.status.replace("_", " ")}
+              <strong>Status:</strong> {formatStatus(application.status)}
             </p>
             <p>
               <strong>Email:</strong> client@exemplu.com

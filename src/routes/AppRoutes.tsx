@@ -37,6 +37,7 @@ import LoanPage from "@/modules/dashboard/pages/LoanPage";
 import PaymentsPage from "@/modules/dashboard/pages/PaymentsPage";
 import UploadDocumentPage from "@/modules/dashboard/pages/UploadDocumentPage";
 import LoanForm from "@/pages/loan/LoanForm";
+import DecisionResultCard from "@/modules/decision-engine/components/DecisionResultCard";
 
 /* Operator Dashboard */
 import ProductSettingsPage from "@/modules/admin-products/pages/ProductSettingsPage";
@@ -55,8 +56,13 @@ import { PolicyEnginePage } from "@/modules/scoring";
 import { ScorecardEngine } from "@/modules/scoring/pages/ScorecardEngine";
 
 /* Protected route */
+import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import AdminHomePage from "@/modules/admin/pages/AdminHomePage";
+import UsersPage from "@/modules/admin/pages/UsersPage";
 import RequestLoanPage from "@/modules/applications/pages/RequestLoanPage";
+import AdminLoginPage from "@/modules/auth/pages/AdminLoginPage";
+import { ApplicationsContextProvider } from "@/modules/operator-dashboard/hooks/ApplicationsContext";
 
 const AppRoutes = () => {
   return (
@@ -203,13 +209,29 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+      {/*
+      <Route
+        path="/dashboard/decision-result"
+        element={
+          <ProtectedRoute allowedRoles={["client"]}>
+            <DecisionResultCard />
+          </ProtectedRoute>
+        }
+      />*/}
+
+      <Route
+        path="/dashboard/decision-result"
+        element={<DecisionResultCard />}
+      />
 
       {/* OPERATOR DASHBOARD */}
       <Route
         path="/operator"
         element={
           <ProtectedRoute allowedRoles={["operator"]}>
-            <OperatorDashboardLayout />
+            <ApplicationsContextProvider>
+              <OperatorDashboardLayout />
+            </ApplicationsContextProvider>
           </ProtectedRoute>
         }
       >
