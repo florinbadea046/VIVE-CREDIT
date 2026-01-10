@@ -76,9 +76,7 @@ const AppRoutes = () => {
         <Route path='/privacy' element={<PrivacyPage />} />
         <Route path='/anpc' element={<AnpcPage />} />
         <Route path='/cookies' element={<CookiePolicyPage />} />
-        <Route path='/admin/settings' element={<SettingsPage />} />
-
-        <Route path='/admin/settings' element={<SettingsPage />} />
+        
 
       </Route>
 
@@ -113,6 +111,14 @@ const AppRoutes = () => {
         element={
           <ProtectedAdminRoute>
             <UsersPage />
+          </ProtectedAdminRoute>
+        }
+      />
+      <Route
+        path='/admin/settings'
+        element={
+          <ProtectedAdminRoute>
+            <SettingsPage />
           </ProtectedAdminRoute>
         }
       />
