@@ -1,85 +1,166 @@
-import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import { mockDB } from "../data/mockDB";
-import ApplicationTable from "../components/ui/ApplicationTable";
-import Modal from "../components/ui/Modal";
-
+import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import type { RiskApplication } from "../submodules/risk/types";
+
+import ApplicationTable, {
+  type Column,
+} from "../components/ui/ApplicationTable";
+import Modal from "../components/ui/Modal";
+import { StatusBadge } from "../components/ui/StatusBadge";
+import { useApplications } from "../hooks/ApplicationsContext";
+import { PENDING_STATUSES } from "../constants/applicationStatus";
+import type { Application, ApplicationStatus } from "../types/Application";
+import { formatStatus } from "../utils/formatters";
 
 type Mode = "view" | "edit" | null;
 
-const STATUS_OPTIONS: RiskApplication["status"][] = [
+const EDITABLE_STATUS_OPTIONS: ApplicationStatus[] = [
   "pending",
-  "approved",
-  "rejected",
   "manual_review",
+  "documents_requested",
+  "aml_review",
 ];
 
 export default function ApplicationsPage() {
-  const [applications, setApplications] = useState<RiskApplication[]>(
-    mockDB.riskApplications
-  );
-  const [selected, setSelected] = useState<RiskApplication | null>(null);
+  const { applications, updateApplicationFields } = useApplications();
+  const [selected, setSelected] = useState<Application | null>(null);
   const [mode, setMode] = useState<Mode>(null);
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const statusQuery = params.get("status") || "all";
 
-  /* ---------------- FILTER ---------------- */
+  // --------------- FILTER ---------------
   const filteredApplications =
     statusQuery === "all"
       ? applications
       : applications.filter((a) => {
-          if (statusQuery === "pending") {
-            return a.status === "pending" || a.status === "manual_review";
-          }
+          if (statusQuery === "pending")
+            return PENDING_STATUSES.includes(a.status);
           return a.status === statusQuery;
         });
 
-  /* ---------------- TITLE ---------------- */
+  // --------------- TITLE ---------------
   const titleMap: Record<string, string> = {
     all: "Toate aplicațiile",
     approved: "Aplicațiile aprobate",
     rejected: "Aplicațiile respinse",
     pending: "Aplicațiile în așteptare",
     manual_review: "Aplicațiile în analiză",
+    documents_requested: "Documente solicitate",
+    aml_review: "AML review",
   };
 
-  /* ---------------- SAVE ---------------- */
+  // --------------- COLUMNS ---------------
+  const columns: Column<Application>[] = [
+    { key: "id", label: "ID", width: "120px" },
+    { key: "client", label: "Client", width: "200px" },
+    {
+      key: "income",
+      label: "Venit",
+      width: "150px",
+      align: "left",
+      render: (app) =>
+        app.income ? `${app.income.amount.toLocaleString()} RON` : "-",
+    },
+    {
+      key: "creditAmount",
+      label: "Suma credit",
+      width: "150px",
+      align: "left",
+      render: (app) => `${app.creditAmount.toLocaleString()} RON`,
+    },
+    {
+      key: "status",
+      label: "Status",
+      width: "150px",
+      align: "left",
+      render: (app) => <StatusBadge status={app.status} />,
+    },
+    {
+      key: "collectionsStatus",
+      label: "Collections",
+      width: "150px",
+      align: "center",
+      render: (app) => {
+        switch (app.collectionsStatus) {
+          case "current":
+            return (
+              <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">
+                La zi
+              </span>
+            );
+          case "overdue":
+            return (
+              <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium">
+                Restant
+              </span>
+            );
+          case "defaulted":
+            return (
+              <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium">
+                Impagat
+              </span>
+            );
+          default:
+            return (
+              <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium">
+                N/A
+              </span>
+            );
+        }
+      },
+    },
+    {
+      key: "actions",
+      label: "Actions",
+      width: "150px",
+      align: "center",
+      render: (app) => (
+        <div className="flex gap-2">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelected(app);
+              setMode("view");
+            }}
+            className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+          >
+            View
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelected(app);
+              setMode("edit");
+            }}
+            className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+          >
+            Edit
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  // --------------- SAVE ---------------
   const handleSave = () => {
     if (!selected) return;
-
-    setApplications((prev) =>
-      prev.map((app) =>
-        app.id === selected.id
-          ? {
-              ...app,
-              ...selected,
-            }
-          : app
-      )
-    );
-
+    updateApplicationFields(selected.id, selected);
     setMode(null);
     setSelected(null);
-
-    // SHOW TOAST
     toast.success("Modificările au fost salvate cu succes!");
   };
 
-  /* ---------------- RENDER ---------------- */
   return (
     <div className="w-full max-w-7xl mx-auto p-6 flex flex-col gap-6">
-      {/* TITLE */}
       <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
         {titleMap[statusQuery] ?? "Aplicații"}
       </h1>
 
-      {/* TABLE */}
-      <ApplicationTable<RiskApplication>
+      <ApplicationTable<Application>
         data={filteredApplications}
+        columns={columns}
         pageSize={10}
         selectedRow={selected}
         getRowId={(app) => app.id}
@@ -87,58 +168,6 @@ export default function ApplicationsPage() {
           setSelected(app);
           setMode("view");
         }}
-        columns={[
-          { key: "id", label: "ID", width: "150px" },
-          { key: "client", label: "Client", width: "250px" },
-          {
-            key: "income",
-            label: "Venit",
-            width: "150px",
-            align: "left",
-            render: (app) =>
-              app.income ? `${app.income.amount.toLocaleString()} RON` : "-",
-          },
-
-          {
-            key: "creditAmount",
-            label: "Suma credit",
-            width: "150px",
-            align: "left",
-            render: (app) => `${app.creditAmount.toLocaleString()} RON`,
-          },
-
-          { key: "status", label: "Status", width: "160px", align: "left" },
-          {
-            key: "actions",
-            label: "Actions",
-            width: "120px",
-            align: "center",
-            render: (app) => (
-              <div className="flex gap-4 flex-start">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelected(app);
-                    setMode("view");
-                  }}
-                  className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  View
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelected(app);
-                    setMode("edit");
-                  }}
-                  className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  Edit
-                </button>
-              </div>
-            ),
-          },
-        ]}
       />
 
       {/* VIEW MODAL */}
@@ -152,30 +181,44 @@ export default function ApplicationsPage() {
       >
         {selected && (
           <div className="space-y-6 text-sm text-gray-700 dark:text-gray-200">
-            {/* ID, Client, Status, Score */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <span className="font-medium">ID</span>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {selected.id}
-                </p>
+                <p>{selected.id}</p>
               </div>
               <div>
                 <span className="font-medium">Client</span>
-                <p> {selected.client}</p>
+                <p>{selected.client}</p>
               </div>
-              <div>
+              <div className="inline-flex items-center gap-2">
                 <span className="font-medium">Status</span>
-                <p
-                  className={`font-semibold ${
-                    selected.status === "approved"
-                      ? "text-green-600"
-                      : selected.status === "rejected"
-                      ? "text-red-600"
-                      : "text-yellow-600"
-                  }`}
-                >
-                  {selected.status}
+                <StatusBadge status={selected.status} />
+              </div>
+              <div className="border-t pt-4">
+                <h3 className="font-semibold mb-2">Stare plată</h3>
+                <p>
+                  Status:
+                  {selected.collectionsStatus === "current" && (
+                    <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      La zi
+                    </span>
+                  )}
+                  {selected.collectionsStatus === "overdue" && (
+                    <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      Restant
+                    </span>
+                  )}
+                  {selected.collectionsStatus === "defaulted" && (
+                    <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      Impagat
+                    </span>
+                  )}
+                  {!selected.collectionsStatus ||
+                  selected.collectionsStatus === "none" ? (
+                    <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
+                      N/A
+                    </span>
+                  ) : null}
                 </p>
               </div>
               <div>
@@ -213,105 +256,6 @@ export default function ApplicationsPage() {
                 </div>
               </div>
             )}
-
-            {/* KYC */}
-            {selected.kyc && (
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-2">KYC</h3>
-                <p>
-                  <span className="font-medium">Status:</span>{" "}
-                  <span className="font-semibold">{selected.kyc.status}</span>
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-2">
-                  <a
-                    className="text-blue-600 underline"
-                    href={selected.kyc.idFront}
-                    target="_blank"
-                  >
-                    ID Front
-                  </a>
-                  <a
-                    className="text-blue-600 underline"
-                    href={selected.kyc.idBack}
-                    target="_blank"
-                  >
-                    ID Back
-                  </a>
-                  <a
-                    className="text-blue-600 underline"
-                    href={selected.kyc.selfie}
-                    target="_blank"
-                  >
-                    Selfie
-                  </a>
-                </div>
-              </div>
-            )}
-
-            {/* Reason Codes */}
-            {selected.reasonCodes?.length > 0 && (
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-2">Reason Codes</h3>
-                <ul className="list-disc ml-5 space-y-1">
-                  {selected.reasonCodes.map((code) => (
-                    <li key={code}>{code}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Uploaded documents */}
-            {(selected.documents ?? []).length > 0 && (
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-2">Documente încărcate</h3>
-                <ul className="space-y-2">
-                  {(selected.documents ?? []).map((doc) => (
-                    <li key={doc.name} className="flex justify-between">
-                      <a
-                        href={doc.url}
-                        target="_blank"
-                        className="text-blue-600 underline"
-                      >
-                        {doc.name}
-                      </a>
-                      <span className="text-xs text-gray-500">
-                        {doc.uploadedAt}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {/* Requested documents */}
-            {(selected.requestedDocuments ?? []).length > 0 && (
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-2">Documente solicitate</h3>
-                <ul className="list-disc ml-5">
-                  {(selected.requestedDocuments ?? []).map((doc, i) => (
-                    <li key={i}>{doc}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* notes */}
-            {(selected.notes ?? []).length > 0 && (
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-2">Note</h3>
-                <ul className="space-y-2">
-                  {(selected.notes ?? []).map((note, i) => (
-                    <li
-                      key={i}
-                      className="bg-gray-100 dark:bg-gray-700 p-2 rounded"
-                    >
-                      <p>{note.text}</p>
-                      <span className="text-xs text-gray-500">{note.time}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         )}
       </Modal>
@@ -331,12 +275,7 @@ export default function ApplicationsPage() {
                 setMode(null);
                 setSelected(null);
               }}
-              className="
-          px-4 py-2 rounded
-          bg-gray-200 text-gray-800
-          hover:bg-gray-300
-          dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600
-        "
+              className="px-4 py-2 rounded bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
             >
               Cancel
             </button>
@@ -365,18 +304,7 @@ export default function ApplicationsPage() {
                   selected.status === "approved" ||
                   selected.status === "rejected"
                 }
-                placeholder="Client name"
-                className={`
-    w-full px-3 py-2 rounded border
-    bg-white text-gray-900
-    border-gray-300
-    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600
-    ${
-      selected.status === "approved" || selected.status === "rejected"
-        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400"
-        : ""
-    }
-  `}
+                className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
               />
             </div>
 
@@ -390,36 +318,19 @@ export default function ApplicationsPage() {
                   type="number"
                   value={selected.income?.amount ?? 0}
                   onChange={(e) =>
-                    setSelected((prev) => {
-                      if (!prev) return prev;
-                      return {
-                        ...prev,
-                        income: {
-                          ...(prev.income ?? {
-                            employer: "",
-                            contractType: "",
-                            history: [],
-                          }),
-                          amount: Number(e.target.value),
-                        },
-                      };
-                    })
+                    setSelected((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            income: {
+                              ...prev.income,
+                              amount: Number(e.target.value),
+                            },
+                          }
+                        : prev
+                    )
                   }
-                  disabled={
-                    selected.status === "approved" ||
-                    selected.status === "rejected"
-                  }
-                  className={`
-    w-full px-3 py-2 rounded border
-    bg-white text-gray-900
-    border-gray-300
-    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600
-    ${
-      selected.status === "approved" || selected.status === "rejected"
-        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400"
-        : ""
-    }
-  `}
+                  className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 />
               </div>
 
@@ -428,41 +339,20 @@ export default function ApplicationsPage() {
                   Angajator
                 </label>
                 <input
-                  type="text"
                   value={selected.income?.employer ?? ""}
                   onChange={(e) =>
                     setSelected((prev) => {
                       if (!prev) return prev;
-                      return {
-                        ...prev,
-                        income: {
-                          ...(prev.income ?? {
-                            amount: 0,
-                            contractType: "",
-                            history: [],
-                          }),
-                          employer: e.target.value,
-                        },
-                      };
+                      const income = prev.income
+                        ? { ...prev.income, employer: e.target.value }
+                        : { amount: 0, employer: e.target.value };
+                      return { ...prev, income };
                     })
                   }
-                  disabled={
-                    selected.status === "approved" ||
-                    selected.status === "rejected"
-                  }
-                  className={`
-    w-full px-3 py-2 rounded border
-    bg-white text-gray-900
-    border-gray-300
-    dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600
-    ${
-      selected.status === "approved" || selected.status === "rejected"
-        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400"
-        : ""
-    }
-  `}
+                  className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
                   Tip contract
@@ -472,29 +362,16 @@ export default function ApplicationsPage() {
                   onChange={(e) =>
                     setSelected((prev) => {
                       if (!prev) return prev;
-                      return {
-                        ...prev,
-                        income: {
-                          ...(prev.income ?? {
-                            amount: 0,
-                            employer: "",
-                            history: [],
-                          }),
-                          contractType: e.target.value,
-                        },
-                      };
+                      const income = prev.income
+                        ? {
+                            ...prev.income,
+                            contractType: e.target.value,
+                          }
+                        : { ammount: 0, contractType: e.target.value };
+                      return { ...prev, income };
                     })
                   }
-                  disabled={
-                    selected.status === "approved" ||
-                    selected.status === "rejected"
-                  }
-                  className="
-      w-full px-3 py-2 rounded border
-      bg-white text-gray-900
-      dark:bg-gray-800 dark:text-gray-100
-      border-gray-300 dark:border-gray-600
-    "
+                  className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
                 >
                   <option value="">Selectează tipul contractului</option>
                   <option value="Full-time">Full-time</option>
@@ -515,37 +392,21 @@ export default function ApplicationsPage() {
                 onChange={(e) =>
                   setSelected({
                     ...selected,
-                    status: e.target.value as RiskApplication["status"],
+                    status: e.target.value as ApplicationStatus,
                   })
                 }
                 disabled={
                   selected.status === "approved" ||
                   selected.status === "rejected"
                 }
-                className={`
-            w-full px-3 py-2 rounded border
-            bg-white text-gray-900
-            dark:bg-gray-800 dark:text-gray-100
-            border-gray-300 dark:border-gray-600 ${
-              selected.status === "approved" || selected.status === "rejected"
-                ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
-                : ""
-            }`}
+                className="w-full px-3 py-2 rounded border bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               >
-                {STATUS_OPTIONS.map((s) => (
+                {EDITABLE_STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>
-                    {s}
+                    {formatStatus(s)}
                   </option>
                 ))}
               </select>
-              {(selected.status === "approved" ||
-                selected.status === "rejected") && (
-                <p className="text-sm text-red-500 mt-2 text-center">
-                  Aplicatia este
-                  {selected.status === "approved" ? " aprobata" : " respinsa"},
-                  nu mai pot fi facute modificari.
-                </p>
-              )}
             </div>
           </div>
         )}
