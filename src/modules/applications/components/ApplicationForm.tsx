@@ -1,7 +1,6 @@
 import { addNotification } from "@/components/notifications/notifications.actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -289,9 +288,6 @@ function ApplicationForm() {
             )}
           </form>
         </CardContent>
-
-        {/* Dev tool */}
-        <DevTool control={control} />
 
         {/* butoane */}
         <CardFooter>

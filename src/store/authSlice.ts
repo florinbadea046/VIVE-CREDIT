@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
   isAuthenticated: boolean;
-  role: "client" | "operator" | "guest";
+  role: "client" | "operator" | "guest" | "admin";
 }
 
 const initialState: AuthState = {
@@ -15,7 +15,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login(state, action: PayloadAction<"client" | "operator">) {
+    login(state, action: PayloadAction<"client" | "operator" | "admin">) {
       state.isAuthenticated = true;
       state.role = action.payload;
     },

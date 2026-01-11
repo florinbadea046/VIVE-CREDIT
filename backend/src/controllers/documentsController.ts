@@ -1,20 +1,23 @@
-import { Request, Response } from 'express';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
+import { Request, Response } from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../../../public/documents');
+    const uploadDir = path.join(__dirname, "../../../public/documents");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${path.extname(file.originalname)}`);
-  }
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      `${file.fieldname}-${uniqueSuffix}${path.extname(file.originalname)}`
+    );
+  },
 });
 
 const upload = multer({
@@ -24,35 +27,38 @@ const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|pdf|doc|docx|xls|xlsx|txt/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const extname = allowedTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
     const mimetype = allowedTypes.test(file.mimetype);
 
     if (mimetype && extname) {
       return cb(null, true);
     } else {
-      cb(new Error('Format de fișier neacceptat'));
+      cb(new Error("Format de fișier neacceptat"));
     }
-  }
+  },
 });
 
-// simulare baza de date intr-un array 
+// simulare baza de date intr-un array
 interface DocumentRecord {
   id: string;
   applicationId: string;
-  documentType: 'idCard' | 'incomeProof' | 'other';
+  documentType: "idCard" | "passport" | "incomeProof" | "other";
   fileName: string;
   originalName: string;
   filePath: string;
   fileSize: number;
   uploadedAt: Date;
   malwareScan?: string;
+  signedUrl: string;
 }
 
-let documentStore: DocumentRecord[] = [];
-const allowedDocumentTypes = ['idCard', 'passport', 'incomeProof'];
+const documentStore: DocumentRecord[] = [];
+const allowedDocumentTypes = ["idCard", "passport", "incomeProof", "other"];
 
 export const uploadDocuments = [
-  upload.array('documents', 10),
+  upload.array("documents", 10),
   async (req: Request, res: Response) => {
     try {
       const { applicationId, documentType } = req.body;
@@ -61,14 +67,14 @@ export const uploadDocuments = [
       if (!files || files.length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'Nu au fost încărcate fișiere'
+          message: "Nu au fost încărcate fișiere",
         });
       }
 
       if (!applicationId) {
         return res.status(400).json({
           success: false,
-          message: 'applicationId este obligatoriu'
+          message: "applicationId este obligatoriu",
         });
       }
 
@@ -76,16 +82,19 @@ export const uploadDocuments = [
       if (!documentType || !allowedDocumentTypes.includes(documentType)) {
         return res.status(400).json({
           success: false,
-          message: 'Tipul de document nu este valid. Tipuri acceptate: idCard, passport, incomeProof.'
+          message:
+            "Tipul de document nu este valid. Tipuri acceptate: idCard, passport, incomeProof.",
         });
       }
 
       const uploadedDocuments: DocumentRecord[] = [];
 
       for (const file of files) {
-        const malwareScanResult = 'clean';  // <<< Simulare scanare virusi
+        const malwareScanResult = "clean"; // <<< Simulare scanare virusi
         const expires = Date.now() + 5 * 60 * 1000; // 5 minute expirare
-        const token = Buffer.from(`${file.filename}:${expires}`).toString('base64');
+        const token = Buffer.from(`${file.filename}:${expires}`).toString(
+          "base64"
+        );
 
         const signedUrl = `/documents/${file.filename}?token=${token}&expires=${expires}`;
         const documentRecord: DocumentRecord = {
@@ -96,65 +105,73 @@ export const uploadDocuments = [
           originalName: file.originalname,
           filePath: file.path,
           fileSize: file.size,
-          uploadedAt: new Date()
+          uploadedAt: new Date(),
+          signedUrl,
         };
 
         documentStore.push(documentRecord);
         uploadedDocuments.push({
           ...documentRecord,
-          malwareScan: malwareScanResult
+          malwareScan: malwareScanResult,
+          signedUrl,
         });
       }
 
       res.status(200).json({
         success: true,
-        message: 'Documentele au fost încărcate cu succes',
+        message: "Documentele au fost încărcate cu succes",
         data: {
-          documents: uploadedDocuments.map(doc => ({
+          documents: uploadedDocuments.map((doc) => ({
             id: doc.id,
             documentType: doc.documentType,
             originalName: doc.originalName,
             fileName: doc.fileName,
             fileSize: doc.fileSize,
-            uploadedAt: doc.uploadedAt
-          }))
-        }
+            uploadedAt: doc.uploadedAt,
+            malwareScan: doc.malwareScan,
+            signedUrl: doc.signedUrl,
+          })),
+        },
       });
-
     } catch (error) {
-      console.error('Eroare la încărcarea documentelor:', error);
+      console.error("Eroare la încărcarea documentelor:", error);
       res.status(500).json({
         success: false,
-        message: 'Eroare internă a serverului'
+        message: "Eroare internă a serverului",
       });
     }
-  }
+  },
 ];
 
-export const getDocumentsByApplication = async (req: Request, res: Response) => {
+export const getDocumentsByApplication = async (
+  req: Request,
+  res: Response
+) => {
   try {
     const { applicationId } = req.params;
 
-    const documents = documentStore.filter(doc => doc.applicationId === applicationId);
+    const documents = documentStore.filter(
+      (doc) => doc.applicationId === applicationId
+    );
 
     res.status(200).json({
       success: true,
       data: {
-        documents: documents.map(doc => ({
+        documents: documents.map((doc) => ({
           id: doc.id,
           documentType: doc.documentType,
           originalName: doc.originalName,
           fileSize: doc.fileSize,
           fileName: doc.fileName,
-          uploadedAt: doc.uploadedAt
-        }))
-      }
+          uploadedAt: doc.uploadedAt,
+        })),
+      },
     });
   } catch (error) {
-    console.error('Eroare la preluarea documentelor:', error);
+    console.error("Eroare la preluarea documentelor:", error);
     res.status(500).json({
       success: false,
-      message: 'Eroare internă a serverului'
+      message: "Eroare internă a serverului",
     });
   }
 };

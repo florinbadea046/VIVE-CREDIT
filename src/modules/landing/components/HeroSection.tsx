@@ -26,16 +26,6 @@ const HeroSection = () => {
             >
               Aplică acum
             </button>
-
-            <button
-              onClick={() => navigate("/login?role=operator")}
-              className="px-7 py-3 rounded-xl bg-white dark:bg-slate-800 
-                         border border-slate-300 dark:border-slate-600
-                         text-slate-700 dark:text-slate-300 
-                         hover:bg-slate-50 dark:hover:bg-slate-700 transition"
-            >
-              Autentificare
-            </button>
           </div>
 
           <div className="flex gap-6 pt-6 text-slate-600 dark:text-slate-400">
