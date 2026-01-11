@@ -97,7 +97,7 @@ export default function FormScorecardClient() {
           />
         )}
         {step === 2 && (
-          <ExpensesStep
+          <HousingStep
             data={formData}
             updateData={updateData}
             onNext={() => setStep(3)}
@@ -105,13 +105,14 @@ export default function FormScorecardClient() {
           />
         )}
         {step === 3 && (
-          <HousingStep
+          <ExpensesStep
             data={formData}
             updateData={updateData}
             onNext={() => setStep(4)}
             onBack={() => setStep(2)}
           />
         )}
+
         {step === 4 && (
           <SummaryStep data={formData} onBack={() => setStep(3)} />
         )}
