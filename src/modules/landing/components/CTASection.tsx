@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Zap } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const CTASection = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation("landing");
 
   const handleApply = () => navigate("/onboarding");
 
@@ -21,11 +23,11 @@ const CTASection = () => {
         </div>
 
         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
-          Ești pregătit să aplici pentru un credit inteligent?
+          {t("cta.title")}
         </h2>
 
         <p className="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-          Proces complet digital, verificare rapidă, fără birocrație.
+          {t("cta.subtitle")}
         </p>
 
         <button
@@ -35,12 +37,12 @@ const CTASection = () => {
                      flex items-center gap-3 mx-auto transition-all duration-200 
                      active:scale-95"
         >
-          Aplică acum
+          {t("cta.button")}
           <ArrowRight className="w-5 h-5" />
         </button>
 
         <p className="mt-6 text-sm text-slate-500 dark:text-slate-400">
-          Proces 100% digital • Fără costuri ascunse • Siguranță garantată
+          {t("cta.note")}
         </p>
       </div>
     </section>

@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "accountMenu": "Meniul contului",
+    "loggedIn": "Conectat",
+    "activeAccount": "Cont activ",
+    "clientPortal": "Acces portal client",
+    "logout": "Deconectare"
+  },
+  "language": "Selectează limba",
+  "login": "Conectare",
+  "logout": "Deconectare",
+  "register": "Creează cont",
+  "home": "Acasă",
+  "products": "Produse",
+  "about": "Despre noi",
+  "contact": "Contact",
+  "apply": "Aplică",
+  "submit": "Trimite",
+  "cancel": "Anulează",
+  "loading": "Se încarcă...",
+  "error": "A apărut o eroare",
+  "success": "Operațiune realizată cu succes",
+  "cookieBanner": {
+    "text": "Folosim cookie-uri pentru a-ți oferi o experiență optimă. Continuând, ești de acord cu",
+    "link": "Politica cookie-uri",
+    "button": "Sunt de acord"
+  }
+}

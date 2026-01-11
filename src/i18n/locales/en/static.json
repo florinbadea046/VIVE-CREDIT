@@ -1,0 +1,262 @@
+{
+  "products": {
+    "meta": {
+      "title": "Products | Vive Credit",
+      "description": "Learn more about our lending products, installment calculator, and APR."
+    },
+    "headline": "Lending Products",
+    "calculator": {
+      "title": "Loan Calculator",
+      "amountLabel": "Desired amount",
+      "periodLabel": "Period",
+      "monthsUnit": "months",
+      "results": {
+        "monthlyRate": "Estimated monthly payment",
+        "totalCost": "Total cost",
+        "dae": "Estimated APR"
+      },
+      "disclaimer": "* Automatic calculation with demo values for presentation. Actual APR may vary based on customer profile and risk assessment."
+    },
+    "feature": {
+      "title": "Fast credit, 100% online",
+      "description": "Vive Credit offers a simple, automated, and transparent process. Apply in minutes, check eligibility instantly, and receive the money the same day."
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About Us – Vive Credit",
+      "description": "Learn about Vive Credit's story and how we're transforming the NBFI industry through technology, transparency, and 100% digital processes."
+    },
+    "headline": "Technology, transparency, and trust.",
+    "headlineHighlight": "This is the future of lending.",
+    "intro": "Vive Credit was created with a simple goal: to provide a fair, fast, and completely digital financial experience. We eliminate bureaucracy, simplify processes, and put financial control in people's hands — exactly where it should be.",
+    "cards": {
+      "transparency": {
+        "title": "Total Transparency",
+        "text": "No hidden costs, no surprises. All information is clear, accurate, and easy to understand."
+      },
+      "tech": {
+        "title": "Modern Technology",
+        "text": "Smart algorithms, automated scoring, and online verifications in seconds."
+      },
+      "speed": {
+        "title": "Speed & Simplicity",
+        "text": "Fully digital process — apply in minutes, get instant decision, no unnecessary trips."
+      }
+    },
+    "mission": {
+      "title": "Our Mission",
+      "text": "We aim to redefine the NBFI industry through speed, technology, and respect for clients. We believe in a world where access to financing is simple, secure, and fair for everyone."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "text": "To become the industry standard in digitalization, risk analysis, and customer experience — delivering a modern and human lending process."
+    },
+    "evolutionTitle": "Vive Credit Evolution",
+    "evolution": [
+      {
+        "year": "2020",
+        "title": "Official Launch",
+        "text": "The first fully digital NBFI platform, built for speed and simplicity."
+      },
+      {
+        "year": "2022",
+        "title": "Automated Scoring",
+        "text": "Implementation of AI engine for real-time risk assessment."
+      },
+      {
+        "year": "2024",
+        "title": "Open Banking Integration",
+        "text": "Direct connection to bank accounts for instant verification and fully digital process."
+      }
+    ]
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact · Vive Credit",
+      "description": "Contact the Vive Credit team for questions, support, and quick solutions."
+    },
+    "headline": "Contact Us",
+    "subheadline": "We're here for you! Choose your preferred contact method.",
+    "cards": {
+      "phone": {
+        "title": "Phone",
+        "availability": "Available Monday–Friday, 09:00 – 18:00",
+        "number": "0312 345 678"
+      },
+      "email": {
+        "title": "Email",
+        "responseTime": "We respond within 24 business hours.",
+        "address": "contact@vivecredit.ro"
+      },
+      "location": {
+        "title": "Headquarters",
+        "description": "You can find us at:",
+        "address": "15 Exemplului Street, Bucharest"
+      }
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "description": "Fill out the form and we'll contact you as soon as possible.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "e.g., john.doe@email.com",
+      "emailError": "Please enter a valid email address.",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "successMessage": "Your message has been sent successfully!",
+      "submitButton": "Send Message"
+    },
+    "map": {
+      "title": "Find Us Here"
+    }
+  },
+  "terms": {
+    "meta": {
+      "title": "Terms and Conditions • Vive Credit",
+      "description": "Terms and conditions of use for the Vive Credit platform. Read the rules regarding services, contracts, and your responsibilities."
+    },
+    "headline": "Terms and Conditions",
+    "intro": "This document establishes the terms and conditions of use for the Vive Credit platform, a digital lending service offered electronically. Continued use of the platform represents your agreement to these terms.",
+    "sections": {
+      "definitions": {
+        "title": "1. Definitions",
+        "text": "\"Platform\" means the Vive Credit website and applications."
+      },
+      "eligibility": {
+        "title": "2. Eligibility",
+        "text": "To apply for a loan, the user must be at least 18 years old and provide real, complete, and up-to-date information."
+      },
+      "process": {
+        "title": "3. Lending Process",
+        "items": [
+          "100% online application",
+          "Automated scoring checks",
+          "Decision transmission via email and customer account",
+          "Electronic document signing"
+        ]
+      },
+      "responsibilities": {
+        "title": "4. User Responsibilities",
+        "items": [
+          "Provide real data",
+          "Not use the platform for fraudulent purposes",
+          "Repay the loan according to the schedule received upon approval"
+        ]
+      },
+      "liability": {
+        "title": "5. Limitation of Liability",
+        "text": "Vive Credit makes every effort for the correct operation of the platform, but cannot guarantee continuous and uninterrupted operation due to independent reasons."
+      },
+      "modifications": {
+        "title": "6. Modifications",
+        "text": "We reserve the right to modify the terms, with user notification via email or on the platform."
+      }
+    },
+    "lastUpdated": "Last updated: 2025"
+  },
+  "privacy": {
+    "meta": {
+      "title": "Privacy Policy • Vive Credit",
+      "description": "Learn how we collect, use, and protect your personal data in accordance with GDPR on the Vive Credit platform."
+    },
+    "headline": "Privacy Policy",
+    "intro": "This policy explains how Vive Credit collects, uses, and protects your personal data in accordance with Regulation (EU) 2016/679 (GDPR).",
+    "sections": {
+      "dataCollection": {
+        "title": "1. What Data We Collect",
+        "items": [
+          "Identification data (name, ID number, address)",
+          "Contact data (email, phone)",
+          "Financial data (income, employer, credit situation)",
+          "Uploaded documents (ID, certificates, statements)"
+        ]
+      },
+      "purpose": {
+        "title": "2. Purpose of Collection",
+        "text": "Processing loan applications, AML/KYC verification, scoring, contracting, and account-related communications."
+      },
+      "legalBasis": {
+        "title": "3. Legal Basis",
+        "items": [
+          "Performance of a contract",
+          "Legal obligations (AML Law 129/2019)",
+          "Legitimate interest (fraud prevention)"
+        ]
+      },
+      "retention": {
+        "title": "4. Storage Period",
+        "text": "Data is retained in accordance with financial and accounting legislation: between 5 and 10 years."
+      },
+      "rights": {
+        "title": "5. Your Rights",
+        "items": [
+          "Right of access",
+          "Right to rectification",
+          "Right to erasure",
+          "Right to object",
+          "Right to data portability"
+        ]
+      },
+      "security": {
+        "title": "6. Data Security",
+        "text": "Data is encrypted, stored in secure environments, and protected through strict anti-fraud procedures."
+      },
+      "dpo": {
+        "title": "7. DPO Contact",
+        "email": "Email: dpo@vivecredit.ro",
+        "phone": "Phone: +40 744 000 000"
+      }
+    },
+    "lastUpdated": "Last updated: 2025"
+  },
+  "cookies": {
+    "meta": {
+      "title": "Cookie Policy • Vive Credit",
+      "description": "Learn what cookies we use, how we use them, and how you can manage your preferences."
+    },
+    "headline": "Cookie Policy",
+    "intro": "The Vive Credit website uses cookies to improve user experience, for analysis, and for essential functionalities.",
+    "sections": {
+      "what": {
+        "title": "What are cookies?",
+        "text": "Cookies are small text files that are stored on your device when you visit a website."
+      },
+      "types": {
+        "title": "Types of cookies",
+        "items": ["Essential cookies", "Analytics cookies", "Marketing cookies"]
+      },
+      "manage": {
+        "title": "How can you manage cookies?",
+        "text": "You can modify browser settings or reject certain categories directly from the cookie banner."
+      }
+    }
+  },
+  "anpc": {
+    "meta": {
+      "title": "Consumer Protection & Dispute Resolution • Vive Credit",
+      "description": "Learn about the complaint resolution procedure, ANPC contact details, and alternative dispute resolution options for Vive Credit loans."
+    },
+    "headline": "Consumer Protection & Dispute Resolution",
+    "intro": "At Vive Credit, transparency and fairness are fundamental. If you have a complaint, you can submit it to us, and if you're not satisfied with our response, you have official dispute resolution mechanisms available.",
+    "sections": {
+      "complaints": {
+        "title": "1. Complaints to Vive Credit",
+        "text": "You can submit a complaint to:",
+        "email": "suport@vivecredit.ro"
+      },
+      "authority": {
+        "title": "2. National Authority for Consumer Protection",
+        "text": "If our response is not satisfactory, you can contact ANPC:",
+        "website": "Official website",
+        "phoneLabel": "InfoConsumer Phone",
+        "phone": "021 9551"
+      },
+      "sol": {
+        "title": "3. ODR – Online Dispute Resolution (EU)",
+        "text": "You can use the ODR platform to resolve disputes online with EU traders:",
+        "button": "Access ODR Platform"
+      }
+    },
+    "commitment": "We are committed to resolving any complaint within a maximum of 30 calendar days."
+  }
+}

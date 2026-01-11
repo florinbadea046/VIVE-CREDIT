@@ -10,11 +10,13 @@ import {
 } from "lucide-react";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { login } from "@/store/authSlice";
+import { useTranslation } from "react-i18next";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const ClientRegisterPage = () => {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -42,10 +44,22 @@ const ClientRegisterPage = () => {
     if (/[^A-Za-z0-9]/.test(password)) score++;
 
     if (score <= 1)
-      return { label: "Slabă", color: "bg-red-500", width: "w-1/4" };
+      return {
+        label: t("clientRegister.passwordStrength.weak"),
+        color: "bg-red-500",
+        width: "w-1/4",
+      };
     if (score === 2)
-      return { label: "Medie", color: "bg-yellow-500", width: "w-2/4" };
-    return { label: "Puternică", color: "bg-green-500", width: "w-full" };
+      return {
+        label: t("clientRegister.passwordStrength.medium"),
+        color: "bg-yellow-500",
+        width: "w-2/4",
+      };
+    return {
+      label: t("clientRegister.passwordStrength.strong"),
+      color: "bg-green-500",
+      width: "w-full",
+    };
   };
 
   const strength = getPasswordStrength();
@@ -56,14 +70,14 @@ const ClientRegisterPage = () => {
     let valid = true;
 
     if (!isValidEmail(email)) {
-      setEmailError("Introdu o adresă de email validă.");
+      setEmailError(t("clientRegister.errors.invalidEmail"));
       valid = false;
     } else {
       setEmailError("");
     }
 
     if (password.length < 8) {
-      setPasswordError("Parola trebuie să conțină minim 8 caractere.");
+      setPasswordError(t("clientRegister.errors.passwordLength"));
       valid = false;
     } else {
       setPasswordError("");
@@ -81,9 +95,7 @@ const ClientRegisterPage = () => {
       try {
         const existing = JSON.parse(existingAccountRaw) as { email?: string };
         if (existing?.email?.toLowerCase() === email.toLowerCase()) {
-          setEmailError(
-            "Există deja un cont creat cu acest email. Autentifică-te."
-          );
+          setEmailError(t("clientRegister.errors.accountExists"));
           return;
         }
       } catch {
@@ -108,22 +120,22 @@ const ClientRegisterPage = () => {
         </button>
 
         <h1 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-2">
-          Creează un cont Vive Credit
+          {t("clientRegister.title")}
         </h1>
 
         <p className="text-center text-slate-500 dark:text-slate-300 mb-2">
-          Procesul durează mai puțin de 1 minut
+          {t("clientRegister.subtitle")}
         </p>
 
         <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-8">
           <Lock size={14} />
-          Datele tale sunt protejate și criptate
+          {t("clientRegister.securityNote")}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Email
+              {t("clientRegister.form.emailLabel")}
             </label>
             <input
               type="email"
@@ -146,7 +158,7 @@ const ClientRegisterPage = () => {
 
           <div>
             <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Parolă
+              {t("clientRegister.form.passwordLabel")}
             </label>
 
             <div className="relative">
@@ -173,7 +185,7 @@ const ClientRegisterPage = () => {
                   />
                 </div>
                 <p className="text-xs mt-1 text-slate-500 dark:text-slate-400">
-                  Putere parolă:{" "}
+                  {t("clientRegister.passwordStrengthLabel")}:{" "}
                   <span className="font-medium">{strength.label}</span>
                 </p>
               </div>
@@ -186,7 +198,7 @@ const ClientRegisterPage = () => {
 
           <div>
             <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Confirmă parola
+              {t("clientRegister.form.confirmPasswordLabel")}
             </label>
 
             <div className="relative">
@@ -207,13 +219,13 @@ const ClientRegisterPage = () => {
 
             {passwordsMatch && (
               <p className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                <CheckCircle size={16} /> Parolele se potrivesc
+                <CheckCircle size={16} /> {t("clientRegister.passwordMatch")}
               </p>
             )}
 
             {passwordsMismatch && (
               <p className="flex items-center gap-1 text-sm text-red-500 mt-1">
-                <XCircle size={16} /> Parolele nu coincid
+                <XCircle size={16} /> {t("clientRegister.passwordMismatch")}
               </p>
             )}
           </div>
@@ -225,17 +237,17 @@ const ClientRegisterPage = () => {
             }
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-3 rounded-lg transition"
           >
-            Creează cont
+            {t("clientRegister.form.submitButton")}
           </button>
         </form>
 
         <p className="text-center text-sm mt-6 text-slate-500 dark:text-slate-300">
-          Ai deja cont?{" "}
+          {t("clientRegister.haveAccount")}{" "}
           <button
             onClick={() => navigate("/login/client")}
             className="text-blue-600 hover:underline"
           >
-            Autentifică-te
+            {t("clientRegister.loginLink")}
           </button>
         </p>
       </div>

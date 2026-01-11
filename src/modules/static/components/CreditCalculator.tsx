@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Calculator, CircleCheck } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const CreditCalculator = () => {
+  const { t } = useTranslation("landing");
   const [amount, setAmount] = useState(5000);
   const [months, setMonths] = useState(12);
 
@@ -32,15 +34,15 @@ const CreditCalculator = () => {
       <div className="flex items-center gap-3 mb-8">
         <Calculator className="w-7 h-7 text-blue-600 dark:text-blue-400" />
         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Calculator Credit
+          {t("calculator.title")}
         </h2>
       </div>
 
       <div className="mb-10">
         <p className="font-medium text-slate-700 dark:text-slate-300 mb-2">
-          Sumă dorită:
+          {t("calculator.amountLabel")}:
           <span className="font-bold text-blue-600 dark:text-blue-400 ml-1">
-            {amount.toLocaleString("ro-RO")} lei
+            {amount.toLocaleString("ro-RO")} {t("calculator.currency")}
           </span>
         </p>
 
@@ -57,9 +59,9 @@ const CreditCalculator = () => {
 
       <div className="mb-10">
         <p className="font-medium text-slate-700 dark:text-slate-300 mb-2">
-          Perioadă:
+          {t("calculator.periodLabel")}:
           <span className="font-bold text-blue-600 dark:text-blue-400 ml-1">
-            {months} luni
+            {months} {t("calculator.monthsUnit")}
           </span>
         </p>
 
@@ -77,25 +79,25 @@ const CreditCalculator = () => {
       <div className="grid md:grid-cols-3 gap-6 mt-10">
         <div className="p-5 rounded-xl bg-blue-50 dark:bg-slate-800 border dark:border-slate-700 shadow-sm">
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Rată lunară estimată
+            {t("calculator.results.monthlyRate")}
           </p>
           <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-            {monthlyRate.toFixed(2)} lei
+            {monthlyRate.toFixed(2)} {t("calculator.currency")}
           </p>
         </div>
 
         <div className="p-5 rounded-xl bg-blue-50 dark:bg-slate-800 border dark:border-slate-700 shadow-sm">
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Cost total credit
+            {t("calculator.results.totalCost")}
           </p>
           <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
-            {totalCost.toFixed(2)} lei
+            {totalCost.toFixed(2)} {t("calculator.currency")}
           </p>
         </div>
 
         <div className="p-5 rounded-xl bg-blue-50 dark:bg-slate-800 border dark:border-slate-700 shadow-sm">
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            DAE estimată (demo)
+            {t("calculator.results.dae")}
           </p>
           <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
             {dae}%
@@ -105,7 +107,7 @@ const CreditCalculator = () => {
 
       <div className="mt-6 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
         <CircleCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-        Exemplu informativ. Calcule reale sunt generate în contractul final.
+        {t("calculator.disclaimer")}
       </div>
     </section>
   );

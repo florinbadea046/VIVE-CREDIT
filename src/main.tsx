@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -10,6 +10,7 @@ import "./styles/tailwind.css";
 import "./styles/global.css";
 
 import App from "./App";
+import "./i18n/i18n";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -17,7 +18,13 @@ createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
         <BrowserRouter>
           <ThemeProvider>
-            <App />
+            <Suspense
+              fallback={
+                <div className="text-center mt-40 text-lg">Se încarcă...</div>
+              }
+            >
+              <App />
+            </Suspense>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>
