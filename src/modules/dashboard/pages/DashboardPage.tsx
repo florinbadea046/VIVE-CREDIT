@@ -5,6 +5,7 @@ import ApplicationStatusCard from "../components/dashboard/ApplicationStatusCard
 import LoanDetailsCard from "../components/loan/LoanDetailsCard";
 import DocumentsCard from "../components/dashboard/DocumentsCard";
 import PaymentHistoryCard from "../components/payments/PaymentHistoryCard";
+import VerificationStatusCard from "../components/VerificationStatusCard";
 
 export default function DashboardPage() {
   const data = dashboardMock;
@@ -21,6 +22,9 @@ export default function DashboardPage() {
 
         <DocumentsCard documents={data.documents} />
         <PaymentHistoryCard payments={data.payments} />
+
+        {/* Card status verificare */}
+        <VerificationStatusCard clientId={1} />
       </div>
     </DashboardLayout>
   );

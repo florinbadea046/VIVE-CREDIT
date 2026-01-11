@@ -14,7 +14,7 @@ export default function ExpensesStep({
       className="w-full max-w-md mx-auto
           shadow-lg 
           border border-blue-100 dark:border-[#1f2e44]
-          bg-white dark:bg-[#162233]
+          bg-white dark:bg-slate-800
           text-gray-900 dark:text-[#c7d5ff]"
     >
       <CardHeader>
@@ -24,63 +24,103 @@ export default function ExpensesStep({
       </CardHeader>
       <CardContent>
         <div className="mb-6 space-y-2">
-          <Label className="dark:text-[#c7d5ff]">Chirie</Label>
+          <Label className="dark:text-slate-300">Chirie</Label>
           <Input
             type="number"
             placeholder="Ex: 1000 Ron"
             value={data.expenses.rent}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (e.target.value === '') {
+                updateData({
+                  expenses: { ...data.expenses, rent: '' },
+                });
+                return;
+              }
+              if (
+                e.target.value.startsWith('0') ||
+                e.target.value.startsWith('-')
+              ) {
+                return;
+              }
               updateData({
                 expenses: { ...data.expenses, rent: +e.target.value },
-              })
-            }
-            className="bg-white dark:bg-[#0c1324]
-                  text-gray-900 dark:text-[#c7d5ff]
-                  border"
+              });
+            }}
+            className="bg-white dark:bg-slate-900
+                  text-gray-900 dark:text-white
+                  border [&::-webkit-inner-spin-button]:appearance-none
+        [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
         <div className="mb-6 space-y-2">
-          <Label>Utilități</Label>
+          <Label className="dark:text-slate-300">Utilități</Label>
           <Input
             type="number"
             placeholder="Ex: 500 Ron"
             value={data.expenses.utilities}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (e.target.value === '') {
+                updateData({
+                  expenses: { ...data.expenses, utilities: '' },
+                });
+                return;
+              }
+              if (
+                e.target.value.startsWith('0') ||
+                e.target.value.startsWith('-')
+              ) {
+                return;
+              }
               updateData({
                 expenses: { ...data.expenses, utilities: +e.target.value },
-              })
-            }
-            className="bg-white dark:bg-[#0c1324]
-                  text-gray-900 dark:text-[#c7d5ff]
-                  border"
+              });
+            }}
+            className="bg-white dark:bg-slate-900
+                  text-gray-900 dark:text-white
+                  border [&::-webkit-inner-spin-button]:appearance-none
+        [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
         <div className="mb-6 space-y-2">
-          <Label>Rate Existente</Label>
+          <Label className="dark:text-slate-300">Rate Existente</Label>
           <Input
             type="number"
             placeholder="Ex: 1100 Ron"
             value={data.expenses.existingRates}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (e.target.value === '') {
+                updateData({
+                  expenses: { ...data.expenses, existingRates: '' },
+                });
+                return;
+              }
+              if (
+                e.target.value.startsWith('0') ||
+                e.target.value.startsWith('-')
+              ) {
+                return;
+              }
               updateData({
                 expenses: { ...data.expenses, existingRates: +e.target.value },
-              })
-            }
-            className="bg-white dark:bg-[#0c1324]
-                  text-gray-900 dark:text-[#c7d5ff]
-                  border"
+              });
+            }}
+            className="bg-white dark:bg-slate-900
+                  text-gray-900 dark:text-white
+                  border [&::-webkit-inner-spin-button]:appearance-none
+        [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
         <div className="flex justify-between">
           <Button
             variant="outline"
             onClick={onBack}
-            className="px-6 dark:border-[#243247] dark:text-[#c7d5ff]"
+            className="px-6 dark:border-[#243247] dark:bg-slate-900 dark:hover:bg-slate-900/80 dark:text-slate-300"
           >
             ⬅ Înapoi
           </Button>
           <Button
             onClick={onNext}
+            disabled={!data.expenses.utilities}
             className="px-6 text-white bg-blue-600 hover:bg-blue-700"
           >
             Următorul

@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import Modal from "../../../components/ui/Modal";
 import Button from "@/modules/operator-dashboard/components/ui/Button";
-
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import toast from "react-hot-toast";
-import type { RiskApplication } from "../types";
+import { formatStatus } from "@/modules/operator-dashboard/utils/formatters";
+import type { Application } from "@/modules/operator-dashboard/types/Application";
 
 interface Props {
-  application: RiskApplication;
+  application: Application;
   isOpen: boolean;
   onClose: () => void;
   onApprove: (id: string) => void;
@@ -16,7 +16,7 @@ interface Props {
   onManualReview: (id: string) => void;
   onRequestDocs: (id: string, docs: string[], custom?: string) => void;
   onSendToAML: (id: string) => void;
-  onAddNote?: (id: string, text: string) => void;
+  // onAddNote?: (id: string, text: string) => void;
 }
 
 export default function RiskDetailsModal({
@@ -49,7 +49,38 @@ export default function RiskDetailsModal({
 
   const availableDocs = ["CI", "Venituri", "Contract muncă", "Altele"];
 
-  const standardDocs = ["CI", "Venituri", "Contract"];
+  // const standardDocs = ["CI", "Venituri", "Contract"];
+  const isFinalized =
+    application.status === "approved" || application.status === "rejected";
+
+  const renderCollectionsStatus = (status?: CollectionsStatus) => {
+    switch (status) {
+      case "current":
+        return (
+          <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">
+            La zi
+          </span>
+        );
+      case "overdue":
+        return (
+          <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium">
+            Restant
+          </span>
+        );
+      case "defaulted":
+        return (
+          <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium">
+            Impagat
+          </span>
+        );
+      default:
+        return (
+          <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium">
+            N/A
+          </span>
+        );
+    }
+  };
 
   return (
     <Modal
@@ -72,16 +103,28 @@ export default function RiskDetailsModal({
               <strong>Nume:</strong> {application.client}
             </p>
             <p>
-              <strong>Status:</strong> {application.status.replace("_", " ")}
+              <strong>Email:</strong> {application.contact.email}
             </p>
             <p>
-              <strong>Email:</strong> client@exemplu.com
+              <strong>Telefon:</strong> {application.contact.phone}
             </p>
             <p>
-              <strong>Telefon:</strong> 0722 123 456
+              <strong>Status:</strong> {formatStatus(application.status)}
             </p>
+
             <p className="sm:col-span-2">
-              <strong>Adresă:</strong> Str. Exemplu, nr.1, Timișoara
+              <strong>Adresă:</strong>{" "}
+              {application.address
+                ? `${application.address.street}, ${application.address.city}${
+                    application.address.country
+                      ? ", " + application.address.country
+                      : ""
+                  }`
+                : "-"}
+            </p>
+            <p>
+              <strong>Stare plata:</strong>
+              {renderCollectionsStatus(application.collectionsStatus)}
             </p>
           </div>
         </section>
@@ -163,7 +206,10 @@ export default function RiskDetailsModal({
                 setCustomDoc("");
                 toast(`Application ${application.id} documents requested`);
               }}
-              className="mt-2"
+              disabled={isFinalized}
+              className={`mt-2 ${
+                isFinalized ? "opacity-40 cursor-not-allowed" : ""
+              }`}
             >
               Trimite solicitare
             </Button>
@@ -173,6 +219,12 @@ export default function RiskDetailsModal({
 
       {/* Sticky action bar */}
       <div className="sticky bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-gray-200 dark:border-gray-700 p-4 flex flex-wrap items-center justify-end gap-2 z-20">
+        {isFinalized && (
+          <div className="w-full p-2 bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-100 rounded-md text-sm flex items-center gap-2">
+            ⚠️ Acțiunile nu mai sunt disponibile pentru aplicațiile aprobate sau
+            respise.
+          </div>
+        )}
         {/* Desktop buttons */}
         <div className="hidden sm:flex gap-2 justify-end flex-wrap">
           <Button
@@ -180,7 +232,10 @@ export default function RiskDetailsModal({
               onApprove(application.id);
               toast.success(`Application ${application.id} approved`);
             }}
-            className="bg-blue-600 sm:w-auto w-full"
+            disabled={isFinalized}
+            className={`bg-blue-600 sm:w-auto w-full ${
+              isFinalized ? "opacity-40 cursor-not-allowed" : ""
+            }`}
           >
             Aprobă
           </Button>
@@ -189,7 +244,10 @@ export default function RiskDetailsModal({
               onReject(application.id);
               toast.error(`Application ${application.id} rejected`);
             }}
-            className="bg-blue-600 sm:w-auto w-full"
+            disabled={isFinalized}
+            className={`bg-blue-600 sm:w-auto w-full ${
+              isFinalized ? "opacity-40 cursor-not-allowed" : ""
+            }`}
           >
             Respinge
           </Button>
@@ -201,7 +259,10 @@ export default function RiskDetailsModal({
                 icon: "📝",
               });
             }}
-            className="bg-blue-600 sm:w-auto w-full"
+            disabled={isFinalized}
+            className={`bg-blue-600 sm:w-auto w-full ${
+              isFinalized ? "opacity-40 cursor-not-allowed" : ""
+            }`}
           >
             Manual Review
           </Button>
@@ -210,7 +271,10 @@ export default function RiskDetailsModal({
               handleScrollToDocs();
               toast(`Scroll to documents section`, { icon: "📄" });
             }}
-            className="bg-blue-600 sm:w-auto w-full"
+            disabled={isFinalized}
+            className={`bg-blue-600 sm:w-auto w-full ${
+              isFinalized ? "opacity-40 cursor-not-allowed" : ""
+            }`}
           >
             Solicită Documente
           </Button>
@@ -221,7 +285,10 @@ export default function RiskDetailsModal({
                 icon: "🛡️",
               });
             }}
-            className="bg-blue-600 sm:w-auto w-full "
+            disabled={isFinalized}
+            className={`bg-blue-600 sm:w-auto w-full ${
+              isFinalized ? "opacity-40 cursor-not-allowed" : ""
+            }`}
           >
             Trimite la AML
           </Button>
@@ -241,9 +308,10 @@ export default function RiskDetailsModal({
                       onApprove(application.id);
                       toast.success(`Application ${application.id} approved`);
                     }}
+                    disabled={isFinalized}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }`}
+                    } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
                   >
                     Aproba
                   </button>
@@ -256,9 +324,10 @@ export default function RiskDetailsModal({
                       onReject(application.id);
                       toast.error(`Application ${application.id} rejected`);
                     }}
+                    disabled={isFinalized}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }`}
+                    } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
                   >
                     Respinge
                   </button>
@@ -276,9 +345,10 @@ export default function RiskDetailsModal({
                         }
                       );
                     }}
+                    disabled={isFinalized}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }`}
+                    }${isFinalized ? "opacity-40 cursor-not-allowed" : ""} `}
                   >
                     Manual Review
                   </button>
@@ -291,9 +361,10 @@ export default function RiskDetailsModal({
                       handleScrollToDocs();
                       toast(`Scroll to documents section`, { icon: "📄" });
                     }}
+                    disabled={isFinalized}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }`}
+                    }${isFinalized ? "opacity-40 cursor-not-allowed" : ""} `}
                   >
                     Solicita Documente
                   </button>
@@ -308,9 +379,10 @@ export default function RiskDetailsModal({
                         icon: "🛡️",
                       });
                     }}
+                    disabled={isFinalized}
                     className={`w-full text-left p-2 ${
                       active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }`}
+                    } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
                   >
                     Trimite in AML
                   </button>

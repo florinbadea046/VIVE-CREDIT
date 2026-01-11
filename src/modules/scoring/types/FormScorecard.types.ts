@@ -8,5 +8,5 @@ export type ScoringFormData = {
     utilities: number | '';
     existingRates: number | '';
   };
-  housingStatus: 'owner' | 'tenant' | '';
+  housingStatus: 'owner' | 'tenant' | 'cohabitant' | '';
 };

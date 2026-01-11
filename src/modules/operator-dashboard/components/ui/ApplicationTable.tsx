@@ -16,6 +16,8 @@ interface Props<T> {
   pageSize?: number;
   onRowClick?: (item: T) => void;
   noResultsText?: string;
+  selectedRow?: T | null;
+  getRowId?: (item: T) => string;
 }
 
 export default function ApplicationTable<T>({
@@ -24,6 +26,8 @@ export default function ApplicationTable<T>({
   pageSize = 10,
   onRowClick,
   noResultsText = "No data found",
+  selectedRow,
+  getRowId,
 }: Props<T>) {
   const [page, setPage] = useState(1);
 
@@ -60,51 +64,53 @@ export default function ApplicationTable<T>({
         </div>
 
         {/* ROWS */}
-        {paginated.map((item, idx) => (
-          <div
-            key={idx}
-            onClick={() => onRowClick?.(item)}
-            className="grid px-4 py-3 border-b border-gray-100 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-700 transition cursor-pointer"
-            style={{ gridTemplateColumns: gridTemplate }}
-          >
-            {columns.map((col) => {
-              if (col.key === "actions") {
+        {paginated.map((item) => {
+          const isSelected =
+            selectedRow && getRowId && getRowId(item) === getRowId(selectedRow);
+          return (
+            <div
+              key={getRowId ? getRowId(item) : (item as any).id}
+              onClick={() => onRowClick?.(item)}
+              className={`grid px-4 py-3 border-b text-sm transition
+                ${
+                  onRowClick
+                    ? "cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-700"
+                    : ""
+                }
+                ${isSelected ? "bg-blue-100 dark:bg-blue-900/40" : ""}`}
+              style={{ gridTemplateColumns: gridTemplate }}
+            >
+              {columns.map((col) => {
+                if (col.key === "actions") {
+                  return (
+                    <div
+                      key={String(col.key)}
+                      className={`flex items-center px-2 ${alignClass(
+                        col.align
+                      )} ${col.className ?? ""}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {col.render ? col.render(item) : null}
+                    </div>
+                  );
+                }
+
+                const value = item[col.key as keyof T];
+
                 return (
                   <div
                     key={String(col.key)}
-                    className={`flex items-center px-2 ${alignClass(
-                      col.align
-                    )} ${col.className ?? ""}`}
+                    className={`${alignClass(col.align)} ${
+                      col.className ?? ""
+                    } break-words`}
                   >
-                    {col.render ? col.render(item) : null}
+                    {col.render ? col.render(item) : value ?? "N/A"}
                   </div>
                 );
-              }
-
-              const value = item[col.key as keyof T];
-
-              const isTextColumn = col.align !== "right";
-
-              return (
-                <div
-                  key={String(col.key)}
-                  className={`${alignClass(col.align)} ${col.className ?? ""} ${
-                    isTextColumn ? "break-words" : "whitespace-nowrap"
-                  }`}
-                >
-                  {col.render
-                    ? col.render(item)
-                    : value !== undefined &&
-                      (typeof value === "string" ||
-                        typeof value === "number" ||
-                        typeof value === "boolean")
-                    ? String(value)
-                    : null}
-                </div>
-              );
-            })}
-          </div>
-        ))}
+              })}
+            </div>
+          );
+        })}
 
         {/* EMPTY STATE */}
         {data.length === 0 && (
