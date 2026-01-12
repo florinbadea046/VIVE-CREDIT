@@ -75,8 +75,8 @@ export default function OperatorDashboardPage() {
   return (
     <div className="w-full max-w-7xl mx-auto p-6 flex flex-col gap-5">
       {/* HEADER */}
-      <h1 className="text-2xl font-semibold tracking-tight text-blue-500 dark:text-gray-300 mb-3">
-        Dashboard Monitorizare
+      <h1 className="text-2xl font-semibold tracking-tight text-gray-700 dark:text-gray-300 mb-3">
+        Panou de monitorizare
       </h1>
 
       {/* Management Clienți Card */}

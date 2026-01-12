@@ -19,10 +19,10 @@ import { useTheme } from "@/context/ThemeContext";
 import UserBadge from "@/components/UserBadge";
 
 const navItems = [
-  { label: "Dashboard", path: ".", icon: Home },
-  { label: "Sales", path: "sales", icon: DollarSign },
-  { label: "Risk", path: "risk", icon: ShieldCheck },
-  { label: "Collections", path: "collections", icon: Users },
+  { label: "Acasǎ", path: ".", icon: Home },
+  { label: "Vânzǎri", path: "sales", icon: DollarSign },
+  { label: "Risc", path: "risk", icon: ShieldCheck },
+  { label: "Încasǎri", path: "collections", icon: Users },
 ];
 
 export default function OperatorDashboardLayout() {

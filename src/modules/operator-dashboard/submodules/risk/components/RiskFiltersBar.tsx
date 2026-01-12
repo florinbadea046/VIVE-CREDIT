@@ -28,9 +28,9 @@ export default function RiskFiltersBar({ filters, onChange }: Props) {
 
         <button
           onClick={() => onChange({ status: "", search: "" })}
-          className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="px-2 py-1 bg-blue-600 dark:bg-blue-600 text-white dark:text-blue-100 rounded hover:bg-blue-700 dark:hover:bg-blue-700"
         >
-          Reset
+          Resetare
         </button>
       </div>
 

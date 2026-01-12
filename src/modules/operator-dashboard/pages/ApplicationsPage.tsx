@@ -23,14 +23,15 @@ const EDITABLE_STATUS_OPTIONS: ApplicationStatus[] = [
 
 export default function ApplicationsPage() {
   const { applications, updateApplicationFields } = useApplications();
-  const [selected, setSelected] = useState<Application | null>(null);
+  const [selected, setSelected] = useState<Application | null>(null); // View modal
+  const [editDraft, setEditDraft] = useState<Application | null>(null); // Edit modal
   const [mode, setMode] = useState<Mode>(null);
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const statusQuery = params.get("status") || "all";
 
-  // --------------- FILTER ---------------
+  // ---------------- FILTER ----------------
   const filteredApplications =
     statusQuery === "all"
       ? applications
@@ -40,7 +41,7 @@ export default function ApplicationsPage() {
           return a.status === statusQuery;
         });
 
-  // --------------- TITLE ---------------
+  // ---------------- TITLE ----------------
   const titleMap: Record<string, string> = {
     all: "Toate aplicațiile",
     approved: "Aplicațiile aprobate",
@@ -51,7 +52,7 @@ export default function ApplicationsPage() {
     aml_review: "AML review",
   };
 
-  // --------------- COLUMNS ---------------
+  // ---------------- COLUMNS ----------------
   const columns: Column<Application>[] = [
     { key: "id", label: "ID", width: "120px" },
     { key: "client", label: "Client", width: "200px" },
@@ -59,52 +60,49 @@ export default function ApplicationsPage() {
       key: "income",
       label: "Venit",
       width: "150px",
-      align: "left",
       render: (app) =>
         app.income ? `${app.income.amount.toLocaleString()} RON` : "-",
     },
     {
       key: "creditAmount",
-      label: "Suma credit",
+      label: "Sumǎ credit",
       width: "150px",
-      align: "left",
       render: (app) => `${app.creditAmount.toLocaleString()} RON`,
     },
     {
       key: "status",
-      label: "Status",
+      label: "Stare aplicație",
       width: "150px",
-      align: "left",
       render: (app) => <StatusBadge status={app.status} />,
     },
     {
       key: "collectionsStatus",
-      label: "Collections",
+      label: "Stare platǎ",
       width: "150px",
       align: "center",
       render: (app) => {
         switch (app.collectionsStatus) {
           case "current":
             return (
-              <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">
+              <span className="text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900/40 px-2 py-1 rounded-full text-xs">
                 La zi
               </span>
             );
           case "overdue":
             return (
-              <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium">
+              <span className="text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900/40 px-2 py-1 rounded-full text-xs">
                 Restant
               </span>
             );
           case "defaulted":
             return (
-              <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium">
+              <span className="text-red-900 bg-red-200 dark:text-red-200 dark:bg-red-900/60 px-2 py-1 rounded-full text-xs">
                 Impagat
               </span>
             );
           default:
             return (
-              <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium">
+              <span className="text-gray-500 bg-gray-100 dark:text-gray-400 dark:bg-gray-800 px-2 py-1 rounded-full text-xs">
                 N/A
               </span>
             );
@@ -113,7 +111,7 @@ export default function ApplicationsPage() {
     },
     {
       key: "actions",
-      label: "Actions",
+      label: "Acțiuni",
       width: "150px",
       align: "center",
       render: (app) => (
@@ -124,17 +122,25 @@ export default function ApplicationsPage() {
               setSelected(app);
               setMode("view");
             }}
-            className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+            className="px-3 py-1 text-sm rounded bg-blue-500 hover:bg-blue-600 text-white"
           >
             View
           </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setSelected(app);
+              setEditDraft({
+                ...structuredClone(app),
+                income: app.income ?? {
+                  amount: 0,
+                  employer: "",
+                  contractType: "",
+                },
+                status: app.status,
+              });
               setMode("edit");
             }}
-            className="px-3 py-1 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+            className="px-3 py-1 text-sm rounded bg-blue-500 hover:bg-blue-600 text-white"
           >
             Edit
           </button>
@@ -143,13 +149,13 @@ export default function ApplicationsPage() {
     },
   ];
 
-  // --------------- SAVE ---------------
+  // ---------------- SAVE ----------------
   const handleSave = () => {
-    if (!selected) return;
-    updateApplicationFields(selected.id, selected);
-    setMode(null);
-    setSelected(null);
+    if (!editDraft) return;
+    updateApplicationFields(editDraft.id, editDraft);
     toast.success("Modificările au fost salvate cu succes!");
+    setEditDraft(null);
+    setMode(null);
   };
 
   return (
@@ -162,7 +168,6 @@ export default function ApplicationsPage() {
         data={filteredApplications}
         columns={columns}
         pageSize={10}
-        selectedRow={selected}
         getRowId={(app) => app.id}
         onRowClick={(app) => {
           setSelected(app);
@@ -170,12 +175,12 @@ export default function ApplicationsPage() {
         }}
       />
 
-      {/* VIEW MODAL */}
+      {/* ================= VIEW MODAL ================= */}
       <Modal
         isOpen={mode === "view"}
         onClose={() => {
-          setMode(null);
           setSelected(null);
+          setMode(null);
         }}
         title="Application details"
       >
@@ -190,36 +195,9 @@ export default function ApplicationsPage() {
                 <span className="font-medium">Client</span>
                 <p>{selected.client}</p>
               </div>
-              <div className="inline-flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <span className="font-medium">Status</span>
                 <StatusBadge status={selected.status} />
-              </div>
-              <div className="border-t pt-4">
-                <h3 className="font-semibold mb-2">Stare plată</h3>
-                <p>
-                  Status:
-                  {selected.collectionsStatus === "current" && (
-                    <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
-                      La zi
-                    </span>
-                  )}
-                  {selected.collectionsStatus === "overdue" && (
-                    <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
-                      Restant
-                    </span>
-                  )}
-                  {selected.collectionsStatus === "defaulted" && (
-                    <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium ml-2">
-                      Impagat
-                    </span>
-                  )}
-                  {!selected.collectionsStatus ||
-                  selected.collectionsStatus === "none" ? (
-                    <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium ml-2">
-                      N/A
-                    </span>
-                  ) : null}
-                </p>
               </div>
               <div>
                 <span className="font-medium">Scor</span>
@@ -227,18 +205,44 @@ export default function ApplicationsPage() {
               </div>
             </div>
 
-            {/* Credit */}
-            <div className="border-t pt-4">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+              <h3 className="font-semibold mb-2">Stare plată</h3>
+              <p>
+                Status:
+                {selected.collectionsStatus === "current" && (
+                  <span className="text-green-700 bg-green-100 dark:text-green-300 dark:bg-green-900/40 px-2 py-1 rounded-full text-xs ml-2">
+                    La zi
+                  </span>
+                )}
+                {selected.collectionsStatus === "overdue" && (
+                  <span className="text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900/40 px-2 py-1 rounded-full text-xs ml-2">
+                    Restant
+                  </span>
+                )}
+                {selected.collectionsStatus === "defaulted" && (
+                  <span className="text-red-900 bg-red-200 dark:text-red-200 dark:bg-red-900/60 px-2 py-1 rounded-full text-xs ml-2">
+                    Impagat
+                  </span>
+                )}
+                {!selected.collectionsStatus ||
+                selected.collectionsStatus === "none" ? (
+                  <span className="text-gray-500 bg-gray-100 dark:text-gray-400 dark:bg-gray-800 px-2 py-1 rounded-full text-xs ml-2">
+                    N/A
+                  </span>
+                ) : null}
+              </p>
+            </div>
+
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
               <h3 className="font-semibold mb-2">Credit</h3>
               <p>
-                <span className="font-medium">Suma solicitată:</span>{" "}
+                <span className="font-medium">Suma:</span>{" "}
                 {selected.creditAmount.toLocaleString()} RON
               </p>
             </div>
 
-            {/* Income */}
             {selected.income && (
-              <div className="border-t pt-4">
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                 <h3 className="font-semibold mb-2">Venit</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <p>
@@ -259,153 +263,154 @@ export default function ApplicationsPage() {
           </div>
         )}
       </Modal>
-
-      {/* EDIT MODAL */}
+      {/* ================= EDIT MODAL ================= */}
       <Modal
         isOpen={mode === "edit"}
         onClose={() => {
+          setEditDraft(null);
           setMode(null);
-          setSelected(null);
         }}
         title="Edit application"
         footer={
           <div className="flex justify-end gap-2">
             <button
               onClick={() => {
+                setEditDraft(null);
                 setMode(null);
-                setSelected(null);
               }}
-              className="px-4 py-2 rounded bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+              className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-gray-100"
             >
               Cancel
             </button>
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
-            >
-              Save
-            </button>
+            {editDraft?.status !== "rejected" && (
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Save
+              </button>
+            )}
           </div>
         }
       >
-        {selected && (
+        {editDraft && (
           <div className="space-y-4">
-            {/* Client */}
+            {/* ------------------ ALERT MESSAGES ------------------ */}
+            {editDraft.status === "rejected" && (
+              <p className="text-red-700 dark:text-red-400 text-sm font-medium">
+                Aplicația a fost respinsă, nu se pot face modificări.
+              </p>
+            )}
+            {editDraft.status === "approved" && (
+              <p className="text-green-700 dark:text-green-300 text-sm font-medium">
+                Aplicația este aprobată. Starea aplicației nu poate fi
+                schimbatǎ.
+              </p>
+            )}
+
+            {/* ------------------ CLIENT ------------------ */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
-                Client
-              </label>
+              <label className="block text-sm font-medium mb-1">Client</label>
               <input
-                value={selected.client}
+                value={editDraft.client}
                 onChange={(e) =>
-                  setSelected({ ...selected, client: e.target.value })
+                  setEditDraft({ ...editDraft, client: e.target.value })
                 }
-                disabled={
-                  selected.status === "approved" ||
-                  selected.status === "rejected"
-                }
-                className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
+                disabled={editDraft.status === "rejected"} // disabled dacă respins
+                className="w-full px-3 py-2 rounded border bg-white dark:bg-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               />
             </div>
 
-            {/* Income */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <div>
-                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
-                  Venit
-                </label>
-                <input
-                  type="number"
-                  value={selected.income?.amount ?? 0}
-                  onChange={(e) =>
-                    setSelected((prev) =>
-                      prev
-                        ? {
-                            ...prev,
-                            income: {
-                              ...prev.income,
-                              amount: Number(e.target.value),
-                            },
-                          }
-                        : prev
-                    )
-                  }
-                  className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-                />
-              </div>
+            {/* ------------------ INCOME ------------------ */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <input
+                type="number"
+                value={editDraft.income?.amount ?? 0}
+                onChange={(e) =>
+                  setEditDraft({
+                    ...editDraft,
+                    income: {
+                      ...editDraft.income,
+                      amount: Number(e.target.value),
+                    },
+                  })
+                }
+                disabled={editDraft.status === "rejected"}
+                className="px-3 py-2 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+              />
 
-              <div>
-                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
-                  Angajator
-                </label>
-                <input
-                  value={selected.income?.employer ?? ""}
-                  onChange={(e) =>
-                    setSelected((prev) => {
-                      if (!prev) return prev;
-                      const income = prev.income
-                        ? { ...prev.income, employer: e.target.value }
-                        : { amount: 0, employer: e.target.value };
-                      return { ...prev, income };
-                    })
-                  }
-                  className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-                />
-              </div>
+              <input
+                value={editDraft.income?.employer ?? ""}
+                onChange={(e) =>
+                  setEditDraft({
+                    ...editDraft,
+                    income: {
+                      amount: editDraft.income?.amount ?? 0,
+                      employer: e.target.value,
+                    },
+                  })
+                }
+                disabled={editDraft.status === "rejected"}
+                className="px-3 py-2 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+              />
 
-              <div>
-                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
-                  Tip contract
-                </label>
-                <select
-                  value={selected.income?.contractType ?? ""}
-                  onChange={(e) =>
-                    setSelected((prev) => {
-                      if (!prev) return prev;
-                      const income = prev.income
-                        ? {
-                            ...prev.income,
-                            contractType: e.target.value,
-                          }
-                        : { ammount: 0, contractType: e.target.value };
-                      return { ...prev, income };
-                    })
-                  }
-                  className="w-full px-3 py-2 rounded border bg-white text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
-                >
-                  <option value="">Selectează tipul contractului</option>
-                  <option value="Full-time">Full-time</option>
-                  <option value="Part-time">Part-time</option>
-                  <option value="Freelance">Freelance</option>
-                  <option value="Contractual">Contractual</option>
-                </select>
-              </div>
+              <select
+                value={editDraft.income?.contractType ?? ""}
+                onChange={(e) =>
+                  setEditDraft({
+                    ...editDraft,
+                    income: {
+                      amount: editDraft.income?.amount ?? 0,
+                      contractType: e.target.value,
+                    },
+                  })
+                }
+                disabled={editDraft.status === "rejected"}
+                className="px-3 py-2 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+              >
+                <option value="">Tip contract</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Contractual">Contractual</option>
+              </select>
             </div>
 
-            {/* Status */}
+            {/* ------------------ STATUS ------------------ */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-200">
-                Status
-              </label>
+              <label className="block text-sm font-medium mb-1">Status</label>
               <select
-                value={selected.status}
+                value={editDraft.status}
                 onChange={(e) =>
-                  setSelected({
-                    ...selected,
+                  setEditDraft({
+                    ...editDraft,
                     status: e.target.value as ApplicationStatus,
                   })
                 }
                 disabled={
-                  selected.status === "approved" ||
-                  selected.status === "rejected"
+                  editDraft.status === "approved" ||
+                  editDraft.status === "rejected"
                 }
-                className="w-full px-3 py-2 rounded border bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                className="w-full px-3 py-2 rounded border bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
               >
-                {EDITABLE_STATUS_OPTIONS.map((s) => (
-                  <option key={s} value={s}>
-                    {formatStatus(s)}
+                {editDraft.status !== "approved" &&
+                  editDraft.status !== "rejected" && (
+                    <>
+                      {EDITABLE_STATUS_OPTIONS.map((s) => (
+                        <option key={s} value={s}>
+                          {formatStatus(s)}
+                        </option>
+                      ))}
+                      <option value="approved">Aprobat</option>
+                      <option value="rejected">Respins</option>
+                    </>
+                  )}
+                {(editDraft.status === "approved" ||
+                  editDraft.status === "rejected") && (
+                  <option value={editDraft.status}>
+                    {formatStatus(editDraft.status)}
                   </option>
-                ))}
+                )}
               </select>
             </div>
           </div>
