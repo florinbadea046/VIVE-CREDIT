@@ -26,7 +26,7 @@ function GeneralSettings({} : GeneralSettingsProps) {
     return (
         <div className="space-y-4 lg:space-y-6">
             <div>
-                <label className={`block text-xs lg:text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'} px-3 py-2 rounded mb-2`}>
+                <label className={`block text-xs lg:text-sm font-medium ${theme === 'dark' ? 'dark:text-[#c7d5ff]' : 'text-gray-900'} px-3 py-2 rounded mb-2`}>
                     Company Name
                 </label>
                 <input
@@ -34,19 +34,19 @@ function GeneralSettings({} : GeneralSettingsProps) {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     className={`w-full px-3 lg:px-4 py-2 text-sm lg:text-base border border-gray-300 rounded-lg text-gray-900 focus:outline-none 
-                    focus:ring-2 focus:ring-blue-500 focus:border-transparent ${theme === 'dark' ? 'bg-[#0c1324] text-white' : 'bg-white'}`}
+                    focus:ring-2 focus:ring-blue-500 focus:border-transparent ${theme === 'dark' ? 'bg-[#0c1324] dark:text-[#c7d5ff]' : 'bg-white'}`}
                     placeholder="Enter company name"
                 />
             </div>
             <div>
-                <label className={`block text-xs lg:text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'} px-3 py-2 rounded mb-2`}>
+                <label className={`block text-xs lg:text-sm font-medium ${theme === 'dark' ? 'dark:text-[#c7d5ff]' : 'text-gray-900'} px-3 py-2 rounded mb-2`}>
                     Timezone
                 </label>
                 <select
                     value={timezone}
                     onChange={(e) => setTimezone(e.target.value)}
                     className={`w-full px-3 lg:px-4 py-2 text-sm lg:text-base border border-gray-300 rounded-lg text-gray-900 focus:outline-none 
-                    focus:ring-2 focus:ring-blue-500 focus:border-transparent ${theme === 'dark' ? 'bg-[#0c1324] text-white' : 'bg-white'}`}
+                    focus:ring-2 focus:ring-blue-500 focus:border-transparent ${theme === 'dark' ? 'bg-[#0c1324] dark:text-[#c7d5ff]' : 'bg-white'}`}
                     >
                     <option value="UTC">UTC</option>
                     <option value="PST">PST (Pacific Standard Time)</option>
@@ -59,7 +59,7 @@ function GeneralSettings({} : GeneralSettingsProps) {
             <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 pt-4 border-t border-gray-200">
                 <button 
                     onClick={handleCancel}
-                    className='w-full lg:w-auto px-4 lg:px-6 py-2 text-sm lg:text-base bg-blue-600 text-white rounded-lg font-medium hover:bg-gray-300 transition'
+                    className='w-full lg:w-auto px-4 lg:px-6 py-2 text-sm lg:text-base bg-blue-600 dark:text-[#c7d5ff] rounded-lg font-medium hover:bg-gray-300 transition'
                 >
                     Anuleaza
                 </button>

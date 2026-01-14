@@ -25,7 +25,7 @@ function NotificationSettings({}: NotificationSettingsProps) {
     return (
         <div className="space-y-4 lg:space-y-6">
             <div className={`flex flex-col lg:flex-row items-start lg:items-center justify-between p-3 lg:p-4 rounded-lg gap-3 lg:gap-0
-                ${theme === 'dark' ? 'bg-[#0c1324] text-white' : 'bg-gray-200'}`}>
+                ${theme === 'dark' ? 'bg-[#0c1324] dark:text-[#c7d5ff]' : 'bg-gray-200'}`}>
                 <div className="flex flex-col flex-1">
                     <span className="font-medium  text-sm lg:text-base">Email Notifications</span>
                     <span className=" text-xs lg:text-sm">Primesti actualizari prin email</span>
@@ -40,7 +40,7 @@ function NotificationSettings({}: NotificationSettingsProps) {
                 </button>
             </div>
             <div className={`flex flex-col lg:flex-row items-start lg:items-center justify-between p-3 lg:p-4 gap-3 lg:gap-0
-            ${theme==='dark' ? 'bg-[#0c1324] text-white' : 'bg-gray-200'} rounded-lg`}>
+            ${theme==='dark' ? 'bg-[#0c1324] dark:text-[#c7d5ff]' : 'bg-gray-200'} rounded-lg`}>
                 <div className="flex flex-col flex-1">
                     <span className="font-medium text-sm lg:text-base">Notificari SMS</span>
                     <span className="text-xs lg:text-sm">Primeste alertari prin SMS</span>
@@ -59,7 +59,7 @@ function NotificationSettings({}: NotificationSettingsProps) {
             <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 pt-4 border-t border-gray-200">
                 <button 
                     onClick={handleCancel}
-                    className='w-full lg:w-auto px-4 lg:px-6 py-2 text-sm lg:text-base bg-blue-600 text-white rounded-lg font-medium hover:bg-gray-300 transition'
+                    className='w-full lg:w-auto px-4 lg:px-6 py-2 text-sm lg:text-base bg-blue-600 dark:text-[#c7d5ff] rounded-lg font-medium hover:bg-gray-300 transition'
                 >
                     Anuleaza
                 </button>
