@@ -1,0 +1,158 @@
+{
+  "personalData": {
+    "title": "Pasul 1 — Date personale",
+    "fields": {
+      "fullName": {
+        "label": "Nume complet",
+        "placeholder": "Ex: Popescu Andrei"
+      },
+      "cnp": {
+        "label": "CNP",
+        "placeholder": "Ex: 5010101223344"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "exemplu@email.com"
+      }
+    },
+    "errors": {
+      "fullName": "Introduceți un nume complet valid.",
+      "cnp": "CNP-ul trebuie să conțină exact 13 cifre.",
+      "email": "Introduceți o adresă de email validă."
+    },
+    "continueButton": "Continuă"
+  },
+  "addressData": {
+    "title": "Pasul 2 — Adresă și contact",
+    "fields": {
+      "address": {
+        "label": "Adresă",
+        "placeholder": "Ex: Strada Mihai Eminescu nr. 10"
+      },
+      "city": {
+        "label": "Oraș",
+        "placeholder": "Ex: București"
+      },
+      "county": {
+        "label": "Județ",
+        "placeholder": "Ex: Ilfov"
+      },
+      "phone": {
+        "label": "Telefon",
+        "placeholder": "+40 XXXXXXXX"
+      }
+    },
+    "errors": {
+      "address": "Introduceți adresa completă.",
+      "city": "Introduceți orașul.",
+      "county": "Introduceți județul.",
+      "phone": "Introduceți un număr de telefon valid."
+    },
+    "backButton": "⬅ Înapoi",
+    "continueButton": "Continuă"
+  },
+  "workData": {
+    "title": "Pasul 3 — Loc de muncă",
+    "fields": {
+      "company": {
+        "label": "Nume companie",
+        "placeholder": "Ex: Tech Solutions SRL"
+      },
+      "position": {
+        "label": "Funcție / Ocupație",
+        "placeholder": "Ex: Dezvoltator software"
+      },
+      "income": {
+        "label": "Venit lunar NET (RON)",
+        "placeholder": "Ex: 7000"
+      },
+      "experience": {
+        "label": "Experiență (ani)",
+        "placeholder": "Ex: 3"
+      }
+    },
+    "errors": {
+      "required": "Acest câmp nu poate fi gol.",
+      "income": "Venitul trebuie să fie un număr pozitiv.",
+      "experience": "Experiența nu poate fi negativă."
+    },
+    "backButton": "⬅ Înapoi",
+    "continueButton": "Continuă"
+  },
+  "documentUpload": {
+    "title": "Pasul 4 — Încărcare documente",
+    "fields": {
+      "idCard": {
+        "label": "Act de identitate",
+        "placeholder": "Click sau trage fișierul aici"
+      },
+      "incomeProof": {
+        "label": "Dovadă de venit",
+        "placeholder": "Click sau trage fișierul aici"
+      },
+      "otherDocs": {
+        "label": "Alte documente",
+        "placeholder": "Adaugă alte fișiere"
+      }
+    },
+    "errors": {
+      "invalidFormat": "Format invalid. Acceptate: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX.",
+      "fileTooLarge": "Fișierul nu poate depăși 10MB.",
+      "uploadError": "Eroare upload",
+      "unknownError": "Eroare necunoscută",
+      "uploadFailedFor": "Eroare la încărcarea {{fileName}}: {{message}}",
+      "requiredDocuments": "Încărcați actul de identitate și dovada de venit.",
+      "waitForUploads": "Așteptați finalizarea upload-urilor."
+    },
+    "backButton": "⬅ Înapoi",
+    "continueButton": "Continuă",
+    "uploading": "Se încarcă..."
+  },
+  "onboardingPage": {
+    "steps": {
+      "personalData": "Date personale",
+      "address": "Adresă",
+      "workplace": "Loc de muncă",
+      "documents": "Documente",
+      "summary": "Rezumat"
+    },
+    "errors": {
+      "requiredFields": "Completați toate câmpurile obligatorii.",
+      "phonePrefix": "Prefixul internațional lipsește. Verificați numărul de telefon."
+    },
+    "summary": {
+      "title": "Rezumat final",
+      "fields": {
+        "name": "Nume",
+        "cnp": "CNP",
+        "email": "Email",
+        "address": "Adresă",
+        "phone": "Telefon",
+        "company": "Companie",
+        "position": "Funcție",
+        "income": "Venit NET",
+        "experience": "Experiență",
+        "years": "ani",
+        "documentsUploaded": "Documente încărcate"
+      },
+      "documentsList": {
+        "idCard": "Act identitate",
+        "incomeProof": "Dovadă venit",
+        "otherDocs": "{{count}} alte documente"
+      },
+      "buttons": {
+        "editDocuments": "Modifică documente",
+        "finalize": "Finalizează aplicația"
+      }
+    }
+  },
+  "successPage": {
+    "title": "Aplicația ta a fost finalizată cu succes!",
+    "thankYou": "Mulțumim",
+    "defaultName": "client",
+    "dataRegistered": "Datele tale au fost înregistrate și aplicația a fost trimisă spre analiză.",
+    "applicationNumber": "Număr aplicație",
+    "consultantContact": "Un consultant va analiza informațiile furnizate și te va contacta în cel mai scurt timp pentru pașii următori.",
+    "accessAccount": "Accesează contul tău"
+  }
+}

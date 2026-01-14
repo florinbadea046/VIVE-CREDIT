@@ -22,9 +22,12 @@ function App() {
     const loadAllTranslations = async () => {
       setTranslationsLoaded(false);
       await Promise.all([
+        loadTranslations("common"),
         loadTranslations("landing"),
         loadTranslations("static"),
         loadTranslations("auth"),
+        loadTranslations("onboarding"),
+        loadTranslations("dashboard"),
       ]);
       if (active) setTranslationsLoaded(true);
     };

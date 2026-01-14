@@ -5,7 +5,10 @@ import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import toast from "react-hot-toast";
 import { formatStatus } from "@/modules/operator-dashboard/utils/formatters";
-import type { Application } from "@/modules/operator-dashboard/types/Application";
+import type {
+  Application,
+  CollectionsStatus,
+} from "@/modules/operator-dashboard/types/Application";
 
 interface Props {
   application: Application;
@@ -16,7 +19,7 @@ interface Props {
   onManualReview: (id: string) => void;
   onRequestDocs: (id: string, docs: string[], custom?: string) => void;
   onSendToAML: (id: string) => void;
-  // onAddNote?: (id: string, text: string) => void;
+  onAddNote?: (id: string, text: string) => void;
 }
 
 export default function RiskDetailsModal({
@@ -28,11 +31,18 @@ export default function RiskDetailsModal({
   onManualReview,
   onRequestDocs,
   onSendToAML,
+  onAddNote,
 }: Props) {
   const [selectedDocs, setSelectedDocs] = useState<string[]>([]);
   const [customDoc, setCustomDoc] = useState<string>("");
+  const [noteText, setNoteText] = useState<string>("");
 
   const requestDocsRef = useRef<HTMLDivElement | null>(null);
+
+  const isFinalized =
+    application.status === "approved" || application.status === "rejected";
+
+  const availableDocs = ["CI", "Venituri", "Contract muncă", "Altele"];
 
   function handleScrollToDocs() {
     requestDocsRef.current?.scrollIntoView({
@@ -46,12 +56,6 @@ export default function RiskDetailsModal({
       prev.includes(doc) ? prev.filter((d) => d !== doc) : [...prev, doc]
     );
   }
-
-  const availableDocs = ["CI", "Venituri", "Contract muncă", "Altele"];
-
-  // const standardDocs = ["CI", "Venituri", "Contract"];
-  const isFinalized =
-    application.status === "approved" || application.status === "rejected";
 
   const renderCollectionsStatus = (status?: CollectionsStatus) => {
     switch (status) {
@@ -91,7 +95,6 @@ export default function RiskDetailsModal({
       titleClassName="text-blue-600"
       icon={<ShieldCheck className="w-6 h-6" />}
     >
-      {/* Container */}
       <div className="flex flex-col gap-6 pr-2 pb-4">
         {/* CLIENT INFO */}
         <section className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
@@ -111,7 +114,6 @@ export default function RiskDetailsModal({
             <p>
               <strong>Status:</strong> {formatStatus(application.status)}
             </p>
-
             <p className="sm:col-span-2">
               <strong>Adresă:</strong>{" "}
               {application.address
@@ -123,20 +125,20 @@ export default function RiskDetailsModal({
                 : "-"}
             </p>
             <p>
-              <strong>Stare plata:</strong>
+              <strong>Stare plata:</strong>{" "}
               {renderCollectionsStatus(application.collectionsStatus)}
             </p>
           </div>
         </section>
 
-        {/* Financial Info */}
+        {/* FINANCIAL INFO */}
         <section className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
           <h3 className="font-semibold text-lg mb-3 text-gray-700 dark:text-gray-200">
             Date financiare
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-600 dark:text-gray-300">
             <p>
-              <strong>Scor:</strong> {application.score}
+              <strong>Scor:</strong> {application.score ?? "-"}
             </p>
             <p>
               <strong>Venit:</strong> 5000 RON
@@ -150,8 +152,8 @@ export default function RiskDetailsModal({
           </div>
         </section>
 
-        {/* Reason Codes */}
-        {application.reasonCodes?.length > 0 && (
+        {/* REASON CODES */}
+        {application.reasonCodes && application.reasonCodes?.length > 0 && (
           <section className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <h3 className="font-semibold text-lg mb-3 text-gray-700 dark:text-gray-200">
               Reason Codes
@@ -169,7 +171,7 @@ export default function RiskDetailsModal({
           </section>
         )}
 
-        {/* DOCUMENTS REQUEST */}
+        {/* DOCUMENT REQUEST */}
         <section
           ref={requestDocsRef}
           className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm"
@@ -215,17 +217,56 @@ export default function RiskDetailsModal({
             </Button>
           </div>
         </section>
+
+        {/* NOTES SECTION */}
+        <section className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h3 className="font-semibold text-lg mb-3 text-gray-700 dark:text-gray-200">
+            Notes
+          </h3>
+          <div className="flex flex-col gap-2">
+            <textarea
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+              className="p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+              placeholder="Scrie o notă..."
+            />
+            <Button
+              onClick={() => {
+                if (noteText.trim() && onAddNote) {
+                  onAddNote(application.id, noteText.trim());
+                  setNoteText("");
+                  toast.success("Notă adăugată");
+                }
+              }}
+              disabled={isFinalized}
+              className={isFinalized ? "opacity-40 cursor-not-allowed" : ""}
+            >
+              Adaugă notă
+            </Button>
+
+            {application.notes?.map((note, idx) => (
+              <div
+                key={idx}
+                className="text-sm text-gray-500 dark:text-gray-300"
+              >
+                {note.text}{" "}
+                <span className="text-gray-400">({note.time || "–"})</span>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
 
-      {/* Sticky action bar */}
+      {/* STICKY ACTION BAR */}
       <div className="sticky bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-t border-gray-200 dark:border-gray-700 p-4 flex flex-wrap items-center justify-end gap-2 z-20">
         {isFinalized && (
           <div className="w-full p-2 bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-100 rounded-md text-sm flex items-center gap-2">
             ⚠️ Acțiunile nu mai sunt disponibile pentru aplicațiile aprobate sau
-            respise.
+            respinse.
           </div>
         )}
-        {/* Desktop buttons */}
+
+        {/* Desktop Buttons */}
         <div className="hidden sm:flex gap-2 justify-end flex-wrap">
           <Button
             onClick={() => {
@@ -239,6 +280,7 @@ export default function RiskDetailsModal({
           >
             Aprobă
           </Button>
+
           <Button
             onClick={() => {
               onReject(application.id);
@@ -264,13 +306,11 @@ export default function RiskDetailsModal({
               isFinalized ? "opacity-40 cursor-not-allowed" : ""
             }`}
           >
-            Manual Review
+            Revizuire manualǎ
           </Button>
+
           <Button
-            onClick={() => {
-              handleScrollToDocs();
-              toast(`Scroll to documents section`, { icon: "📄" });
-            }}
+            onClick={handleScrollToDocs}
             disabled={isFinalized}
             className={`bg-blue-600 sm:w-auto w-full ${
               isFinalized ? "opacity-40 cursor-not-allowed" : ""
@@ -278,6 +318,7 @@ export default function RiskDetailsModal({
           >
             Solicită Documente
           </Button>
+
           <Button
             onClick={() => {
               onSendToAML(application.id);
@@ -295,99 +336,43 @@ export default function RiskDetailsModal({
         </div>
 
         {/* Mobile dropdown */}
-        <div className=" sm:hidden w-full mt-2">
+        <div className="sm:hidden w-full mt-2">
           <Menu as="div" className="relative w-full">
             <Menu.Button className="w-full bg-blue-600 p-2 rounded-md text-white flex justify-between items-center">
               Actions <ChevronDown className="w-4 h-4" />
             </Menu.Button>
             <Menu.Items className="absolute right-0 mt-2 w-full bg-white dark:bg-gray-700 rounded-md shadow-lg z-50 flex flex-col">
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => {
-                      onApprove(application.id);
-                      toast.success(`Application ${application.id} approved`);
-                    }}
-                    disabled={isFinalized}
-                    className={`w-full text-left p-2 ${
-                      active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
-                  >
-                    Aproba
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => {
-                      onReject(application.id);
-                      toast.error(`Application ${application.id} rejected`);
-                    }}
-                    disabled={isFinalized}
-                    className={`w-full text-left p-2 ${
-                      active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
-                  >
-                    Respinge
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => {
-                      onManualReview(application.id);
-                      toast(
-                        `Application ${application.id} send to manual review`,
-                        {
-                          icon: "📝",
-                        }
-                      );
-                    }}
-                    disabled={isFinalized}
-                    className={`w-full text-left p-2 ${
-                      active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }${isFinalized ? "opacity-40 cursor-not-allowed" : ""} `}
-                  >
-                    Manual Review
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => {
-                      handleScrollToDocs();
-                      toast(`Scroll to documents section`, { icon: "📄" });
-                    }}
-                    disabled={isFinalized}
-                    className={`w-full text-left p-2 ${
-                      active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    }${isFinalized ? "opacity-40 cursor-not-allowed" : ""} `}
-                  >
-                    Solicita Documente
-                  </button>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => {
-                      onSendToAML(application.id);
-                      toast(`Application ${application.id} sent to AML`, {
-                        icon: "🛡️",
-                      });
-                    }}
-                    disabled={isFinalized}
-                    className={`w-full text-left p-2 ${
-                      active ? "bg-blue-100 dark:bg-gray-700" : ""
-                    } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
-                  >
-                    Trimite in AML
-                  </button>
-                )}
-              </Menu.Item>
+              {[
+                { label: "Aprobă", action: onApprove },
+                { label: "Respinge", action: onReject },
+                { label: "Manual Review", action: onManualReview },
+                { label: "Solicită Documente", action: handleScrollToDocs },
+                { label: "Trimite la AML", action: onSendToAML },
+                {
+                  label: "Adaugă Notă",
+                  action: () => {
+                    if (noteText.trim() && onAddNote) {
+                      onAddNote(application.id, noteText.trim());
+                      setNoteText("");
+                      toast.success("Notă adăugată");
+                    }
+                  },
+                },
+              ].map((btn, idx) => (
+                <Menu.Item key={idx}>
+                  {({ active }) => (
+                    <button
+                      onClick={() => btn.action(application.id)}
+                      disabled={isFinalized}
+                      className={`w-full text-left p-2 ${
+                        active ? "bg-blue-100 dark:bg-gray-700" : ""
+                      } ${isFinalized ? "opacity-40 cursor-not-allowed" : ""}`}
+                    >
+                      {btn.label}
+                    </button>
+                  )}
+                </Menu.Item>
+              ))}
             </Menu.Items>
           </Menu>
         </div>

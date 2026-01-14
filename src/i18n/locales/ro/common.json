@@ -6,6 +6,29 @@
     "clientPortal": "Acces portal client",
     "logout": "Deconectare"
   },
+  "notifications": {
+    "title": "Notificări",
+    "markAllRead": "Marchează citite",
+    "deleteReadTooltip": "Șterge notificările citite",
+    "deleteOne": "Șterge notificarea",
+    "empty": "Nu ai notificări.",
+    "today": "Astăzi",
+    "yesterday": "Ieri",
+    "older": "Mai vechi",
+    "deleteConfirm": {
+      "title": "Ștergi notificările citite?",
+      "message": "Această acțiune nu poate fi anulată.",
+      "cancel": "Renunță",
+      "confirm": "Șterge"
+    },
+    "mock": {
+      "applicationApproved": "Aplicația ta a fost aprobată!",
+      "documentRequested": "Document nou solicitat"
+    }
+  },
+  "userBadge": {
+    "defaultName": "Utilizator"
+  },
   "language": "Selectează limba",
   "login": "Conectare",
   "logout": "Deconectare",

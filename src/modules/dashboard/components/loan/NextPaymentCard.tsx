@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import CardWrapper from "../CardWrapper";
 import PaymentModal from "../PaymentModal";
 import { Calendar, CreditCard, Clock } from "lucide-react";
@@ -12,6 +13,7 @@ export default function NextPaymentCard({
   nextPaymentDate,
   nextPaymentAmount,
 }: NextPaymentProps) {
+  const { t } = useTranslation("dashboard");
   const [showModal, setShowModal] = useState(false);
 
   const dueDate = new Date(nextPaymentDate);
@@ -24,7 +26,7 @@ export default function NextPaymentCard({
   return (
     <>
       <CardWrapper
-        title="Următoarea plată"
+        title={t("nextPayment.title")}
         icon={
           <Calendar size={22} className="text-blue-600 dark:text-blue-300" />
         }
@@ -51,15 +53,15 @@ export default function NextPaymentCard({
               }
             />
             {isOverdue
-              ? "Întârziată"
+              ? t("nextPayment.status.overdue")
               : isSoon
-              ? "Scadentă în curând"
-              : "În termen"}
+              ? t("nextPayment.status.dueSoon")
+              : t("nextPayment.status.onTime")}
           </div>
 
           <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 dark:bg-[#2A3B55A6] dark:border-white/10">
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Sumă de plată
+              {t("nextPayment.amountToPay")}
             </p>
             <p className="text-3xl font-bold text-blue-700 dark:text-blue-300">
               {nextPaymentAmount.toLocaleString("ro-RO")} RON
@@ -67,7 +69,7 @@ export default function NextPaymentCard({
 
             <div className="mt-3">
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Data scadenței
+                {t("nextPayment.dueDate")}
               </p>
               <p className="font-medium text-gray-800 dark:text-gray-200">
                 {nextPaymentDate}
@@ -78,10 +80,10 @@ export default function NextPaymentCard({
               <Clock size={16} className="text-blue-600 dark:text-blue-300" />
               <span className="text-gray-700 dark:text-gray-300">
                 {isOverdue
-                  ? `Întârziată cu ${Math.abs(diffDays)} zile`
+                  ? t("nextPayment.overdueDays", { days: Math.abs(diffDays) })
                   : diffDays === 0
-                  ? "Scadentă astăzi"
-                  : `În ${diffDays} zile`}
+                  ? t("nextPayment.dueToday")
+                  : t("nextPayment.inDays", { days: diffDays })}
               </span>
             </div>
           </div>
@@ -91,7 +93,7 @@ export default function NextPaymentCard({
             className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3 rounded-lg text-sm font-medium flex items-center justify-center gap-2 shadow-md transition dark:bg-blue-500 dark:hover:bg-blue-400"
           >
             <CreditCard size={18} />
-            Plătește rata
+            {t("nextPayment.payButton")}
           </button>
         </div>
       </CardWrapper>

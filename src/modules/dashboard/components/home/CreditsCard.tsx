@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import CardWrapper from "../../components/CardWrapper";
 import { CreditCard } from "lucide-react";
 
@@ -9,11 +10,13 @@ type Credit = {
 };
 
 export default function CreditsCard({ credits }: { credits: Credit[] }) {
+  const { t } = useTranslation("dashboard");
+
   return (
-    <CardWrapper title="Creditele mele" icon={<CreditCard size={22} />}>
+    <CardWrapper title={t("credits.title")} icon={<CreditCard size={22} />}>
       {credits.length === 0 ? (
         <p className="text-gray-500 dark:text-gray-300">
-          Nu ai credite active.
+          {t("credits.noActiveCredits")}
         </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -34,7 +37,7 @@ export default function CreditsCard({ credits }: { credits: Credit[] }) {
               >
                 <div className="flex items-center justify-between">
                   <p className="font-semibold text-blue-900 dark:text-white">
-                    Credit #{credit.id}
+                    {t("credits.creditId", { id: credit.id })}
                   </p>
 
                   <CreditCard
@@ -45,21 +48,21 @@ export default function CreditsCard({ credits }: { credits: Credit[] }) {
 
                 <div className="text-sm text-gray-700 dark:text-gray-300 space-y-1">
                   <p>
-                    Suma totală:{" "}
+                    {t("credits.totalAmount")}:{" "}
                     <span className="font-medium">
                       {credit.totalAmount} RON
                     </span>
                   </p>
 
                   <p>
-                    Rămas de plată:{" "}
+                    {t("credits.remainingAmount")}:{" "}
                     <span className="font-medium">
                       {credit.remainingAmount} RON
                     </span>
                   </p>
 
                   <p>
-                    Rata lunară:{" "}
+                    {t("credits.monthlyPayment")}:{" "}
                     <span className="font-medium">
                       {credit.monthlyPayment} RON
                     </span>
@@ -68,7 +71,7 @@ export default function CreditsCard({ credits }: { credits: Credit[] }) {
 
                 <div>
                   <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
-                    <span>Progres plată</span>
+                    <span>{t("credits.paymentProgress")}</span>
                     <span>{progress}%</span>
                   </div>
 

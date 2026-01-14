@@ -3,13 +3,18 @@ import DashboardLayout from "@/modules/dashboard/layout/DashboardLayout";
 import CardWrapper from "@/modules/dashboard/components/CardWrapper";
 import DocumentUploader from "@/modules/dashboard/components/documents/DocumentUploader";
 import { FilePlus, ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function UploadDocumentPage() {
+  const { t } = useTranslation("dashboard");
   const navigate = useNavigate();
 
   return (
     <DashboardLayout>
-      <CardWrapper title="Încărcare documente" icon={<FilePlus size={22} />}>
+      <CardWrapper
+        title={t("uploadDocument.title")}
+        icon={<FilePlus size={22} />}
+      >
         <div className="space-y-6">
           <button
             onClick={() => navigate("/dashboard/documents")}
@@ -20,17 +25,16 @@ export default function UploadDocumentPage() {
   "
           >
             <ArrowLeft size={16} />
-            Înapoi la documentele mele
+            {t("uploadDocument.backButton")}
           </button>
 
           <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-            Încarcă documentele necesare pentru verificarea identității sau
-            procesarea cererii tale. Sunt acceptate formatele:
+            {t("uploadDocument.description")}
             <span className="font-medium text-blue-700 dark:text-blue-300">
               {" "}
-              PDF, JPG și PNG
+              {t("uploadDocument.acceptedFormats")}
             </span>{" "}
-            (max 10MB).
+            ({t("uploadDocument.maxSize")}).
           </p>
 
           <div
@@ -51,8 +55,7 @@ export default function UploadDocumentPage() {
               pt-4
             "
           >
-            * Asigură-te că documentele sunt lizibile și că nu depășesc
-            dimensiunea maximă permisă.
+            * {t("uploadDocument.note")}
           </div>
         </div>
       </CardWrapper>

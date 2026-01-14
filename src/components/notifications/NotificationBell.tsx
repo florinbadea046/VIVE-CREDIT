@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Bell, Check, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import NotificationItem from "./NotificationItem";
-import { mockNotifications } from "./notifications.mock";
+import { getMockNotifications } from "./notifications.mock";
 import type { Notification } from "./notifications.types";
 
 const STORAGE_KEY = "client_notifications";
@@ -23,11 +24,12 @@ const isYesterday = (date: string) => {
 };
 
 export default function NotificationBell() {
+  const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : mockNotifications;
+    return stored ? (JSON.parse(stored) as Notification[]) : getMockNotifications(t);
   });
 
   const ref = useRef<HTMLDivElement>(null);
@@ -130,6 +132,7 @@ export default function NotificationBell() {
                 transition
                 text-gray-400 hover:text-red-500
               "
+              aria-label={t("notifications.deleteOne")}
             >
               <Trash2 size={16} />
             </button>
@@ -148,6 +151,7 @@ export default function NotificationBell() {
           hover:bg-gray-200 dark:hover:bg-gray-600
           shadow-sm transition
         "
+        aria-label={t("notifications.title")}
       >
         <Bell size={20} className="text-gray-700 dark:text-gray-200" />
 
@@ -163,7 +167,7 @@ export default function NotificationBell() {
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
               <Bell size={16} />
-              Notificări
+              {t("notifications.title")}
             </div>
 
             <div className="flex items-center gap-3">
@@ -173,7 +177,7 @@ export default function NotificationBell() {
                   className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:underline"
                 >
                   <Check size={14} />
-                  Marchează citite
+                  {t("notifications.markAllRead")}
                 </button>
               )}
 
@@ -187,7 +191,7 @@ export default function NotificationBell() {
                     hover:bg-red-50 dark:hover:bg-red-900/30
                     transition
                   "
-                  title="Șterge notificările citite"
+                  title={t("notifications.deleteReadTooltip")}
                 >
                   <Trash2 size={16} />
                 </button>
@@ -198,13 +202,16 @@ export default function NotificationBell() {
           <div className="max-h-96 overflow-y-auto">
             {sorted.length === 0 ? (
               <div className="p-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                Nu ai notificări.
+                {t("notifications.empty")}
               </div>
             ) : (
               <>
-                <Section title="Astăzi" items={today} />
-                <Section title="Ieri" items={yesterday} />
-                <Section title="Mai vechi" items={older} />
+                <Section title={t("notifications.today")} items={today} />
+                <Section
+                  title={t("notifications.yesterday")}
+                  items={yesterday}
+                />
+                <Section title={t("notifications.older")} items={older} />
               </>
             )}
           </div>
@@ -216,11 +223,11 @@ export default function NotificationBell() {
           <div className="fixed inset-0 z-[999] bg-black/40 flex items-center justify-center px-4">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-sm w-full p-5">
               <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                Ștergi notificările citite?
+                {t("notifications.deleteConfirm.title")}
               </h3>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">
-                Această acțiune nu poate fi anulată.
+                {t("notifications.deleteConfirm.message")}
               </p>
 
               <div className="flex justify-end gap-3">
@@ -228,7 +235,7 @@ export default function NotificationBell() {
                   onClick={() => setConfirmDelete(false)}
                   className="px-4 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
                 >
-                  Renunță
+                  {t("notifications.deleteConfirm.cancel")}
                 </button>
 
                 <button
@@ -238,7 +245,7 @@ export default function NotificationBell() {
                   }}
                   className="px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700"
                 >
-                  Șterge
+                  {t("notifications.deleteConfirm.confirm")}
                 </button>
               </div>
             </div>

@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Clock, UserCheck, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getVerificationStatus } from "@/services/verificationService";
+import { useTranslation } from "react-i18next";
 
 interface VerificationSummary {
-  kyc: "În așteptare" | "Aprobat" | "Respins" | "În verificare";
-  aml: "În așteptare" | "Aprobat" | "Respins" | "În verificare";
+  kyc: "pending" | "approved" | "rejected" | "inProgress";
+  aml: "pending" | "approved" | "rejected" | "inProgress";
   progress: number;
   lastStep: string;
 }
@@ -17,11 +18,12 @@ interface VerificationStatusCardProps {
 export default function VerificationStatusCard({
   clientId,
 }: VerificationStatusCardProps) {
+  const { t } = useTranslation("dashboard");
   const [summary, setSummary] = useState<VerificationSummary | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!clientId) return; // Nu face fetch dacă id-ul nu e valid
+    if (!clientId) return;
 
     const fetchStatus = async () => {
       try {
@@ -41,16 +43,16 @@ export default function VerificationStatusCard({
         ).length;
         const kycRejected = kycSteps.some((s) => s.status === "rejected");
 
-        let kycStatus: VerificationSummary["kyc"] = "În așteptare";
+        let kycStatus: VerificationSummary["kyc"] = "pending";
         if (kycRejected) {
-          kycStatus = "Respins";
+          kycStatus = "rejected";
         } else if (kycCompleted === 2) {
-          kycStatus = "Aprobat";
+          kycStatus = "approved";
         } else if (
           kycCompleted > 0 ||
           kycSteps.some((s) => s.status === "current")
         ) {
-          kycStatus = "În verificare";
+          kycStatus = "inProgress";
         }
 
         // AML: pași 3-4
@@ -60,26 +62,24 @@ export default function VerificationStatusCard({
         ).length;
         const amlRejected = amlSteps.some((s) => s.status === "rejected");
 
-        let amlStatus: VerificationSummary["aml"] = "În așteptare";
+        let amlStatus: VerificationSummary["aml"] = "pending";
         if (amlRejected) {
-          amlStatus = "Respins";
+          amlStatus = "rejected";
         } else if (amlCompleted === 2) {
-          amlStatus = "Aprobat";
+          amlStatus = "approved";
         } else if (
           amlCompleted > 0 ||
           amlSteps.some((s) => s.status === "current")
         ) {
-          amlStatus = "În verificare";
+          amlStatus = "inProgress";
         }
 
         // Progress și last step
         const totalCompleted = steps.filter(
           (s) => s.status === "completed"
         ).length;
-        // Doar pașii "completed" contează la progres (fiecare pas = 25%)
         const progress = (totalCompleted / steps.length) * 100;
 
-        // Ultimul pas finalizat (completed) SAU pasul curent dacă nu există pași completați
         const completedSteps = steps.filter((s) => s.status === "completed");
         const lastCompletedStep =
           completedSteps.length > 0
@@ -92,9 +92,12 @@ export default function VerificationStatusCard({
         if (lastCompletedStep) {
           lastStep = `${lastCompletedStep.title} (${lastCompletedStep.badge})`;
         } else if (currentStep) {
-          lastStep = `În verificare: ${currentStep.title} (${currentStep.badge})`;
+          lastStep = t("verification.lastStepInProgress", {
+            title: currentStep.title,
+            badge: currentStep.badge,
+          });
         } else {
-          lastStep = "Niciun pas început";
+          lastStep = t("verification.noStepsStarted");
         }
 
         setSummary({
@@ -112,19 +115,45 @@ export default function VerificationStatusCard({
     };
 
     fetchStatus();
-  }, []);
+  }, [clientId, t]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Aprobat":
+      case "approved":
         return "text-green-600 dark:text-green-400";
-      case "Respins":
+      case "rejected":
         return "text-red-600 dark:text-red-400";
-      case "În verificare":
+      case "inProgress":
         return "text-orange-600 dark:text-orange-400";
       default:
         return "text-gray-500 dark:text-gray-400";
     }
+  };
+
+  const renderStatusBadge = (
+    status: VerificationSummary["kyc"] | VerificationSummary["aml"]
+  ) => {
+    if (status === "inProgress") {
+      return (
+        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-600">
+          {t("verification.status.inProgress")}
+        </span>
+      );
+    }
+
+    if (status === "pending") {
+      return (
+        <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600">
+          {t("verification.status.pending")}
+        </span>
+      );
+    }
+
+    return (
+      <span className={`font-semibold ${getStatusColor(status)}`}>
+        {t(`verification.status.${status}`)}
+      </span>
+    );
   };
 
   return (
@@ -133,7 +162,7 @@ export default function VerificationStatusCard({
         <div className="flex items-center gap-2">
           <Shield className="w-5 h-5 text-blue-600" />
           <h2 className="text-xl font-semibold text-blue-700 dark:text-white tracking-tight">
-            Status Verificare
+            {t("verification.title")}
           </h2>
         </div>
 
@@ -141,7 +170,7 @@ export default function VerificationStatusCard({
           to="/dashboard/verification"
           className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition"
         >
-          Vezi detalii
+          {t("verification.viewDetails")}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
@@ -149,57 +178,37 @@ export default function VerificationStatusCard({
       {loading ? (
         <div className="flex items-center gap-2 text-slate-500">
           <Clock className="w-4 h-4 animate-spin" />
-          <span className="text-sm">Se încarcă...</span>
+          <span className="text-sm">{t("verification.loading")}</span>
         </div>
       ) : !summary ? (
         <div className="text-sm text-slate-500 dark:text-slate-400">
-          Nu există verificări încă
+          {t("verification.noVerifications")}
         </div>
       ) : (
         <div className="space-y-3">
           {/* Rânduri status */}
           <div className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-medium">
-              <UserCheck className="w-4 h-4 text-gray-500" /> KYC:
+              <UserCheck className="w-4 h-4 text-gray-500" />{" "}
+              {t("verification.kyc")}:
             </span>
-            {summary.kyc === "În verificare" ? (
-              <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-600">
-                În verificare
-              </span>
-            ) : summary.kyc === "În așteptare" ? (
-              <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600">
-                În așteptare
-              </span>
-            ) : (
-              <span className={`font-semibold ${getStatusColor(summary.kyc)}`}>
-                {summary.kyc}
-              </span>
-            )}
+            {renderStatusBadge(summary.kyc)}
           </div>
 
           <div className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-1 text-slate-700 dark:text-slate-300 font-medium">
-              <Search className="w-4 h-4 text-gray-500" /> AML:
+              <Search className="w-4 h-4 text-gray-500" />{" "}
+              {t("verification.aml")}:
             </span>
-            {summary.aml === "În verificare" ? (
-              <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-600">
-                În verificare
-              </span>
-            ) : summary.aml === "În așteptare" ? (
-              <span className="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600">
-                În așteptare
-              </span>
-            ) : (
-              <span className={`font-semibold ${getStatusColor(summary.aml)}`}>
-                {summary.aml}
-              </span>
-            )}
+            {renderStatusBadge(summary.aml)}
           </div>
 
           {/* Progress bar */}
           <div className="pt-2 bg-blue-50 border border-blue-100 rounded-lg p-3 dark:bg-[#2A3B55A6] dark:border-white/10">
             <div className="flex items-center justify-between text-xs text-blue-700 dark:text-gray-300 mb-2">
-              <span>Ultimul pas finalizat: {summary.lastStep}</span>
+              <span>
+                {t("verification.lastStepCompleted")}: {summary.lastStep}
+              </span>
               <span className="font-semibold">
                 {Math.round(summary.progress)}%
               </span>

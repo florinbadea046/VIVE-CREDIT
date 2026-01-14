@@ -9,6 +9,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 import type { OnboardingData } from "@/modules/onboarding/types/onboarding";
 
 interface PersonalDataStepProps {
@@ -22,6 +23,8 @@ export default function PersonalDataStep({
   updateData,
   initialData,
 }: PersonalDataStepProps) {
+  const { t } = useTranslation("onboarding");
+
   const [formData, setFormData] = useState({
     fullName: initialData.fullName || "",
     cnp: initialData.cnp || "",
@@ -40,17 +43,16 @@ export default function PersonalDataStep({
     let error = "";
 
     if (name === "fullName") {
-      if (!value.trim()) error = "Introduceți un nume complet valid.";
+      if (!value.trim()) error = t("personalData.errors.fullName");
     }
 
     if (name === "cnp") {
-      if (!/^\d{13}$/.test(value.trim()))
-        error = "CNP-ul trebuie să conțină exact 13 cifre.";
+      if (!/^\d{13}$/.test(value.trim())) error = t("personalData.errors.cnp");
     }
 
     if (name === "email") {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()))
-        error = "Introduceți o adresă de email validă.";
+        error = t("personalData.errors.email");
     }
 
     return error;
@@ -106,7 +108,7 @@ export default function PersonalDataStep({
       >
         <CardHeader>
           <CardTitle className="text-2xl font-semibold text-blue-700 dark:text-blue-400">
-            Pasul 1 — Date personale
+            {t("personalData.title")}
           </CardTitle>
         </CardHeader>
 
@@ -114,13 +116,13 @@ export default function PersonalDataStep({
           <CardContent className="space-y-4">
             <div>
               <Label htmlFor="fullName" className="dark:text-[#c7d5ff]">
-                Nume complet
+                {t("personalData.fields.fullName.label")}
               </Label>
 
               <Input
                 id="fullName"
                 name="fullName"
-                placeholder="Ex: Popescu Andrei"
+                placeholder={t("personalData.fields.fullName.placeholder")}
                 value={formData.fullName}
                 onChange={handleChange}
                 className={`
@@ -142,13 +144,13 @@ export default function PersonalDataStep({
 
             <div>
               <Label htmlFor="cnp" className="dark:text-[#c7d5ff]">
-                CNP
+                {t("personalData.fields.cnp.label")}
               </Label>
 
               <Input
                 id="cnp"
                 name="cnp"
-                placeholder="Ex: 5010101223344"
+                placeholder={t("personalData.fields.cnp.placeholder")}
                 maxLength={13}
                 value={formData.cnp}
                 onChange={handleChange}
@@ -171,14 +173,14 @@ export default function PersonalDataStep({
 
             <div>
               <Label htmlFor="email" className="dark:text-[#c7d5ff]">
-                Email
+                {t("personalData.fields.email.label")}
               </Label>
 
               <Input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="exemplu@email.com"
+                placeholder={t("personalData.fields.email.placeholder")}
                 value={formData.email}
                 onChange={handleChange}
                 className={`
@@ -212,7 +214,7 @@ export default function PersonalDataStep({
                 }
               `}
             >
-              Continuă
+              {t("personalData.continueButton")}
             </Button>
           </CardFooter>
         </form>

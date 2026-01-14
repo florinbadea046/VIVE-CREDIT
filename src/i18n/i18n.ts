@@ -13,6 +13,10 @@ const loadNamespace = async (lng: string, ns: string) => {
       return import(`./locales/${lng}/static.json`).then((m) => m.default);
     case "auth":
       return import(`./locales/${lng}/auth.json`).then((m) => m.default);
+    case "onboarding":
+      return import(`./locales/${lng}/onboarding.json`).then((m) => m.default);
+    case "dashboard":
+      return import(`./locales/${lng}/dashboard.json`).then((m) => m.default);
     default:
       return {};
   }
@@ -26,6 +30,10 @@ import roStatic from "./locales/ro/static.json";
 import enStatic from "./locales/en/static.json";
 import roAuth from "./locales/ro/auth.json";
 import enAuth from "./locales/en/auth.json";
+import roOnboarding from "./locales/ro/onboarding.json";
+import enOnboarding from "./locales/en/onboarding.json";
+import roDashboard from "./locales/ro/dashboard.json";
+import enDashboard from "./locales/en/dashboard.json";
 
 const resources: Resource = {
   ro: {
@@ -33,12 +41,16 @@ const resources: Resource = {
     landing: roLanding,
     static: roStatic,
     auth: roAuth,
+    onboarding: roOnboarding,
+    dashboard: roDashboard,
   },
   en: {
     common: enCommon,
     landing: enLanding,
     static: enStatic,
     auth: enAuth,
+    onboarding: enOnboarding,
+    dashboard: enDashboard,
   },
 };
 
@@ -49,7 +61,7 @@ i18n
     resources,
     fallbackLng: "ro",
     supportedLngs: ["ro", "en"],
-    ns: ["common", "landing", "static", "auth"],
+    ns: ["common", "landing", "static", "auth", "onboarding", "dashboard"],
     defaultNS: "common",
     interpolation: { escapeValue: false },
     detection: {
@@ -60,7 +72,13 @@ i18n
   });
 
 export const loadTranslations = async (
-  namespace: "common" | "landing" | "static" | "auth"
+  namespace:
+    | "common"
+    | "landing"
+    | "static"
+    | "auth"
+    | "onboarding"
+    | "dashboard"
 ) => {
   const lng = i18n.resolvedLanguage?.split("-")[0] || "ro";
   if (i18n.hasResourceBundle(lng, namespace)) return;

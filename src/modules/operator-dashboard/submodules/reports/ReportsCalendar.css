@@ -1,0 +1,30 @@
+.rdp-root {
+    --rdp-accent-color: #2563eb;         
+    --rdp-accent-background-color: #e5e7eb; 
+  }
+  
+  .dark .rdp-root {
+    --rdp-accent-color: #3b82f6;            
+    --rdp-accent-background-color: #374151; 
+  }
+  
+  .rdp-day_range_middle {
+    background-color: #e5e7eb; 
+    color: black;
+  }
+
+  .dark .rdp-day_range_middle {
+    background-color: #9CA3AF;
+    color: white;
+  }
+  
+  .dark .rdp-day_range_start,
+  .dark .rdp-day_range_end {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 9999px;
+  }
+  
+  .dark .rdp-day_range_middle {
+    border-radius: 0;
+  }

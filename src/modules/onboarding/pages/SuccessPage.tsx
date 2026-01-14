@@ -3,8 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export default function SuccessPage() {
+  const { t } = useTranslation("onboarding");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -46,22 +48,21 @@ export default function SuccessPage() {
               text-green-700 dark:text-green-400
             "
           >
-            Aplicația ta a fost finalizată cu succes!
+            {t("successPage.title")}
           </CardTitle>
         </CardHeader>
 
         <CardContent className="text-center mt-4">
           <p className="text-gray-700 dark:text-[#c7d5ff] text-lg">
-            Mulțumim,{" "}
+            {t("successPage.thankYou")},{" "}
             <span className="font-semibold text-blue-700 dark:text-blue-400">
-              {fullName || "client"}
+              {fullName || t("successPage.defaultName")}
             </span>
             !
           </p>
 
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Datele tale au fost înregistrate și aplicația a fost trimisă spre
-            analiză.
+            {t("successPage.dataRegistered")}
           </p>
 
           {applicationId && (
@@ -73,7 +74,7 @@ export default function SuccessPage() {
               "
             >
               <p className="text-sm text-green-800 dark:text-green-400">
-                Număr aplicație:
+                {t("successPage.applicationNumber")}:
               </p>
               <p className="text-xl font-semibold text-green-900 dark:text-green-300 tracking-wide">
                 {applicationId}
@@ -82,8 +83,7 @@ export default function SuccessPage() {
           )}
 
           <p className="text-gray-600 dark:text-gray-400 mt-6">
-            Un consultant va analiza informațiile furnizate și te va contacta în
-            cel mai scurt timp pentru pașii următori.
+            {t("successPage.consultantContact")}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -95,7 +95,7 @@ export default function SuccessPage() {
                 text-white px-8 py-3 rounded-md text-lg
               "
             >
-              Accesează contul tău →
+              {t("successPage.accessAccount")} →
             </Button>
           </div>
         </CardContent>

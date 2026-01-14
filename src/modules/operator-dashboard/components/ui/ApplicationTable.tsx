@@ -104,7 +104,11 @@ export default function ApplicationTable<T>({
                       col.className ?? ""
                     } break-words`}
                   >
-                    {col.render ? col.render(item) : value ?? "N/A"}
+                    {col.render
+                      ? col.render(item)
+                      : value !== null && value !== undefined
+                      ? String(value)
+                      : "N/A"}
                   </div>
                 );
               })}

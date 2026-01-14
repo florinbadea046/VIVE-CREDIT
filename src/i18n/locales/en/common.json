@@ -6,6 +6,29 @@
     "clientPortal": "Client portal access",
     "logout": "Logout"
   },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "deleteReadTooltip": "Delete read notifications",
+    "deleteOne": "Delete notification",
+    "empty": "No notifications.",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "older": "Older",
+    "deleteConfirm": {
+      "title": "Delete read notifications?",
+      "message": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "mock": {
+      "applicationApproved": "Your application has been approved!",
+      "documentRequested": "New document requested"
+    }
+  },
+  "userBadge": {
+    "defaultName": "User"
+  },
   "language": "Select language",
   "login": "Login",
   "logout": "Logout",

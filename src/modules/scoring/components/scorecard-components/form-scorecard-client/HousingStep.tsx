@@ -10,8 +10,8 @@ export default function HousingStep({ data, updateData, onNext, onBack }: any) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="flex flex-col justify-center gap-6">
-          <div className="flex justify-center gap-8 md:gap-16">
+        <div className="flex justify-center items-center mt-4">
+          <ul className="flex flex-col gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
@@ -30,18 +30,28 @@ export default function HousingStep({ data, updateData, onNext, onBack }: any) {
               />{' '}
               Chiriaș
             </label>
-          </div>
-          <label className="flex items-center gap-2 cursor-pointer mx-auto">
-            <input
-              type="radio"
-              checked={data.housingStatus === 'Locuiește cu familia'}
-              onChange={() =>
-                updateData({ housingStatus: 'Locuiește cu familia' })
-              }
-              className="accent-blue-600 w-4 h-4"
-            />{' '}
-            Locuiește cu familia
-          </label>
+
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                checked={data.housingStatus === 'Locuiește cu familia'}
+                onChange={() =>
+                  updateData({ housingStatus: 'Locuiește cu familia' })
+                }
+                className="accent-blue-600 w-4 h-4"
+              />{' '}
+              Locuiește cu familia
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                checked={data.housingStatus === 'Fără locuință'}
+                onChange={() => updateData({ housingStatus: 'Fără locuință' })}
+                className="accent-blue-600 w-4 h-4"
+              />{' '}
+              Fără locuință
+            </label>
+          </ul>
         </div>
         <div className="flex justify-between">
           <Button

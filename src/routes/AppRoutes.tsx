@@ -36,8 +36,8 @@ import HelpPage from '@/modules/dashboard/pages/HelpPage';
 import LoanPage from '@/modules/dashboard/pages/LoanPage';
 import PaymentsPage from '@/modules/dashboard/pages/PaymentsPage';
 import UploadDocumentPage from '@/modules/dashboard/pages/UploadDocumentPage';
-import LoanForm from '@/pages/loan/LoanForm';
 import DecisionResultCard from '@/modules/decision-engine/components/DecisionResultCard';
+import LoanForm from '@/pages/loan/LoanForm';
 
 /* Operator Dashboard */
 import ProductSettingsPage from '@/modules/admin-products/pages/ProductSettingsPage';
@@ -48,6 +48,9 @@ import OperatorDashboardPage from '@/modules/operator-dashboard/pages/OperatorDa
 import RiskPage from '@/modules/operator-dashboard/pages/RiskPage';
 import ApplicationDetail from '@/modules/operator-dashboard/submodules/sales/ApplicationDetail';
 import SalesDashboard from '@/modules/operator-dashboard/submodules/sales/SalesDashboard';
+import AuditLog from '@/modules/admin/pages/AuditLog';
+import ReportsPage from '@/modules/operator-dashboard/submodules/reports/ReportsPage';
+import CollectionsDashboard from '@/modules/operator-dashboard/submodules/collections/components/CollectionsDashboard';
 
 /* Engines */
 import { AuditDashboard } from '@/modules/admin-audit/AuditDashboard';
@@ -59,10 +62,9 @@ import { ScorecardEngine } from '@/modules/scoring/pages/ScorecardEngine';
 import ProtectedAdminRoute from '@/components/ProtectedAdminRoute';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import AdminHomePage from '@/modules/admin/pages/AdminHomePage';
-import UserPage from '@/modules/admin/pages/UserPage';
-import SettingsPage from '@/modules/admin/pages/SettingsPage';
-import AdminLoginPage from '@/modules/auth/pages/AdminLoginPage';
+import UsersPage from '@/modules/admin/pages/UsersPage';
 import RequestLoanPage from '@/modules/applications/pages/RequestLoanPage';
+import AdminLoginPage from '@/modules/auth/pages/AdminLoginPage';
 import { ApplicationsContextProvider } from '@/modules/operator-dashboard/hooks/ApplicationsContext';
 import FormScorecardClient from '@/modules/scoring/pages/FormScorecardClient';
 
@@ -71,58 +73,53 @@ const AppRoutes = () => {
     <Routes>
       {/* PUBLIC ROUTES */}
       <Route element={<PublicLayout />}>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/anpc" element={<AnpcPage />} />
-        <Route path="/cookies" element={<CookiePolicyPage />} />
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/products' element={<ProductsPage />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/contact' element={<ContactPage />} />
+        <Route path='/terms' element={<TermsPage />} />
+        <Route path='/privacy' element={<PrivacyPage />} />
+        <Route path='/anpc' element={<AnpcPage />} />
+        <Route path='/cookies' element={<CookiePolicyPage />} />
       </Route>
 
       {/* AUTH ENTRY */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
 
       {/* CLIENT AUTH */}
-      <Route path="/login/client" element={<ClientLoginPage />} />
-      <Route path="/register/client" element={<ClientRegisterPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path='/login/client' element={<ClientLoginPage />} />
+      <Route path='/register/client' element={<ClientRegisterPage />} />
+      <Route path='/forgot-password' element={<ForgotPasswordPage />} />
 
       {/* OPERATOR AUTH */}
-      <Route path="/login/operator" element={<OperatorLoginPage />} />
-      {/* ADMIN AUTH */}
-      <Route path="/login/admin" element={<AdminLoginPage />} />
-      {/* ADMIN*/}
+      <Route path='/login/operator' element={<OperatorLoginPage />} />
+
+      {/* ADMIN */}
+      <Route path='/login/admin' element={<AdminLoginPage />} />
       <Route
-        path="/admin"
+        path='/admin'
         element={
           <ProtectedAdminRoute>
             <AdminHomePage />
           </ProtectedAdminRoute>
         }
       />
+
       <Route
-        path="/admin/users"
+        path='/admin/users'
         element={
           <ProtectedAdminRoute>
-            <UserPage />
+            <UsersPage />
           </ProtectedAdminRoute>
         }
       />
-      <Route
-        path="/admin/settings"
-        element={
-          <ProtectedAdminRoute>
-            <SettingsPage />
-          </ProtectedAdminRoute>
-        }
-      />
+
+      <Route path='/admin/audit-log' element={<AuditLog />} />
+
       {/* CLIENT ONBOARDING */}
       <Route
-        path="/onboarding"
+        path='/onboarding'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <OnboardingPage />
@@ -131,7 +128,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/onboarding/success"
+        path='/onboarding/success'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <SuccessPage />
@@ -141,7 +138,7 @@ const AppRoutes = () => {
 
       {/* CLIENT DASHBOARD */}
       <Route
-        path="/dashboard/home"
+        path='/dashboard/home'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <ClientHomePage />
@@ -150,7 +147,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard"
+        path='/dashboard'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <DashboardPage />
@@ -159,7 +156,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/help"
+        path='/dashboard/help'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <HelpPage />
@@ -168,7 +165,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/loan"
+        path='/dashboard/loan'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <LoanPage />
@@ -177,7 +174,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/loan-form"
+        path='/dashboard/loan-form'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <RequestLoanPage />
@@ -186,7 +183,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/payments"
+        path='/dashboard/payments'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <PaymentsPage />
@@ -195,7 +192,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/documents"
+        path='/dashboard/documents'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <DocumentsPage />
@@ -204,7 +201,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/documents/upload"
+        path='/dashboard/documents/upload'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <UploadDocumentPage />
@@ -213,15 +210,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/verification"
-        element={
-          <ProtectedRoute allowedRoles={['client']}>
-            <KycStatusPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/verification-timeline"
+        path='/dashboard/verification'
         element={
           <ProtectedRoute allowedRoles={['client']}>
             <KycStatusPage />
@@ -230,63 +219,55 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/dashboard/loan-form"
+        path='/dashboard/verification-timeline'
         element={
           <ProtectedRoute allowedRoles={['client']}>
-            <LoanForm />
+            <KycStatusPage />
           </ProtectedRoute>
         }
       />
-      {/*
-      <Route
-        path="/dashboard/decision-result"
-        element={
-          <ProtectedRoute allowedRoles={["client"]}>
-            <DecisionResultCard />
-          </ProtectedRoute>
-        }
-      />*/}
-
-      {/* Scoring */}
-
-      <Route path="/calculator" element={<ScoringCalculatorPage />} />
-      <Route path="/form" element={<FormScorecardClient />} />
 
       <Route
-        path="/dashboard/decision-result"
+        path='/dashboard/decision-result'
         element={<DecisionResultCard />}
       />
 
+      {/* Scoring */}
+      <Route path='/calculator' element={<ScoringCalculatorPage />} />
+      <Route path='/form' element={<FormScorecardClient />} />
+
       {/* OPERATOR DASHBOARD */}
       <Route
-        path="/operator"
+        path='/operator'
         element={
           <ProtectedRoute allowedRoles={['operator']}>
             <ApplicationsContextProvider>
               <OperatorDashboardLayout />
             </ApplicationsContextProvider>
           </ProtectedRoute>
-        }
-      >
+        }>
         <Route index element={<OperatorDashboardPage />} />
-        <Route path="clients" element={<ClientManagementPage />} />
-        <Route path="risk" element={<RiskPage />} />
-        <Route path="sales" element={<SalesDashboard />} />
-        <Route path="sales/:id" element={<ApplicationDetail />} />
-        <Route path="applications" element={<ApplicationsPage />} />
-        <Route path="products-settings" element={<ProductSettingsPage />} />
-        <Route path="policy-engine" element={<PolicyEnginePage />} />
-        <Route path="decision-engine" element={<DecisionPage />} />
-        <Route path="scorecard" element={<ScorecardEngine />} />
+        <Route path='clients' element={<ClientManagementPage />} />
+        <Route path='risk' element={<RiskPage />} />
+        <Route path='sales' element={<SalesDashboard />} />
+        <Route path='sales/:id' element={<ApplicationDetail />} />
+        <Route path='applications' element={<ApplicationsPage />} />
+        <Route path='products-settings' element={<ProductSettingsPage />} />
+        <Route path='policy-engine' element={<PolicyEnginePage />} />
+        <Route path='decision-engine' element={<DecisionPage />} />
+        <Route path='scorecard' element={<ScorecardEngine />} />
+        <Route path='collections' element={<CollectionsDashboard />} />
+        <Route path='audit-log' element={<AuditLog />} />
+        <Route path='reports' element={<ReportsPage />} />
       </Route>
 
       {/* ENGINES */}
-      <Route path="/policy-engine" element={<PolicyEnginePage />} />
-      <Route path="/decision-engine" element={<DecisionPage />} />
-      <Route path="/scorecard" element={<ScorecardEngine />} />
+      <Route path='/policy-engine' element={<PolicyEnginePage />} />
+      <Route path='/decision-engine' element={<DecisionPage />} />
+      <Route path='/scorecard' element={<ScorecardEngine />} />
 
       <Route
-        path="/audit"
+        path='/audit'
         element={
           <ProtectedRoute allowedRoles={['operator']}>
             <AuditDashboard />
@@ -295,10 +276,7 @@ const AppRoutes = () => {
       />
 
       {/* FALLBACK */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-
-      {/* Policy Engine */}
-      <Route path="/policy-engine" element={<PolicyEnginePage />} />
+      <Route path='*' element={<Navigate to='/' replace />} />
     </Routes>
   );
 };
