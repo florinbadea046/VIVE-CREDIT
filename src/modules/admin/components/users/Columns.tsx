@@ -63,7 +63,7 @@ export const getUsersColumns = ({
                 <MoreHorizontal className='h-4 w-4' />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end'>
+            <DropdownMenuContent align='end' className='dark:bg-[#0E151F]'>
               <DialogTrigger asChild>
                 <DropdownMenuItem>
                   <Pencil size={18} />
@@ -78,7 +78,7 @@ export const getUsersColumns = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DialogContent className='sm:max-w-[425px]'>
+          <DialogContent className='rounded-lg max-w-[425px] dark:bg-[#121B26]'>
             <UpdateUserForm user={user} onSave={onUpdateUser} />
           </DialogContent>
         </Dialog>

@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { addNotification } from "@/components/notifications/notifications.actions";
+import { useTranslation } from "react-i18next";
 
 interface PaymentModalProps {
   amount: number;
@@ -7,11 +8,16 @@ interface PaymentModalProps {
 }
 
 export default function PaymentModal({ amount, onClose }: PaymentModalProps) {
+  const { t, i18n } = useTranslation("dashboard");
+
+  // Determină localizarea pentru formatarea numerelor
+  const locale = i18n.language === "en" ? "en-US" : "ro-RO";
+
   const handleConfirmPayment = () => {
     addNotification({
-      text: `Plata de ${amount.toLocaleString(
-        "ro-RO"
-      )} RON a fost recepționată cu succes`,
+      text: t("payments.modal.successNotification", {
+        amount: amount.toLocaleString(locale),
+      }),
       date: new Date().toISOString(),
       read: false,
       type: "payment",
@@ -40,15 +46,15 @@ export default function PaymentModal({ amount, onClose }: PaymentModalProps) {
         </button>
 
         <h2 className="text-lg md:text-xl font-bold text-blue-700 dark:text-blue-300 mb-3 md:mb-4">
-          Plată rată
+          {t("payments.modal.title")}
         </h2>
 
         <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-2 md:mb-4">
-          Vei plăti suma de:
+          {t("payments.modal.description")}
         </p>
 
         <p className="text-2xl md:text-3xl font-bold text-blue-700 dark:text-blue-300 mb-4 md:mb-6">
-          {amount.toLocaleString("ro-RO")} RON
+          {amount.toLocaleString(locale)} RON
         </p>
 
         <button
@@ -65,7 +71,7 @@ export default function PaymentModal({ amount, onClose }: PaymentModalProps) {
             dark:bg-blue-500 dark:hover:bg-blue-400
           "
         >
-          Confirmă plata
+          {t("payments.modal.confirmButton")}
         </button>
       </div>
     </div>

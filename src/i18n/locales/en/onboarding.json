@@ -1,0 +1,158 @@
+{
+  "personalData": {
+    "title": "Step 1 — Personal Data",
+    "fields": {
+      "fullName": {
+        "label": "Full Name",
+        "placeholder": "Ex: John Smith"
+      },
+      "cnp": {
+        "label": "Personal ID Number",
+        "placeholder": "Ex: 5010101223344"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "example@email.com"
+      }
+    },
+    "errors": {
+      "fullName": "Please enter a valid full name.",
+      "cnp": "Personal ID must contain exactly 13 digits.",
+      "email": "Please enter a valid email address."
+    },
+    "continueButton": "Continue"
+  },
+  "addressData": {
+    "title": "Step 2 — Address and Contact",
+    "fields": {
+      "address": {
+        "label": "Address",
+        "placeholder": "Ex: 10 Main Street"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "Ex: Bucharest"
+      },
+      "county": {
+        "label": "County",
+        "placeholder": "Ex: Ilfov"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "+40 XXXXXXXX"
+      }
+    },
+    "errors": {
+      "address": "Please enter the complete address.",
+      "city": "Please enter the city.",
+      "county": "Please enter the county.",
+      "phone": "Please enter a valid phone number."
+    },
+    "backButton": "⬅ Back",
+    "continueButton": "Continue"
+  },
+  "workData": {
+    "title": "Step 3 — Workplace",
+    "fields": {
+      "company": {
+        "label": "Company Name",
+        "placeholder": "Ex: Tech Solutions LLC"
+      },
+      "position": {
+        "label": "Job Title / Position",
+        "placeholder": "Ex: Software Developer"
+      },
+      "income": {
+        "label": "Monthly NET Income (RON)",
+        "placeholder": "Ex: 7000"
+      },
+      "experience": {
+        "label": "Experience (years)",
+        "placeholder": "Ex: 3"
+      }
+    },
+    "errors": {
+      "required": "This field cannot be empty.",
+      "income": "Income must be a positive number.",
+      "experience": "Experience cannot be negative."
+    },
+    "backButton": "⬅ Back",
+    "continueButton": "Continue"
+  },
+  "documentUpload": {
+    "title": "Step 4 — Document Upload",
+    "fields": {
+      "idCard": {
+        "label": "Identity Document",
+        "placeholder": "Click or drag file here"
+      },
+      "incomeProof": {
+        "label": "Proof of Income",
+        "placeholder": "Click or drag file here"
+      },
+      "otherDocs": {
+        "label": "Other Documents",
+        "placeholder": "Add other files"
+      }
+    },
+    "errors": {
+      "invalidFormat": "Invalid format. Accepted: PDF, JPG, PNG, DOC, DOCX, XLS, XLSX.",
+      "fileTooLarge": "File cannot exceed 10MB.",
+      "uploadError": "Upload error",
+      "unknownError": "Unknown error",
+      "uploadFailedFor": "Error uploading {{fileName}}: {{message}}",
+      "requiredDocuments": "Upload identity document and proof of income.",
+      "waitForUploads": "Wait for uploads to complete."
+    },
+    "backButton": "⬅ Back",
+    "continueButton": "Continue",
+    "uploading": "Uploading..."
+  },
+  "onboardingPage": {
+    "steps": {
+      "personalData": "Personal Data",
+      "address": "Address",
+      "workplace": "Workplace",
+      "documents": "Documents",
+      "summary": "Summary"
+    },
+    "errors": {
+      "requiredFields": "Please complete all required fields.",
+      "phonePrefix": "International prefix is missing. Check phone number."
+    },
+    "summary": {
+      "title": "Final Summary",
+      "fields": {
+        "name": "Name",
+        "cnp": "Personal ID",
+        "email": "Email",
+        "address": "Address",
+        "phone": "Phone",
+        "company": "Company",
+        "position": "Position",
+        "income": "NET Income",
+        "experience": "Experience",
+        "years": "years",
+        "documentsUploaded": "Documents Uploaded"
+      },
+      "documentsList": {
+        "idCard": "Identity document",
+        "incomeProof": "Proof of income",
+        "otherDocs": "{{count}} other documents"
+      },
+      "buttons": {
+        "editDocuments": "Edit documents",
+        "finalize": "Finalize application"
+      }
+    }
+  },
+  "successPage": {
+    "title": "Your application has been successfully completed!",
+    "thankYou": "Thank you",
+    "defaultName": "client",
+    "dataRegistered": "Your data has been registered and the application has been sent for analysis.",
+    "applicationNumber": "Application number",
+    "consultantContact": "A consultant will analyze the information provided and contact you as soon as possible for the next steps.",
+    "accessAccount": "Access your account"
+  }
+}

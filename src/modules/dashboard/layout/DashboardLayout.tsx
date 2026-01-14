@@ -17,10 +17,12 @@ import UserBadge from "@/components/UserBadge";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import Toast from "@/components/notifications/Toast";
 import type { Notification } from "@/components/notifications/notifications.types";
+import { useTranslation } from "react-i18next";
 
 const EVENT_NAME = "notifications-updated";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const { t } = useTranslation("dashboard");
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState<Notification | null>(null);
   const { theme, toggleTheme } = useTheme();
@@ -98,7 +100,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           className="md:hidden mb-6 flex items-center gap-2"
         >
           <X size={26} className="text-gray-700 dark:text-gray-300" />
-          <span className="text-gray-700 dark:text-gray-300">Închide</span>
+          <span className="text-gray-700 dark:text-gray-300">
+            {t("layout.closeMenu")}
+          </span>
         </button>
 
         <div className="flex items-center justify-between mb-8">
@@ -137,7 +141,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
             onClick={() => setOpen(false)}
           >
-            <Home size={20} /> Acasă
+            <Home size={20} /> {t("layout.navigation.home")}
           </NavLink>
 
           <NavLink
@@ -152,7 +156,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
             onClick={() => setOpen(false)}
           >
-            <LayoutDashboard size={20} /> Dashboard
+            <LayoutDashboard size={20} /> {t("layout.navigation.dashboard")}
           </NavLink>
 
           <NavLink
@@ -166,7 +170,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
             onClick={() => setOpen(false)}
           >
-            <CreditCard size={20} /> Împrumutul meu
+            <CreditCard size={20} /> {t("layout.navigation.myLoan")}
           </NavLink>
 
           <NavLink
@@ -180,7 +184,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
             onClick={() => setOpen(false)}
           >
-            <Clock size={20} /> Istoric plăți
+            <Clock size={20} /> {t("layout.navigation.paymentHistory")}
           </NavLink>
 
           <NavLink
@@ -194,7 +198,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
             onClick={() => setOpen(false)}
           >
-            <FileText size={20} /> Documente
+            <FileText size={20} /> {t("layout.navigation.documents")}
           </NavLink>
 
           <NavLink
@@ -208,7 +212,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
             onClick={() => setOpen(false)}
           >
-            <HelpCircle size={20} /> Ajutor
+            <HelpCircle size={20} /> {t("layout.navigation.help")}
           </NavLink>
         </nav>
 

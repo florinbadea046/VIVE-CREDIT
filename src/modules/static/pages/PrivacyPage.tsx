@@ -1,84 +1,76 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const PrivacyPage = () => {
+  const { t } = useTranslation("static");
+
   return (
     <>
       <Helmet>
-        <title>Politica de Confidențialitate • Vive Credit</title>
-        <meta
-          name="description"
-          content="Află cum colectăm, utilizăm și protejăm datele tale personale conform GDPR în platforma Vive Credit."
-        />
+        <title>{t("privacy.meta.title")}</title>
+        <meta name="description" content={t("privacy.meta.description")} />
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-6 py-16 text-slate-800 dark:text-slate-200">
-        <h1 className="text-4xl font-bold mb-6">
-          Politica de Confidențialitate
-        </h1>
+        <h1 className="text-4xl font-bold mb-6">{t("privacy.headline")}</h1>
 
-        <p className="mb-5">
-          Această politică explică modul în care <strong>Vive Credit</strong>{" "}
-          colectează, utilizează și protejează datele tale personale în
-          conformitate cu Regulamentul (UE) 2016/679 (GDPR).
-        </p>
+        <p className="mb-5">{t("privacy.intro")}</p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-3">
-          1. Ce date colectăm
+          {t("privacy.sections.dataCollection.title")}
         </h2>
         <ul className="list-disc pl-6 mb-5 space-y-2">
-          <li>Date de identificare (nume, CNP, adresă)</li>
-          <li>Date de contact (email, telefon)</li>
-          <li>Date financiare (venit, angajator, situație creditare)</li>
-          <li>Documente încărcate (CI, adeverințe, extrase)</li>
+          <li>{t("privacy.sections.dataCollection.items.0")}</li>
+          <li>{t("privacy.sections.dataCollection.items.1")}</li>
+          <li>{t("privacy.sections.dataCollection.items.2")}</li>
+          <li>{t("privacy.sections.dataCollection.items.3")}</li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-3">
-          2. Scopul colectării
+          {t("privacy.sections.purpose.title")}
         </h2>
-        <p className="mb-4">
-          Procesarea cererilor de credit, verificări AML/KYC, scoring,
-          contractare și comunicări legate de cont.
-        </p>
+        <p className="mb-4">{t("privacy.sections.purpose.text")}</p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-3">3. Temeiul legal</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-3">
+          {t("privacy.sections.legalBasis.title")}
+        </h2>
         <ul className="list-disc pl-6 mb-5 space-y-2">
-          <li>Executarea unui contract</li>
-          <li>Obligații legale (Legea 129/2019 AML)</li>
-          <li>Interes legitim (prevenirea fraudelor)</li>
+          <li>{t("privacy.sections.legalBasis.items.0")}</li>
+          <li>{t("privacy.sections.legalBasis.items.1")}</li>
+          <li>{t("privacy.sections.legalBasis.items.2")}</li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-3">
-          4. Perioada de stocare
+          {t("privacy.sections.retention.title")}
         </h2>
-        <p className="mb-4">
-          Datele sunt păstrate conform legislației financiar-contabile: între 5
-          și 10 ani.
-        </p>
+        <p className="mb-4">{t("privacy.sections.retention.text")}</p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-3">5. Drepturile tale</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-3">
+          {t("privacy.sections.rights.title")}
+        </h2>
         <ul className="list-disc pl-6 mb-5 space-y-2">
-          <li>Dreptul de acces</li>
-          <li>Dreptul la rectificare</li>
-          <li>Dreptul la ștergere</li>
-          <li>Dreptul la opoziție</li>
-          <li>Dreptul la portabilitatea datelor</li>
+          <li>{t("privacy.sections.rights.items.0")}</li>
+          <li>{t("privacy.sections.rights.items.1")}</li>
+          <li>{t("privacy.sections.rights.items.2")}</li>
+          <li>{t("privacy.sections.rights.items.3")}</li>
+          <li>{t("privacy.sections.rights.items.4")}</li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-3">
-          6. Securitatea datelor
+          {t("privacy.sections.security.title")}
         </h2>
-        <p className="mb-4">
-          Datele sunt criptate, stocate în medii securizate și protejate prin
-          proceduri stricte anti-fraudă.
-        </p>
+        <p className="mb-4">{t("privacy.sections.security.text")}</p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-3">7. Contact DPO</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-3">
+          {t("privacy.sections.dpo.title")}
+        </h2>
         <p className="mb-12">
-          Email: dpo@vivecredit.ro
-          <br /> Telefon: +40 744 000 000
+          {t("privacy.sections.dpo.email")}
+          <br />
+          {t("privacy.sections.dpo.phone")}
         </p>
 
-        <p className="text-sm opacity-60">Ultima actualizare: 2025</p>
+        <p className="text-sm opacity-60">{t("privacy.lastUpdated")}</p>
       </div>
     </>
   );

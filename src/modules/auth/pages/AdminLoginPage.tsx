@@ -50,7 +50,7 @@ function AdminLoginPage() {
     <div className='min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 px-4'>
       <div className='relative bg-white dark:bg-slate-800 p-10 pt-16 rounded-2xl shadow-xl max-w-md w-full'>
         <button
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/")}
           className='absolute top-4 left-4 bg-white dark:bg-slate-700 shadow-md rounded-full p-2.5 hover:bg-slate-100 dark:hover:bg-slate-600 transition'
         >
           <ArrowLeft className='w-5 h-5 text-slate-600 dark:text-slate-200' />

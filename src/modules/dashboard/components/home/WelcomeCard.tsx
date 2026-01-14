@@ -1,17 +1,19 @@
 import CardWrapper from "../../components/CardWrapper";
 import { Hand } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function WelcomeCard({ name }: { name: string }) {
+  const { t } = useTranslation("dashboard");
+
   return (
-    <CardWrapper title="Bun venit!" icon={<Hand size={22} />}>
+    <CardWrapper title={t("welcome.title")} icon={<Hand size={22} />}>
       <div className="space-y-3">
         <p className="text-lg font-semibold text-blue-700 dark:text-blue-300">
-          Salut, {name}! 👋
+          {t("welcome.greeting", { name })} 👋
         </p>
 
         <p className="text-gray-600 dark:text-gray-300">
-          Ne bucurăm să te avem înapoi. Aici găsești un rezumat rapid al
-          aplicațiilor și creditelor tale active.
+          {t("welcome.description")}
         </p>
       </div>
     </CardWrapper>

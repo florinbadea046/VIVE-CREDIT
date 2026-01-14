@@ -1,0 +1,302 @@
+{
+  "layout": {
+    "closeMenu": "Close",
+    "navigation": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "myLoan": "My Loan",
+      "paymentHistory": "Payment History",
+      "documents": "Documents",
+      "help": "Help"
+    }
+  },
+  "payments": {
+    "modal": {
+      "title": "Installment Payment",
+      "description": "You will pay the amount of:",
+      "confirmButton": "Confirm Payment",
+      "successNotification": "Payment of {{amount}} RON was successfully received"
+    },
+    "status": {
+      "completed": "Completed",
+      "pending": "Processing",
+      "failed": "Failed"
+    },
+    "method": {
+      "card": "Card",
+      "transfer": "Transfer",
+      "cash": "Cash"
+    }
+  },
+  "verification": {
+    "title": "Verification Status",
+    "viewDetails": "View Details",
+    "loading": "Loading...",
+    "noVerifications": "No verifications yet",
+    "kyc": "KYC",
+    "aml": "AML",
+    "status": {
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "inProgress": "In Progress",
+      "pending": "Pending"
+    },
+    "lastStepCompleted": "Last step completed",
+    "lastStepInProgress": "In progress: {{title}} ({{badge}})",
+    "noStepsStarted": "No steps started"
+  },
+  "home": {
+    "registrationSuccess": {
+      "title": "Registration Complete",
+      "message": "Your account has been successfully created"
+    }
+  },
+  "documents": {
+    "title": "My Documents",
+    "description": "Here you can find all your loan documents: signed contract, repayment schedule, and uploaded verification documents.",
+    "names": {
+      "contract_credit": "Loan Contract",
+      "repayment_schedule": "Repayment Schedule",
+      "id_card_both_sides": "ID Card - Front / Back",
+      "income_certificate": "Income Certificate",
+      "old_contract_expired": "Old Contract (Expired)"
+    }
+  },
+  "uploadDocument": {
+    "title": "Upload Documents",
+    "backButton": "Back to My Documents",
+    "description": "Upload the necessary documents for identity verification or processing your application. Accepted formats:",
+    "acceptedFormats": "PDF, JPG and PNG",
+    "maxSize": "max 10MB",
+    "note": "Make sure the documents are readable and do not exceed the maximum allowed size."
+  },
+  "welcome": {
+    "title": "Welcome!",
+    "greeting": "Hi, {{name}}!",
+    "description": "We're glad to have you back. Here you'll find a quick summary of your applications and active loans."
+  },
+  "help": {
+    "title": "Help & Support",
+    "subtitle": "We're here for you — choose the right contact method.",
+    "phoneSupport": {
+      "title": "Phone Support",
+      "scheduleLabel": "Schedule",
+      "schedule": "Monday – Friday, 09:00 – 18:00",
+      "number": "0312 345 678"
+    },
+    "emailSupport": {
+      "title": "Email Support",
+      "description": "For general inquiries or non-urgent situations:",
+      "email": "support@vivecredit.ro"
+    },
+    "usefulInfo": {
+      "title": "Useful Information",
+      "requiredDocs": {
+        "title": "Required Documents",
+        "idCard": "Identity Document",
+        "incomeProof": "Income Certificate / Bank Statement",
+        "otherDocs": "Other documents may be requested based on analysis"
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "description": "Your data is encrypted and protected in accordance with personal data protection legislation."
+      }
+    }
+  },
+  "applications": {
+    "title": "My Applications",
+    "applicationId": "Application #{{id}}",
+    "requestedAmount": "Requested Amount",
+    "submittedOn": "Submitted on",
+    "newApplication": "New Application",
+    "status": {
+      "approved": "Approved",
+      "pending": "Under Review",
+      "rejected": "Rejected"
+    }
+  },
+  "credits": {
+    "title": "My Loans",
+    "noActiveCredits": "You have no active loans.",
+    "creditId": "Loan #{{id}}",
+    "totalAmount": "Total Amount",
+    "remainingAmount": "Remaining Balance",
+    "monthlyPayment": "Monthly Installment",
+    "paymentProgress": "Payment Progress"
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "applyForLoan": "Apply for Loan",
+    "myDocuments": "My Documents",
+    "help": "Help"
+  },
+  "applicationStatus": {
+    "title": "Application Status",
+    "applicationNumber": "Application Number",
+    "notificationMessage": "You will receive a notification as soon as your application moves to the next stage.",
+    "statuses": {
+      "pending": "Application Registered – Pending",
+      "inReview": "Application is Being Reviewed by a Consultant",
+      "approved": "Approved ✔ Funds are Ready",
+      "rejected": "Application Has Been Rejected"
+    }
+  },
+  "documentsCard": {
+    "title": "Documents",
+    "download": "Download"
+  },
+  "paymentFilters": {
+    "status": {
+      "label": "Status",
+      "all": "All Statuses",
+      "completed": "Completed",
+      "pending": "Processing",
+      "failed": "Failed"
+    },
+    "method": {
+      "label": "Method",
+      "all": "All Methods",
+      "card": "Card",
+      "transfer": "Transfer",
+      "cash": "Cash"
+    },
+    "month": {
+      "label": "Month",
+      "all": "All Months"
+    }
+  },
+  "paymentHistory": {
+    "title": "Payment History",
+    "status": {
+      "completed": "Completed",
+      "pending": "Processing"
+    }
+  },
+  "paymentList": {
+    "status": {
+      "completed": "Completed",
+      "pending": "Processing",
+      "failed": "Failed"
+    }
+  },
+  "loanContract": {
+    "title": "Loan Contract",
+    "signedAndActive": "Signed and Active Contract",
+    "description": "You have permanent access to the loan contract, along with all related annexes. We recommend downloading and keeping a copy for your personal records and future reference.",
+    "formatAvailable": "Available Format",
+    "compatible": "compatible with all devices",
+    "downloadButton": "Download Contract (PDF)"
+  },
+  "loanDetails": {
+    "title": "Loan Details",
+    "loanAmount": "Loan Amount",
+    "monthlyRate": "Monthly Installment",
+    "interest": "Interest",
+    "contractDuration": "Contract Duration",
+    "nextDueDate": "Next Due Date",
+    "months": "months"
+  },
+  "loanProgress": {
+    "title": "Repayment Progress",
+    "status": {
+      "slow": "Slow Repayment",
+      "almostDone": "Almost Complete",
+      "inProgress": "In Progress"
+    },
+    "totalProgress": "Total Progress",
+    "totalRepaid": "Total Repaid",
+    "remainingToPay": "Remaining Balance",
+    "paidMonths": "Months Paid",
+    "remainingMonths": "Remaining Months",
+    "months": "months",
+    "totalLoanValue": "Total Loan Value"
+  },
+  "loanSummary": {
+    "title": "Loan Details",
+    "status": {
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "grantedAmount": "Granted Amount",
+    "monthlyRate": "Monthly Installment",
+    "interest": "Interest",
+    "duration": "Duration",
+    "months": "months",
+    "lastPayment": "Last Payment",
+    "method": "Method"
+  },
+  "nextPayment": {
+    "title": "Next Payment",
+    "status": {
+      "overdue": "Overdue",
+      "dueSoon": "Due Soon",
+      "onTime": "On Time"
+    },
+    "amountToPay": "Amount to Pay",
+    "dueDate": "Due Date",
+    "overdueDays": "Overdue by {{days}} days",
+    "dueToday": "Due Today",
+    "inDays": "In {{days}} days",
+    "payButton": "Pay Installment"
+  },
+  "documentsFilters": {
+    "title": "Filter Documents",
+    "reset": "Reset",
+    "uploadDocument": "Upload Document",
+    "category": {
+      "all": "All Types",
+      "contract": "Contracts",
+      "schedule": "Repayment Schedules",
+      "kyc": "KYC Documents",
+      "income": "Income Documents",
+      "other": "Other Documents"
+    },
+    "status": {
+      "all": "All Statuses",
+      "available": "Available",
+      "processing": "Processing",
+      "expired": "Expired"
+    },
+    "year": {
+      "all": "All Years"
+    }
+  },
+  "documentsList": {
+    "title": "My Documents",
+    "categories": {
+      "contract": "Contract",
+      "schedule": "Repayment Schedule",
+      "kyc": "KYC / Identity",
+      "income": "Income Document",
+      "other": "Other Documents"
+    },
+    "status": {
+      "available": "Available",
+      "processing": "Processing",
+      "expired": "Expired"
+    },
+    "download": "Download",
+    "unavailable": "Unavailable",
+    "noDocuments": "No documents match the selected filters."
+  },
+  "documentUploader": {
+    "uploadTitle": "Upload Documents",
+    "uploadSubtitle": "Accepts PDF, JPG, PNG (max 10MB)",
+    "uploadProgress": "{{progress}}% uploaded",
+    "uploadedDocuments": "Uploaded Documents",
+    "noDocuments": "You haven't uploaded any documents.",
+    "submitButton": "Submit Documents",
+    "preview": "Preview",
+    "remove": "Remove",
+    "previewTitle": "Document Preview",
+    "previewAlt": "Document preview",
+    "close": "Close",
+    "errors": {
+      "invalidType": "Only PDF, JPG or PNG are allowed.",
+      "tooLarge": "File is too large (max 10MB)."
+    },
+    "uploadSuccess": "Files have been uploaded successfully!",
+    "submitSuccess": "Documents have been submitted successfully! 🔥",
+    "notificationText": "{{count}} document(s) have been submitted for verification"
+  }
+}

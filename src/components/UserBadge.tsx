@@ -3,8 +3,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { logout } from "@/store/authSlice";
 import { clearUser } from "@/store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function UserBadge() {
+  const { t } = useTranslation("common");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
@@ -22,7 +24,7 @@ export default function UserBadge() {
         <User className="w-9 h-9 text-blue-600 dark:text-blue-300" />
         <div>
           <p className="font-semibold text-slate-900 dark:text-white">
-            {user.name || "Utilizator"}
+            {user.name || t("userBadge.defaultName")}
           </p>
           <p className="text-sm text-slate-600 dark:text-slate-300 capitalize">
             {role}

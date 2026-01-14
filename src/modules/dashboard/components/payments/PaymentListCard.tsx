@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   CheckCircle,
   XCircle,
@@ -13,24 +14,29 @@ interface Props {
 }
 
 export default function PaymentListCard({ payments }: Props) {
+  const { t } = useTranslation("dashboard");
+
   const getStatusBadge = (status: PaymentItem["status"]) => {
     switch (status) {
       case "completed":
         return (
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300">
-            <CheckCircle size={16} className="dark:text-green-300" /> Finalizată
+            <CheckCircle size={16} className="dark:text-green-300" />{" "}
+            {t("paymentList.status.completed")}
           </span>
         );
       case "failed":
         return (
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300">
-            <XCircle size={16} className="dark:text-red-300" /> Eșuată
+            <XCircle size={16} className="dark:text-red-300" />{" "}
+            {t("paymentList.status.failed")}
           </span>
         );
       case "pending":
         return (
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300">
-            <Clock size={16} className="dark:text-yellow-300" /> În procesare
+            <Clock size={16} className="dark:text-yellow-300" />{" "}
+            {t("paymentList.status.pending")}
           </span>
         );
     }
@@ -58,11 +64,7 @@ export default function PaymentListCard({ payments }: Props) {
       {payments.map((p) => (
         <div
           key={p.id}
-          className="
-            bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition
-            grid grid-cols-1 sm:grid-cols-3 gap-4 items-center
-            dark:bg-[#2A3B55A6] dark:border-white/10 dark:shadow-none
-          "
+          className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition grid grid-cols-1 sm:grid-cols-3 gap-4 items-center dark:bg-[#2A3B55A6] dark:border-white/10 dark:shadow-none"
         >
           <div className="flex items-center gap-4">
             {getIcon(p.method)}

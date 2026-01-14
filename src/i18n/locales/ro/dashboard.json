@@ -1,0 +1,302 @@
+{
+  "layout": {
+    "closeMenu": "Închide",
+    "navigation": {
+      "home": "Acasă",
+      "dashboard": "Dashboard",
+      "myLoan": "Împrumutul meu",
+      "paymentHistory": "Istoric plăți",
+      "documents": "Documente",
+      "help": "Ajutor"
+    }
+  },
+  "payments": {
+    "modal": {
+      "title": "Plată rată",
+      "description": "Vei plăti suma de:",
+      "confirmButton": "Confirmă plata",
+      "successNotification": "Plata de {{amount}} RON a fost recepționată cu succes"
+    },
+    "status": {
+      "completed": "Finalizată",
+      "pending": "În procesare",
+      "failed": "Eșuată"
+    },
+    "method": {
+      "card": "Card",
+      "transfer": "Transfer",
+      "cash": "Cash"
+    }
+  },
+  "verification": {
+    "title": "Status Verificare",
+    "viewDetails": "Vezi detalii",
+    "loading": "Se încarcă...",
+    "noVerifications": "Nu există verificări încă",
+    "kyc": "KYC",
+    "aml": "AML",
+    "status": {
+      "approved": "Aprobat",
+      "rejected": "Respins",
+      "inProgress": "În verificare",
+      "pending": "În așteptare"
+    },
+    "lastStepCompleted": "Ultimul pas finalizat",
+    "lastStepInProgress": "În verificare: {{title}} ({{badge}})",
+    "noStepsStarted": "Niciun pas început"
+  },
+  "home": {
+    "registrationSuccess": {
+      "title": "Înregistrare finalizată",
+      "message": "Contul tău a fost creat cu succes"
+    }
+  },
+  "documents": {
+    "title": "Documentele mele",
+    "description": "Aici găsești toate documentele tale de credit: contractul semnat, graficul de rambursare și actele încărcate pentru verificare.",
+    "names": {
+      "contract_credit": "Contract de credit",
+      "repayment_schedule": "Grafic de rambursare",
+      "id_card_both_sides": "CI - față / verso",
+      "income_certificate": "Adeverință de venit",
+      "old_contract_expired": "Contract vechi (expirat)"
+    }
+  },
+  "uploadDocument": {
+    "title": "Încărcare documente",
+    "backButton": "Înapoi la documentele mele",
+    "description": "Încarcă documentele necesare pentru verificarea identității sau procesarea cererii tale. Sunt acceptate formatele:",
+    "acceptedFormats": "PDF, JPG și PNG",
+    "maxSize": "max 10MB",
+    "note": "Asigură-te că documentele sunt lizibile și că nu depășesc dimensiunea maximă permisă."
+  },
+  "welcome": {
+    "title": "Bun venit!",
+    "greeting": "Salut, {{name}}!",
+    "description": "Ne bucurăm să te avem înapoi. Aici găsești un rezumat rapid al aplicațiilor și creditelor tale active."
+  },
+  "help": {
+    "title": "Ajutor & Suport",
+    "subtitle": "Suntem aici pentru tine — alege metoda de contact potrivită.",
+    "phoneSupport": {
+      "title": "Suport telefonic",
+      "scheduleLabel": "Program",
+      "schedule": "Luni – Vineri, 09:00 – 18:00",
+      "number": "0312 345 678"
+    },
+    "emailSupport": {
+      "title": "Suport prin email",
+      "description": "Pentru întrebări generale sau situații non-urgente:",
+      "email": "suport@vivecredit.ro"
+    },
+    "usefulInfo": {
+      "title": "Informații utile",
+      "requiredDocs": {
+        "title": "Documente necesare",
+        "idCard": "Act de identitate",
+        "incomeProof": "Adeverință de venit / extras bancar",
+        "otherDocs": "Alte documente pot fi solicitate în funcție de analiză"
+      },
+      "dataSecurity": {
+        "title": "Securitatea datelor",
+        "description": "Datele tale sunt criptate și protejate conform legislației privind protecția datelor cu caracter personal."
+      }
+    }
+  },
+  "applications": {
+    "title": "Aplicațiile mele",
+    "applicationId": "Aplicația #{{id}}",
+    "requestedAmount": "Suma solicitată",
+    "submittedOn": "Depusă pe",
+    "newApplication": "Aplicație nouă",
+    "status": {
+      "approved": "Aprobată",
+      "pending": "În analiză",
+      "rejected": "Respinsă"
+    }
+  },
+  "credits": {
+    "title": "Creditele mele",
+    "noActiveCredits": "Nu ai credite active.",
+    "creditId": "Credit #{{id}}",
+    "totalAmount": "Suma totală",
+    "remainingAmount": "Rămas de plată",
+    "monthlyPayment": "Rata lunară",
+    "paymentProgress": "Progres plată"
+  },
+  "quickActions": {
+    "title": "Acțiuni rapide",
+    "applyForLoan": "Aplică pentru credit",
+    "myDocuments": "Documentele mele",
+    "help": "Ajutor"
+  },
+  "applicationStatus": {
+    "title": "Status aplicație",
+    "applicationNumber": "Număr cerere",
+    "notificationMessage": "Vei primi notificare imediat ce cererea ta avansează către următorul stadiu.",
+    "statuses": {
+      "pending": "Cerere înregistrată – în așteptare",
+      "inReview": "Cererea este analizată de un consultant",
+      "approved": "Aprobată ✔ Fondurile sunt pregătite",
+      "rejected": "Cererea a fost respinsă"
+    }
+  },
+  "documentsCard": {
+    "title": "Documente",
+    "download": "Descărcare"
+  },
+  "paymentFilters": {
+    "status": {
+      "label": "Status",
+      "all": "Toate statusurile",
+      "completed": "Finalizate",
+      "pending": "În procesare",
+      "failed": "Eșuate"
+    },
+    "method": {
+      "label": "Metodă",
+      "all": "Toate metodele",
+      "card": "Card",
+      "transfer": "Transfer",
+      "cash": "Cash"
+    },
+    "month": {
+      "label": "Lună",
+      "all": "Toate lunile"
+    }
+  },
+  "paymentHistory": {
+    "title": "Istoric plăți",
+    "status": {
+      "completed": "Finalizată",
+      "pending": "În procesare"
+    }
+  },
+  "paymentList": {
+    "status": {
+      "completed": "Finalizată",
+      "pending": "În procesare",
+      "failed": "Eșuată"
+    }
+  },
+  "loanContract": {
+    "title": "Contract credit",
+    "signedAndActive": "Contract semnat și activ",
+    "description": "Ai acces permanent la contractul de credit, împreună cu toate anexele aferente. Recomandăm descărcarea și păstrarea unei copii pentru evidență personală și pentru consultări ulterioare.",
+    "formatAvailable": "Format disponibil",
+    "compatible": "compatibil cu toate dispozitivele",
+    "downloadButton": "Descarcă contractul (PDF)"
+  },
+  "loanDetails": {
+    "title": "Detalii împrumut",
+    "loanAmount": "Suma împrumutată",
+    "monthlyRate": "Rata lunară",
+    "interest": "Dobândă",
+    "contractDuration": "Durată contract",
+    "nextDueDate": "Următoarea scadență",
+    "months": "luni"
+  },
+  "loanProgress": {
+    "title": "Progres rambursare",
+    "status": {
+      "slow": "Rambursare lentă",
+      "almostDone": "Aproape finalizat",
+      "inProgress": "În curs"
+    },
+    "totalProgress": "Progres total",
+    "totalRepaid": "Total rambursat",
+    "remainingToPay": "Rămas de plată",
+    "paidMonths": "Luni plătite",
+    "remainingMonths": "Luni rămase",
+    "months": "luni",
+    "totalLoanValue": "Valoare totală credit"
+  },
+  "loanSummary": {
+    "title": "Detalii împrumut",
+    "status": {
+      "active": "Activ",
+      "completed": "Finalizat"
+    },
+    "grantedAmount": "Suma acordată",
+    "monthlyRate": "Rată lunară",
+    "interest": "Dobândă",
+    "duration": "Durată",
+    "months": "luni",
+    "lastPayment": "Ultima plată",
+    "method": "Metodă"
+  },
+  "nextPayment": {
+    "title": "Următoarea plată",
+    "status": {
+      "overdue": "Întârziată",
+      "dueSoon": "Scadentă în curând",
+      "onTime": "În termen"
+    },
+    "amountToPay": "Sumă de plată",
+    "dueDate": "Data scadenței",
+    "overdueDays": "Întârziată cu {{days}} zile",
+    "dueToday": "Scadentă astăzi",
+    "inDays": "În {{days}} zile",
+    "payButton": "Plătește rata"
+  },
+  "documentsFilters": {
+    "title": "Filtrează documentele",
+    "reset": "Resetează",
+    "uploadDocument": "Încarcă document",
+    "category": {
+      "all": "Toate tipurile",
+      "contract": "Contracte",
+      "schedule": "Grafice rambursare",
+      "kyc": "Documente KYC",
+      "income": "Documente venit",
+      "other": "Alte documente"
+    },
+    "status": {
+      "all": "Toate statusurile",
+      "available": "Disponibile",
+      "processing": "În prelucrare",
+      "expired": "Expirate"
+    },
+    "year": {
+      "all": "Toți anii"
+    }
+  },
+  "documentsList": {
+    "title": "Documentele mele",
+    "categories": {
+      "contract": "Contract",
+      "schedule": "Grafic rambursare",
+      "kyc": "KYC / Identitate",
+      "income": "Document venit",
+      "other": "Alte documente"
+    },
+    "status": {
+      "available": "Disponibil",
+      "processing": "În prelucrare",
+      "expired": "Expirat"
+    },
+    "download": "Descarcă",
+    "unavailable": "Indisponibil",
+    "noDocuments": "Nu există documente care să corespundă filtrelor selectate."
+  },
+  "documentUploader": {
+    "uploadTitle": "Încarcă documente",
+    "uploadSubtitle": "Acceptă PDF, JPG, PNG (max 10MB)",
+    "uploadProgress": "{{progress}}% încărcat",
+    "uploadedDocuments": "Documente încărcate",
+    "noDocuments": "Nu ai încărcat niciun document.",
+    "submitButton": "Trimite documentele",
+    "preview": "Previzualizare",
+    "remove": "Șterge",
+    "previewTitle": "Preview document",
+    "previewAlt": "Document preview",
+    "close": "Închide",
+    "errors": {
+      "invalidType": "Doar PDF, JPG sau PNG sunt permise.",
+      "tooLarge": "Fișierul este prea mare (max 10MB)."
+    },
+    "uploadSuccess": "Fișierele au fost încărcate cu succes!",
+    "submitSuccess": "Documentele au fost trimise cu succes! 🔥",
+    "notificationText": "Au fost trimise {{count}} document(e) pentru verificare"
+  }
+}

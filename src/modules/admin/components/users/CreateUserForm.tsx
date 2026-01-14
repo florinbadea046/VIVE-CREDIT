@@ -33,6 +33,8 @@ type CreateUserFormProps = {
   onSave: (user: User) => void;
 };
 function CreateUserForm({ onSave }: CreateUserFormProps) {
+  const baseBtn =
+    "flex items-center justify-center gap-2 p-3 rounded-lg transition font-medium";
   const [open, setOpen] = React.useState(false);
 
   const form = useForm<z.input<typeof CreateUserSchema>>({
@@ -73,15 +75,18 @@ function CreateUserForm({ onSave }: CreateUserFormProps) {
       <DialogTrigger asChild>
         <Button
           size='lg'
-          className={
-            "flex items-center justify-center gap-2 p-3 rounded-lg transition font-medium absolute right-6 top-6 bg-blue-600 hover:bg-blue-700 text-white"
-          }
+          className={cn(
+            baseBtn,
+            "bg-blue-600 hover:bg-blue-700 text-white",
+            "w-full sm:w-auto",
+            "static bottom-6 sm:absolute sm:right-6 sm:top-6"
+          )}
         >
           <UserRoundPlus size={18} />
           Adauga Utilizator
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className='rounded-lg max-w-[425px] dark:bg-[#121B26]'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Creaza Utilizator</DialogTitle>
@@ -162,7 +167,7 @@ function CreateUserForm({ onSave }: CreateUserFormProps) {
                     <SelectTrigger id='role'>
                       <SelectValue placeholder='Selecteaza rol' />
                     </SelectTrigger>
-                    <SelectContent id='role'>
+                    <SelectContent id='role' className='dark:bg-[#0E151F]'>
                       <SelectItem value='client'>Client</SelectItem>
                       <SelectItem value='operator'>Operator</SelectItem>
                       <SelectItem value='admin'>Admin</SelectItem>
@@ -174,9 +179,13 @@ function CreateUserForm({ onSave }: CreateUserFormProps) {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant='outline'>Anulare</Button>
+              <Button variant='ghost'>Anulare</Button>
             </DialogClose>
-            <Button type='submit' disabled={!isDirty || !isValid}>
+            <Button
+              type='submit'
+              disabled={!isDirty || !isValid}
+              className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
+            >
               Salvare
             </Button>
           </DialogFooter>

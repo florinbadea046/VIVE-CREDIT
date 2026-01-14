@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Upload,
   FileText,
@@ -13,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { addNotification } from "@/components/notifications/notifications.actions";
 
 export default function DocumentUploader() {
+  const { t } = useTranslation("dashboard");
   const navigate = useNavigate();
 
   const [files, setFiles] = useState<File[]>([]);
@@ -43,14 +45,14 @@ export default function DocumentUploader() {
 
       const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
       if (!allowedTypes.includes(file.type)) {
-        setError("Doar PDF, JPG sau PNG sunt permise.");
+        setError(t("documentUploader.errors.invalidType"));
         setLoading(false);
         e.target.value = "";
         return;
       }
 
       if (file.size > 10 * 1024 * 1024) {
-        setError("Fișierul este prea mare (max 10MB).");
+        setError(t("documentUploader.errors.tooLarge"));
         setLoading(false);
         e.target.value = "";
         return;
@@ -74,7 +76,7 @@ export default function DocumentUploader() {
     }
 
     setError("");
-    setSuccessMessage("Fișierele au fost încărcate cu succes!");
+    setSuccessMessage(t("documentUploader.uploadSuccess"));
     setTimeout(() => setSuccessMessage(""), 3000);
 
     setLoading(false);
@@ -87,13 +89,13 @@ export default function DocumentUploader() {
 
   const handleSubmit = () => {
     addNotification({
-      text: `Au fost trimise ${files.length} document(e) pentru verificare`,
+      text: t("documentUploader.notificationText", { count: files.length }),
       date: new Date().toISOString(),
       read: false,
       type: "document",
     });
 
-    setSentMessage("Documentele au fost trimise cu succes! 🔥");
+    setSentMessage(t("documentUploader.submitSuccess"));
 
     setTimeout(() => {
       navigate("/dashboard/documents");
@@ -115,14 +117,7 @@ export default function DocumentUploader() {
 
       <label
         htmlFor="fileInput"
-        className="
-          cursor-pointer rounded-xl p-8
-          border-2 border-dashed border-blue-300 dark:border-white/20
-          bg-blue-50/20 dark:bg-[#2A3B55]/20
-          hover:bg-blue-50/40 dark:hover:bg-[#2A3B55]/40
-          flex flex-col items-center justify-center
-          transition-all
-        "
+        className="cursor-pointer rounded-xl p-8 border-2 border-dashed border-blue-300 dark:border-white/20 bg-blue-50/20 dark:bg-[#2A3B55]/20 hover:bg-blue-50/40 dark:hover:bg-[#2A3B55]/40 flex flex-col items-center justify-center transition-all"
       >
         {loading ? (
           <>
@@ -136,7 +131,9 @@ export default function DocumentUploader() {
                 ></div>
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-300 mt-1 text-center">
-                {uploadProgress}% încărcat
+                {t("documentUploader.uploadProgress", {
+                  progress: uploadProgress,
+                })}
               </p>
             </div>
           </>
@@ -147,10 +144,10 @@ export default function DocumentUploader() {
         {!loading && (
           <>
             <p className="font-medium text-blue-700 dark:text-blue-300">
-              Încarcă documente
+              {t("documentUploader.uploadTitle")}
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-              Acceptă PDF, JPG, PNG (max 10MB)
+              {t("documentUploader.uploadSubtitle")}
             </p>
           </>
         )}
@@ -165,34 +162,21 @@ export default function DocumentUploader() {
         </div>
       )}
 
-      <div
-        className="
-          p-4 rounded-xl 
-          bg-white dark:bg-[#1F2A40]
-          border border-blue-100 dark:border-white/10 
-          shadow-sm space-y-3
-        "
-      >
+      <div className="p-4 rounded-xl bg-white dark:bg-[#1F2A40] border border-blue-100 dark:border-white/10 shadow-sm space-y-3">
         <p className="font-semibold text-gray-800 dark:text-gray-100">
-          Documente încărcate
+          {t("documentUploader.uploadedDocuments")}
         </p>
 
         {files.length === 0 ? (
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Nu ai încărcat niciun document.
+            {t("documentUploader.noDocuments")}
           </p>
         ) : (
           <div className="space-y-3">
             {files.map((file, i) => (
               <div
                 key={i}
-                className="
-                  flex items-center justify-between
-                  p-3 rounded-lg
-                  bg-blue-50/40 dark:bg-[#2A3B55]/30
-                  border border-blue-100 dark:border-white/10
-                  transition
-                "
+                className="flex items-center justify-between p-3 rounded-lg bg-blue-50/40 dark:bg-[#2A3B55]/30 border border-blue-100 dark:border-white/10 transition"
               >
                 <div className="flex items-center gap-3">
                   {getFileIcon(file.type)}
@@ -211,6 +195,7 @@ export default function DocumentUploader() {
                   <button
                     onClick={() => setPreviewFile(file)}
                     className="p-2 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"
+                    aria-label={t("documentUploader.preview")}
                   >
                     <Eye
                       size={18}
@@ -221,6 +206,7 @@ export default function DocumentUploader() {
                   <button
                     onClick={() => removeFile(i)}
                     className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/40 transition"
+                    aria-label={t("documentUploader.remove")}
                   >
                     <Trash2
                       size={18}
@@ -239,7 +225,7 @@ export default function DocumentUploader() {
           className="w-full py-3 mt-2 rounded-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-md transition"
           onClick={handleSubmit}
         >
-          Trimite documentele
+          {t("documentUploader.submitButton")}
         </button>
       )}
 
@@ -261,11 +247,12 @@ export default function DocumentUploader() {
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                Preview document
+                {t("documentUploader.previewTitle")}
               </h2>
               <button
                 onClick={() => setPreviewFile(null)}
                 className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                aria-label={t("documentUploader.close")}
               >
                 <X size={20} className="text-gray-700 dark:text-gray-300" />
               </button>
@@ -280,7 +267,7 @@ export default function DocumentUploader() {
             ) : (
               <img
                 src={URL.createObjectURL(previewFile)}
-                alt="Document preview"
+                alt={t("documentUploader.previewAlt")}
                 className="w-full max-h-[70vh] object-contain rounded-lg"
               />
             )}

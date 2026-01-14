@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/table";
 import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 import { Settings2 } from "lucide-react";
+import type { User } from "../../mock/Users.mock";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -84,20 +85,25 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className='flex items-center py-4 gap-4'>
-        <div className='text-muted-foreground flex-1 text-sm'>
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+        <div className='hidden md:block text-muted-foreground flex-1 text-sm'>
+          {table.getFilteredSelectedRowModel().rows.length} din{" "}
+          {table.getFilteredRowModel().rows.length} randuri selectate.
         </div>
         <Select
           value={(table.getColumn("role")?.getFilterValue() as string) ?? ""}
-          onValueChange={(value) =>
-            table.getColumn("role")?.setFilterValue(value)
-          }
+          onValueChange={(value) => {
+            if (value === "tot") {
+              table.getColumn("role")?.setFilterValue(undefined); // clear filter
+            } else {
+              table.getColumn("role")?.setFilterValue(value);
+            }
+          }}
         >
           <SelectTrigger className='w-auto'>
             <SelectValue placeholder='Filtreaza rol' />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className='dark:bg-[#0E151F]'>
+            <SelectItem value='tot'>Tot</SelectItem>
             <SelectItem value='client'>Client</SelectItem>
             <SelectItem value='operator'>Operator</SelectItem>
             <SelectItem value='admin'>Admin</SelectItem>
@@ -112,7 +118,7 @@ export function DataTable<TData, TValue>({
               Vezi
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
+          <DropdownMenuContent align='end' className='dark:bg-[#0E151F]'>
             <DropdownMenuLabel>Comutați coloanele</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {table
@@ -157,21 +163,26 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const isInactive = (row.original as User).status !== "active";
+                console.log(isInactive);
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className={`${isInactive ? "opacity-50 bg-muted" : ""}`}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell
@@ -185,24 +196,31 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
-        <Button
-          size='sm'
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
-        >
-          Previous
-        </Button>
-        <Button
-          size='sm'
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
-        >
-          Next
-        </Button>
-      </div>
+      {table.getPageCount() > 1 && (
+        <div className='flex items-center justify-end space-x-2 py-4'>
+          <span className='text-sm text-muted-foreground'>
+            Pagina <strong>{table.getState().pagination.pageIndex + 1}</strong>{" "}
+            din <strong>{table.getPageCount()}</strong>
+          </span>
+          <Button
+            size='sm'
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
+          >
+            Previous
+          </Button>
+
+          <Button
+            size='sm'
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

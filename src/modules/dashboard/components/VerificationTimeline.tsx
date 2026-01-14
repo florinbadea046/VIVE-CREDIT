@@ -1,5 +1,3 @@
-import React from "react";
-
 function formatDate(dateString?: string) {
   if (!dateString) return "";
   const date = new Date(dateString);

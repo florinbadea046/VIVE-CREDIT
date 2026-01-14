@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import CardWrapper from "../CardWrapper";
 import { TrendingUp } from "lucide-react";
 
@@ -14,6 +15,8 @@ export default function LoanProgressCard({
   monthlyRate,
   amount,
 }: LoanProgressProps) {
+  const { t } = useTranslation("dashboard");
+
   const totalMonths = paidMonths + remainingMonths;
   const progress = (paidMonths / totalMonths) * 100;
 
@@ -25,7 +28,7 @@ export default function LoanProgressCard({
 
   return (
     <CardWrapper
-      title="Progres rambursare"
+      title={t("loanProgress.title")}
       icon={
         <TrendingUp size={22} className="text-blue-600 dark:text-blue-300" />
       }
@@ -43,15 +46,15 @@ export default function LoanProgressCard({
         >
           ●{" "}
           {isBehind
-            ? "Rambursare lentă"
+            ? t("loanProgress.status.slow")
             : isAlmostDone
-            ? "Aproape finalizat"
-            : "În curs"}
+            ? t("loanProgress.status.almostDone")
+            : t("loanProgress.status.inProgress")}
         </div>
 
         <div>
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">
-            Progres total: <b>{progress.toFixed(0)}%</b>
+            {t("loanProgress.totalProgress")}: <b>{progress.toFixed(0)}%</b>
           </p>
 
           <div className="w-full bg-blue-100 dark:bg-white/10 rounded-full h-3 overflow-hidden shadow-inner">
@@ -64,30 +67,38 @@ export default function LoanProgressCard({
 
         <div className="grid grid-cols-2 gap-4 text-sm pt-2">
           <div>
-            <p className="text-gray-500 dark:text-gray-400">Total rambursat</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              {t("loanProgress.totalRepaid")}
+            </p>
             <p className="text-blue-700 dark:text-blue-300 font-semibold">
               {totalPaid.toLocaleString("ro-RO")} RON
             </p>
           </div>
 
           <div>
-            <p className="text-gray-500 dark:text-gray-400">Rămas de plată</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              {t("loanProgress.remainingToPay")}
+            </p>
             <p className="text-red-600 dark:text-red-300 font-semibold">
               {totalRemaining.toLocaleString("ro-RO")} RON
             </p>
           </div>
 
           <div>
-            <p className="text-gray-500 dark:text-gray-400">Luni plătite</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              {t("loanProgress.paidMonths")}
+            </p>
             <p className="font-medium text-gray-800 dark:text-gray-200">
-              {paidMonths} luni
+              {paidMonths} {t("loanProgress.months")}
             </p>
           </div>
 
           <div>
-            <p className="text-gray-500 dark:text-gray-400">Luni rămase</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              {t("loanProgress.remainingMonths")}
+            </p>
             <p className="font-medium text-gray-800 dark:text-gray-200">
-              {remainingMonths} luni
+              {remainingMonths} {t("loanProgress.months")}
             </p>
           </div>
         </div>
@@ -95,7 +106,7 @@ export default function LoanProgressCard({
         <hr className="border-gray-200 dark:border-white/10 mt-2" />
 
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Valoare totală credit:{" "}
+          {t("loanProgress.totalLoanValue")}:{" "}
           <span className="font-semibold text-gray-700 dark:text-gray-200">
             {amount.toLocaleString("ro-RO")} RON
           </span>

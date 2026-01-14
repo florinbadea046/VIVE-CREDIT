@@ -3,7 +3,7 @@ import type { DocumentItem } from "../types/documents";
 export const documentsMock: DocumentItem[] = [
   {
     id: "DOC-001",
-    name: "Contract de credit",
+    name: "contract_credit",
     category: "contract",
     uploadedAt: "2025-01-10",
     sizeKb: 320,
@@ -12,7 +12,7 @@ export const documentsMock: DocumentItem[] = [
   },
   {
     id: "DOC-002",
-    name: "Grafic de rambursare",
+    name: "repayment_schedule",
     category: "schedule",
     uploadedAt: "2025-01-10",
     sizeKb: 210,
@@ -21,7 +21,7 @@ export const documentsMock: DocumentItem[] = [
   },
   {
     id: "DOC-003",
-    name: "CI - față / verso",
+    name: "id_card_both_sides",
     category: "kyc",
     uploadedAt: "2024-12-20",
     sizeKb: 580,
@@ -30,7 +30,7 @@ export const documentsMock: DocumentItem[] = [
   },
   {
     id: "DOC-004",
-    name: "Adeverință de venit",
+    name: "income_certificate",
     category: "income",
     uploadedAt: "2024-12-18",
     sizeKb: 450,
@@ -39,7 +39,7 @@ export const documentsMock: DocumentItem[] = [
   },
   {
     id: "DOC-005",
-    name: "Contract vechi (expirat)",
+    name: "old_contract_expired",
     category: "contract",
     uploadedAt: "2023-05-01",
     sizeKb: 300,

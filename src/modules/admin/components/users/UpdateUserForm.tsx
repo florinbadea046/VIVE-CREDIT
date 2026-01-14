@@ -30,6 +30,8 @@ type UpdateUserFormProps = {
 };
 
 function UpdateUserForm({ user, onSave }: UpdateUserFormProps) {
+  const baseBtn =
+    "flex items-center justify-center gap-2 p-3 rounded-lg transition font-medium";
   const { id } = user;
   const form = useForm<z.input<typeof CreateUserSchema>>({
     defaultValues: {
@@ -153,10 +155,14 @@ function UpdateUserForm({ user, onSave }: UpdateUserFormProps) {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant='outline'>Anulare</Button>
+            <Button variant='ghost'>Anulare</Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button type='submit' disabled={!isDirty || !isValid}>
+            <Button
+              type='submit'
+              disabled={!isDirty || !isValid}
+              className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
+            >
               Salvare
             </Button>
           </DialogClose>

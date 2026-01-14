@@ -49,7 +49,7 @@ export default function RiskDashboard() {
     },
     {
       key: "score",
-      label: "Risk",
+      label: "Risc",
       className: "min-w-[80px]",
       render: (app) => {
         const score = app.score ?? 0;
@@ -70,7 +70,7 @@ export default function RiskDashboard() {
     },
     {
       key: "status",
-      label: "Status",
+      label: "Stare aplicație",
       className: "min-w-[100px]",
       render: (app) => {
         return <StatusBadge status={app.status} />;
@@ -78,7 +78,7 @@ export default function RiskDashboard() {
     },
     {
       key: "reasonCodes",
-      label: "Reason",
+      label: "Motiv",
       className: "hidden md:block min-w-[120px]",
       render: (app) => {
         if (!app.reasonCodes?.length)
@@ -121,7 +121,7 @@ export default function RiskDashboard() {
             }}
             className="px-2 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
           >
-            Review
+            Revizuire
           </button>
         </div>
       ),
@@ -131,7 +131,7 @@ export default function RiskDashboard() {
   return (
     <div className="flex flex-col w-full max-w-7xl mx-auto">
       <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
-        Risk Dashboard
+        Panou Risc
       </h1>
 
       <RiskKpiCards applications={applications} />

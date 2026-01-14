@@ -20,14 +20,14 @@ export const dashboardMock: DashboardData = {
       id: "P-001",
       amount: 1750,
       date: "2025-10-15",
-      method: "Card",
+      method: "card",
       status: "completed",
     },
     {
       id: "P-002",
       amount: 1750,
       date: "2025-11-15",
-      method: "Card",
+      method: "card",
       status: "completed",
     },
   ],
@@ -35,12 +35,12 @@ export const dashboardMock: DashboardData = {
   documents: [
     {
       id: "D-001",
-      name: "Contract de credit",
+      name: "contract_credit",
       url: "/documents/contract.pdf",
     },
     {
       id: "D-002",
-      name: "Grafic de rambursare",
+      name: "repayment_schedule",
       url: "/documents/schedule.pdf",
     },
   ],

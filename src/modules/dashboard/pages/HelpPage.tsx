@@ -1,16 +1,19 @@
 import DashboardLayout from "../layout/DashboardLayout";
 import { Phone, Mail, FileText, Shield } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function HelpPage() {
+  const { t } = useTranslation("dashboard");
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
         <div>
           <h1 className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-            Ajutor & Suport
+            {t("help.title")}
           </h1>
           <p className="text-gray-600 dark:text-gray-300 mt-1">
-            Suntem aici pentru tine — alege metoda de contact potrivită.
+            {t("help.subtitle")}
           </p>
         </div>
 
@@ -19,17 +22,19 @@ export default function HelpPage() {
             <div className="flex items-center gap-3 mb-3">
               <Phone size={22} className="text-blue-700 dark:text-blue-300" />
               <h2 className="font-semibold text-blue-900 dark:text-white">
-                Suport telefonic
+                {t("help.phoneSupport.title")}
               </h2>
             </div>
 
             <p className="text-gray-700 dark:text-gray-300">
-              <span className="font-medium">Program:</span> Luni – Vineri, 09:00
-              – 18:00
+              <span className="font-medium">
+                {t("help.phoneSupport.scheduleLabel")}:
+              </span>{" "}
+              {t("help.phoneSupport.schedule")}
             </p>
 
             <p className="mt-2 text-lg font-semibold text-blue-700 dark:text-blue-300">
-              0312 345 678
+              {t("help.phoneSupport.number")}
             </p>
           </div>
 
@@ -37,23 +42,23 @@ export default function HelpPage() {
             <div className="flex items-center gap-3 mb-3">
               <Mail size={22} className="text-blue-700 dark:text-blue-300" />
               <h2 className="font-semibold text-blue-900 dark:text-white">
-                Suport prin email
+                {t("help.emailSupport.title")}
               </h2>
             </div>
 
             <p className="text-gray-700 dark:text-gray-300">
-              Pentru întrebări generale sau situații non-urgente:
+              {t("help.emailSupport.description")}
             </p>
 
             <p className="mt-2 text-lg font-semibold text-blue-700 dark:text-blue-300">
-              suport@vivecredit.ro
+              {t("help.emailSupport.email")}
             </p>
           </div>
         </div>
 
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-blue-700 dark:text-blue-300">
-            Informații utile
+            {t("help.usefulInfo.title")}
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -64,13 +69,13 @@ export default function HelpPage() {
                   className="text-blue-600 dark:text-blue-300"
                 />
                 <h4 className="font-semibold text-blue-900 dark:text-white">
-                  Documente necesare
+                  {t("help.usefulInfo.requiredDocs.title")}
                 </h4>
               </div>
               <p className="text-gray-700 dark:text-gray-300 text-sm">
-                • Act de identitate
-                <br />• Adeverință de venit / extras bancar
-                <br />• Alte documente pot fi solicitate în funcție de analiză
+                • {t("help.usefulInfo.requiredDocs.idCard")}
+                <br />• {t("help.usefulInfo.requiredDocs.incomeProof")}
+                <br />• {t("help.usefulInfo.requiredDocs.otherDocs")}
               </p>
             </div>
 
@@ -81,12 +86,11 @@ export default function HelpPage() {
                   className="text-blue-600 dark:text-blue-300"
                 />
                 <h4 className="font-semibold text-blue-900 dark:text-white">
-                  Securitatea datelor
+                  {t("help.usefulInfo.dataSecurity.title")}
                 </h4>
               </div>
               <p className="text-gray-700 dark:text-gray-300 text-sm">
-                Datele tale sunt criptate și protejate conform legislației
-                privind protecția datelor cu caracter personal.
+                {t("help.usefulInfo.dataSecurity.description")}
               </p>
             </div>
           </div>

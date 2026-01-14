@@ -13,10 +13,12 @@ import {
   Users,
   Users2,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import AdminDashboardLayout from "../components/AdminDashboardLayout";
 import KPICard from "../components/KPICard";
 
 function AdminHomePage() {
+  const navigate = useNavigate();
   const baseBtn =
     "flex items-center justify-center gap-2 p-3 rounded-lg transition font-medium";
 
@@ -133,6 +135,7 @@ function AdminHomePage() {
             <Button
               size='lg'
               className={`${baseBtn} bg-blue-600 hover:bg-blue-700 text-white`}
+              onClick={() => navigate("/admin/users")}
             >
               <User size={18} />
               Adăugați utilizator

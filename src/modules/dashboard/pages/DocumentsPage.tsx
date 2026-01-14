@@ -1,8 +1,10 @@
 import DashboardLayout from "../layout/DashboardLayout";
 import { documentsMock } from "../mock/documentsMock";
 import DocumentsFilters from "../components/documents/DocumentsFilters";
+import { useTranslation } from "react-i18next";
 
 export default function DocumentsPage() {
+  const { t } = useTranslation("dashboard");
   const documents = documentsMock;
 
   return (
@@ -10,11 +12,10 @@ export default function DocumentsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-            Documentele mele
+            {t("documents.title")}
           </h1>
           <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-            Aici găsești toate documentele tale de credit: contractul semnat,
-            graficul de rambursare și actele încărcate pentru verificare.
+            {t("documents.description")}
           </p>
         </div>
 

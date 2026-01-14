@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type {
   PaymentItem,
   PaymentStatus,
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export default function PaymentFilters({ payments }: Props) {
+  const { t } = useTranslation("dashboard");
   const [status, setStatus] = useState<PaymentStatus | "all">("all");
   const [method, setMethod] = useState<PaymentMethod | "all">("all");
   const [month, setMonth] = useState<string>("all");
@@ -34,7 +36,7 @@ export default function PaymentFilters({ payments }: Props) {
       >
         <div className="flex flex-col gap-2">
           <label className="text-sm font-semibold text-indigo-700 dark:text-indigo-300">
-            Status
+            {t("paymentFilters.status.label")}
           </label>
           <select
             className="
@@ -46,32 +48,32 @@ export default function PaymentFilters({ payments }: Props) {
             onChange={(e) => setStatus(e.target.value as PaymentStatus | "all")}
           >
             <option value="all" className="text-gray-500 dark:text-gray-300">
-              Toate statusurile
+              {t("paymentFilters.status.all")}
             </option>
             <option
               value="completed"
               className="text-green-600 dark:text-green-300 font-semibold"
             >
-              Finalizate
+              {t("paymentFilters.status.completed")}
             </option>
             <option
               value="pending"
               className="text-yellow-600 dark:text-yellow-300 font-semibold"
             >
-              În procesare
+              {t("paymentFilters.status.pending")}
             </option>
             <option
               value="failed"
               className="text-red-600 dark:text-red-300 font-semibold"
             >
-              Eșuate
+              {t("paymentFilters.status.failed")}
             </option>
           </select>
         </div>
 
         <div className="flex flex-col gap-2">
           <label className="text-sm font-semibold text-indigo-700 dark:text-indigo-300">
-            Metodă
+            {t("paymentFilters.method.label")}
           </label>
           <select
             className="
@@ -83,32 +85,32 @@ export default function PaymentFilters({ payments }: Props) {
             onChange={(e) => setMethod(e.target.value as PaymentMethod | "all")}
           >
             <option value="all" className="text-gray-500 dark:text-gray-300">
-              Toate metodele
+              {t("paymentFilters.method.all")}
             </option>
             <option
               value="Card"
               className="text-indigo-600 dark:text-indigo-300 font-semibold"
             >
-              Card
+              {t("paymentFilters.method.card")}
             </option>
             <option
               value="Transfer"
               className="text-blue-600 dark:text-blue-300 font-semibold"
             >
-              Transfer
+              {t("paymentFilters.method.transfer")}
             </option>
             <option
               value="Cash"
               className="text-orange-600 dark:text-orange-300 font-semibold"
             >
-              Cash
+              {t("paymentFilters.method.cash")}
             </option>
           </select>
         </div>
 
         <div className="flex flex-col gap-2">
           <label className="text-sm font-semibold text-indigo-700 dark:text-indigo-300">
-            Lună
+            {t("paymentFilters.month.label")}
           </label>
           <select
             className="
@@ -120,7 +122,7 @@ export default function PaymentFilters({ payments }: Props) {
             onChange={(e) => setMonth(e.target.value)}
           >
             <option value="all" className="text-gray-500 dark:text-gray-300">
-              Toate lunile
+              {t("paymentFilters.month.all")}
             </option>
             {[...new Set(payments.map((p) => p.date.slice(0, 7)))].map((m) => (
               <option

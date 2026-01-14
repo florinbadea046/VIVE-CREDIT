@@ -11,8 +11,10 @@ import { Check } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 import type { OnboardingData } from "@/modules/onboarding/types/onboarding";
+import { useTranslation } from "react-i18next";
 
 export default function OnboardingPage() {
+  const { t } = useTranslation("onboarding");
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const totalSteps = 5;
@@ -58,11 +60,11 @@ export default function OnboardingPage() {
   };
 
   const steps = [
-    "Date personale",
-    "Adresă",
-    "Loc de muncă",
-    "Documente",
-    "Rezumat",
+    t("onboardingPage.steps.personalData"),
+    t("onboardingPage.steps.address"),
+    t("onboardingPage.steps.workplace"),
+    t("onboardingPage.steps.documents"),
+    t("onboardingPage.steps.summary"),
   ];
 
   const handleSubmit = () => {
@@ -87,12 +89,12 @@ export default function OnboardingPage() {
     );
 
     if (invalid) {
-      alert("Completați toate câmpurile obligatorii.");
+      alert(t("onboardingPage.errors.requiredFields"));
       return;
     }
 
     if (!formData.phone.startsWith("+")) {
-      alert("Prefixul internațional lipsește. Verificați numărul de telefon.");
+      alert(t("onboardingPage.errors.phonePrefix"));
       return;
     }
 
@@ -254,68 +256,93 @@ export default function OnboardingPage() {
           >
             <CardHeader>
               <CardTitle className="text-2xl font-semibold text-blue-700 dark:text-blue-400 flex items-center gap-2">
-                <span>📝</span> Rezumat final
+                <span>📝</span> {t("onboardingPage.summary.title")}
               </CardTitle>
             </CardHeader>
 
             <CardContent>
               <div className="text-left space-y-3 text-gray-800 dark:text-[#c7d5ff]">
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Nume:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.name")}:
+                  </b>{" "}
                   {formData.fullName}
                 </p>
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">CNP:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.cnp")}:
+                  </b>{" "}
                   {formData.cnp}
                 </p>
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Email:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.email")}:
+                  </b>{" "}
                   {formData.email}
                 </p>
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Adresă:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.address")}:
+                  </b>{" "}
                   {formData.address}, {formData.city}, {formData.county}
                 </p>
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Telefon:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.phone")}:
+                  </b>{" "}
                   {formData.phone}
                 </p>
 
                 <hr className="my-4 border-gray-300 dark:border-[#243247]" />
 
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Companie:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.company")}:
+                  </b>{" "}
                   {formData.company}
                 </p>
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Funcție:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.position")}:
+                  </b>{" "}
                   {formData.position}
                 </p>
                 <p>
-                  <b className="text-blue-700 dark:text-blue-400">Venit NET:</b>{" "}
+                  <b className="text-blue-700 dark:text-blue-400">
+                    {t("onboardingPage.summary.fields.income")}:
+                  </b>{" "}
                   {formData.income} RON
                 </p>
                 <p>
                   <b className="text-blue-700 dark:text-blue-400">
-                    Experiență:
+                    {t("onboardingPage.summary.fields.experience")}:
                   </b>{" "}
-                  {formData.experience} ani
+                  {formData.experience}{" "}
+                  {t("onboardingPage.summary.fields.years")}
                 </p>
 
                 <hr className="my-4 border-gray-300 dark:border-[#243247]" />
 
                 <p>
                   <b className="text-blue-700 dark:text-blue-400">
-                    Documente încărcate:
+                    {t("onboardingPage.summary.fields.documentsUploaded")}:
                   </b>
                 </p>
 
                 <ul className="list-disc ml-5 text-sm text-gray-700 dark:text-gray-300">
-                  {formData.documents.idCard && <li>Act identitate</li>}
-                  {formData.documents.incomeProof && <li>Dovadă venit</li>}
+                  {formData.documents.idCard && (
+                    <li>{t("onboardingPage.summary.documentsList.idCard")}</li>
+                  )}
+                  {formData.documents.incomeProof && (
+                    <li>
+                      {t("onboardingPage.summary.documentsList.incomeProof")}
+                    </li>
+                  )}
                   {formData.documents.otherDocs.length > 0 && (
                     <li>
-                      {formData.documents.otherDocs.length} alte documente
+                      {t("onboardingPage.summary.documentsList.otherDocs", {
+                        count: formData.documents.otherDocs.length,
+                      })}
                     </li>
                   )}
                 </ul>
@@ -329,7 +356,8 @@ export default function OnboardingPage() {
           px-6 py-2 rounded-md w-full flex items-center justify-center gap-2
         "
                   >
-                    <span>📁</span> Modifică documente
+                    <span>📁</span>{" "}
+                    {t("onboardingPage.summary.buttons.editDocuments")}
                   </button>
 
                   <button
@@ -340,7 +368,7 @@ export default function OnboardingPage() {
           px-6 py-2 rounded-md w-full
         "
                   >
-                    Finalizează aplicația
+                    {t("onboardingPage.summary.buttons.finalize")}
                   </button>
                 </div>
               </div>

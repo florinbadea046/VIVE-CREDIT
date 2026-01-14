@@ -9,8 +9,10 @@ import {
   dashboardApplicationsMock,
   dashboardCreditsMock,
 } from "../mock/dashboardMock";
+import { useTranslation } from "react-i18next";
 
 export default function ClientHomePage() {
+  const { t } = useTranslation("dashboard");
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
@@ -43,10 +45,10 @@ export default function ClientHomePage() {
                        px-4 py-3"
           >
             <span className="text-green-700 dark:text-green-400 font-medium">
-              Înregistrare finalizată
+              {t("home.registrationSuccess.title")}
             </span>
             <span className="text-sm text-green-600 dark:text-green-300">
-              • Contul tău a fost creat cu succes
+              • {t("home.registrationSuccess.message")}
             </span>
           </div>
         )}

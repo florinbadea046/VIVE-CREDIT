@@ -39,10 +39,10 @@ function UsersPage() {
         </CardWrapper>
 
         {/* Users table */}
-        <div className='relative'>
+        <div className='relative flex flex-col gap-4 sm:block'>
           <CreateUserForm onSave={addUser} />
           <CardWrapper title='Tabel Utilizatori' icon={<Users size={18} />}>
-            <DataTable columns={columns} data={users} />
+            <DataTable<User, unknown> columns={columns} data={users} />
           </CardWrapper>
         </div>
       </div>

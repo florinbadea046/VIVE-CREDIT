@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   FileText,
   BadgeCheck,
@@ -14,38 +15,44 @@ interface Props {
 
 const formatSize = (kb: number): string =>
   kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${kb} KB`;
+
 const formatDate = (value: string): string => {
   const d = new Date(value);
   return Number.isNaN(d.getTime()) ? value : d.toLocaleDateString("ro-RO");
 };
 
-const categoryLabel: Record<DocumentItem["category"], string> = {
-  contract: "Contract",
-  schedule: "Grafic rambursare",
-  kyc: "KYC / Identitate",
-  income: "Document venit",
-  other: "Alte documente",
-};
-
 export default function DocumentsListCard({ documents }: Props) {
+  const { t } = useTranslation("dashboard");
+
+  const categoryLabel: Record<DocumentItem["category"], string> = {
+    contract: t("documentsList.categories.contract"),
+    schedule: t("documentsList.categories.schedule"),
+    kyc: t("documentsList.categories.kyc"),
+    income: t("documentsList.categories.income"),
+    other: t("documentsList.categories.other"),
+  };
+
   const getStatusBadge = (status: DocumentItem["status"]) => {
     switch (status) {
       case "available":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-100 text-green-700 text-[11px] font-medium dark:bg-green-500/20 dark:text-green-300">
-            <BadgeCheck size={14} className="dark:text-green-300" /> Disponibil
+            <BadgeCheck size={14} />
+            {t("documentsList.status.available")}
           </span>
         );
       case "processing":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-700 text-[11px] font-medium dark:bg-yellow-500/20 dark:text-yellow-300">
-            <Clock size={14} className="dark:text-yellow-300" /> În prelucrare
+            <Clock size={14} />
+            {t("documentsList.status.processing")}
           </span>
         );
       case "expired":
         return (
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-100 text-red-700 text-[11px] font-medium dark:bg-red-500/20 dark:text-red-300">
-            <AlertTriangle size={14} className="dark:text-red-300" /> Expirat
+            <AlertTriangle size={14} />
+            {t("documentsList.status.expired")}
           </span>
         );
     }
@@ -53,31 +60,26 @@ export default function DocumentsListCard({ documents }: Props) {
 
   return (
     <CardWrapper
-      title="Documentele mele"
+      title={t("documentsList.title")}
       icon={<FileText size={22} className="text-blue-600 dark:text-blue-300" />}
     >
       <div className="space-y-3">
         {documents.map((doc) => (
           <div
             key={doc.id}
-            className="
-              bg-blue-50/60 border border-blue-100 rounded-xl px-3 py-3 sm:px-4 sm:py-3 
-              flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:bg-blue-50 transition
-              dark:bg-[#2A3B55A6] dark:border-white/10 dark:hover:bg-[#2A3B55CC]
-            "
+            className="bg-blue-50/60 border border-blue-100 rounded-xl px-3 py-3 sm:px-4 sm:py-3 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:bg-blue-50 transition dark:bg-[#2A3B55A6] dark:border-white/10 dark:hover:bg-[#2A3B55CC]"
           >
             <div className="flex items-start gap-3 flex-1 min-w-0">
-              <div className="mt-0.5">
-                <FileText
-                  size={22}
-                  className="text-blue-600 dark:text-blue-300"
-                />
-              </div>
+              <FileText
+                size={22}
+                className="text-blue-600 dark:text-blue-300"
+              />
 
               <div className="min-w-0">
                 <p className="font-medium text-gray-900 dark:text-gray-100 text-sm sm:text-base truncate">
-                  {doc.name}
+                  {t(`documents.names.${doc.name}`)}
                 </p>
+
                 <p className="text-[11px] sm:text-xs text-blue-700 dark:text-blue-300 mt-0.5">
                   {categoryLabel[doc.category]}
                 </p>
@@ -97,26 +99,18 @@ export default function DocumentsListCard({ documents }: Props) {
                 <a
                   href={doc.url}
                   download
-                  className="
-                    inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white text-blue-700 
-                    text-xs sm:text-sm border border-blue-100 shadow-sm hover:bg-blue-600 hover:text-white transition
-                    dark:bg-[#1C2534] dark:text-blue-300 dark:border-white/10 dark:hover:bg-blue-500
-                  "
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white text-blue-700 text-xs sm:text-sm border border-blue-100 shadow-sm hover:bg-blue-600 hover:text-white transition dark:bg-[#1C2534] dark:text-blue-300 dark:border-white/10 dark:hover:bg-blue-500"
                 >
-                  <Download size={16} className="dark:text-blue-300" />
-                  <span>Descarcă</span>
+                  <Download size={16} />
+                  <span>{t("documentsList.download")}</span>
                 </a>
               ) : (
                 <button
                   disabled
-                  className="
-                    inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-400 
-                    text-xs sm:text-sm border border-gray-200 cursor-not-allowed
-                    dark:bg-gray-700 dark:text-gray-500 dark:border-white/10
-                  "
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-400 text-xs sm:text-sm border border-gray-200 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500 dark:border-white/10"
                 >
                   <Download size={16} />
-                  <span>Indisponibil</span>
+                  <span>{t("documentsList.unavailable")}</span>
                 </button>
               )}
             </div>
@@ -125,7 +119,7 @@ export default function DocumentsListCard({ documents }: Props) {
 
         {documents.length === 0 && (
           <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-            Nu există documente care să corespundă filtrelor selectate.
+            {t("documentsList.noDocuments")}
           </p>
         )}
       </div>

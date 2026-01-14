@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Filter, Upload, RotateCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type {
@@ -16,6 +17,7 @@ type CategoryFilter = DocumentCategory | "all";
 type StatusFilter = DocumentStatus | "all";
 
 export default function DocumentsFilters({ documents }: Props) {
+  const { t } = useTranslation("dashboard");
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [year, setYear] = useState<string>("all");
@@ -47,81 +49,74 @@ export default function DocumentsFilters({ documents }: Props) {
           <div className="flex items-center gap-2">
             <Filter size={18} className="text-blue-600 dark:text-blue-300" />
             <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
-              Filtrează documentele
+              {t("documentsFilters.title")}
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2">
             <button
               onClick={resetFilters}
-              className="
-                flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
-                bg-gray-100 hover:bg-gray-200 dark:bg-[#2A3B55] dark:hover:bg-[#1C2534] 
-                text-gray-800 dark:text-gray-200
-                transition shadow-sm
-              "
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200 dark:bg-[#2A3B55] dark:hover:bg-[#1C2534] text-gray-800 dark:text-gray-200 transition shadow-sm"
             >
               <RotateCcw size={16} />
-              Resetează
+              {t("documentsFilters.reset")}
             </button>
 
             <button
               onClick={() => navigate("/dashboard/documents/upload")}
-              className="
-                flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
-                bg-blue-600 hover:bg-blue-700 text-white
-                transition shadow-sm
-              "
+              className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm"
             >
               <Upload size={16} />
-              Încarcă document
+              {t("documentsFilters.uploadDocument")}
             </button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <select
-            className="
-              border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
-              dark:bg-[#2A3B55A6] dark:text-gray-200 dark:border-white/10 dark:hover:bg-[#1C2534]
-            "
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#2A3B55A6] dark:text-gray-200 dark:border-white/10 dark:hover:bg-[#1C2534]"
             value={category}
             onChange={(e) => setCategory(e.target.value as CategoryFilter)}
           >
-            <option value="all">Toate tipurile</option>
-            <option value="contract">Contracte</option>
-            <option value="schedule">Grafice rambursare</option>
-            <option value="kyc">Documente KYC</option>
-            <option value="income">Documente venit</option>
-            <option value="other">Alte documente</option>
+            <option value="all">{t("documentsFilters.category.all")}</option>
+            <option value="contract">
+              {t("documentsFilters.category.contract")}
+            </option>
+            <option value="schedule">
+              {t("documentsFilters.category.schedule")}
+            </option>
+            <option value="kyc">{t("documentsFilters.category.kyc")}</option>
+            <option value="income">
+              {t("documentsFilters.category.income")}
+            </option>
+            <option value="other">
+              {t("documentsFilters.category.other")}
+            </option>
           </select>
 
           <select
-            className="
-              border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
-              dark:bg-[#2A3B55A6] dark:text-gray-200 dark:border-white/10 dark:hover:bg-[#1C2534]
-            "
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#2A3B55A6] dark:text-gray-200 dark:border-white/10 dark:hover:bg-[#1C2534]"
             value={status}
             onChange={(e) => setStatus(e.target.value as StatusFilter)}
           >
-            <option value="all">Toate statusurile</option>
-            <option value="available">Disponibile</option>
-            <option value="processing">În prelucrare</option>
-            <option value="expired">Expirate</option>
+            <option value="all">{t("documentsFilters.status.all")}</option>
+            <option value="available">
+              {t("documentsFilters.status.available")}
+            </option>
+            <option value="processing">
+              {t("documentsFilters.status.processing")}
+            </option>
+            <option value="expired">
+              {t("documentsFilters.status.expired")}
+            </option>
           </select>
 
           <select
-            className="
-              border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white 
-              focus:outline-none focus:ring-2 focus:ring-blue-500
-              dark:bg-[#2A3B55A6] dark:text-gray-200 dark:border-white/10 dark:hover:bg-[#1C2534]
-            "
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#2A3B55A6] dark:text-gray-200 dark:border-white/10 dark:hover:bg-[#1C2534]"
             value={year}
             onChange={(e) => setYear(e.target.value)}
           >
-            <option value="all">Toți anii</option>
+            <option value="all">{t("documentsFilters.year.all")}</option>
             {years.map((y) => (
               <option key={y} value={y.toString()}>
                 {y}

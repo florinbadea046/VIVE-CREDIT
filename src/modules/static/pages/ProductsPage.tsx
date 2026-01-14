@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const ProductsPage = () => {
+  const { t } = useTranslation("static");
   const [amount, setAmount] = useState(5000);
   const [months, setMonths] = useState(12);
 
@@ -29,27 +31,24 @@ const ProductsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Produse | Vive Credit</title>
-        <meta
-          name="description"
-          content="Află mai multe despre produsele noastre de creditare, calculator rate și DAE."
-        />
+        <title>{t("products.meta.title")}</title>
+        <meta name="description" content={t("products.meta.description")} />
       </Helmet>
 
       <div className="min-h-screen bg-white dark:bg-slate-900 py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-8">
-            Produse de creditare
+            {t("products.headline")}
           </h1>
 
           <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl rounded-2xl p-8">
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
-              Calculator de credit
+              {t("products.calculator.title")}
             </h2>
 
             <div className="mb-8">
               <label className="text-slate-700 dark:text-slate-300 font-medium">
-                Suma dorită: {amount} RON
+                {t("products.calculator.amountLabel")}: {amount} RON
               </label>
               <input
                 type="range"
@@ -64,7 +63,8 @@ const ProductsPage = () => {
 
             <div className="mb-8">
               <label className="text-slate-700 dark:text-slate-300 font-medium">
-                Perioada: {months} luni
+                {t("products.calculator.periodLabel")}: {months}{" "}
+                {t("products.calculator.monthsUnit")}
               </label>
               <input
                 type="range"
@@ -80,7 +80,7 @@ const ProductsPage = () => {
             <div className="grid md:grid-cols-3 gap-6 pt-6">
               <div className="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
                 <p className="text-sm text-slate-500 dark:text-slate-300">
-                  Rata lunară estimată
+                  {t("products.calculator.results.monthlyRate")}
                 </p>
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
                   {monthlyRate.toFixed(2)} RON
@@ -89,7 +89,7 @@ const ProductsPage = () => {
 
               <div className="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
                 <p className="text-sm text-slate-500 dark:text-slate-300">
-                  Cost total
+                  {t("products.calculator.results.totalCost")}
                 </p>
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
                   {totalCost.toFixed(2)} RON
@@ -98,7 +98,7 @@ const ProductsPage = () => {
 
               <div className="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
                 <p className="text-sm text-slate-500 dark:text-slate-300">
-                  DAE estimată
+                  {t("products.calculator.results.dae")}
                 </p>
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
                   {dae}%
@@ -107,20 +107,17 @@ const ProductsPage = () => {
             </div>
 
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-6">
-              * Calcul automat cu valori demo pentru prezentare. DAE reală poate
-              varia în funcție de profilul clientului și evaluarea riscului.
+              {t("products.calculator.disclaimer")}
             </p>
           </div>
 
           <div className="mt-16">
             <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-              Credit rapid, 100% online
+              {t("products.feature.title")}
             </h2>
 
             <p className="text-slate-600 dark:text-slate-300 mt-4 text-lg max-w-2xl">
-              Vive Credit oferă un proces simplu, automatizat și transparent.
-              Aplici în câteva minute, verifici eligibilitatea instant și
-              primești banii în aceeași zi.
+              {t("products.feature.description")}
             </p>
           </div>
         </div>
