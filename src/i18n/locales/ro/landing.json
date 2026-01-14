@@ -1,0 +1,250 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "products": "Produse",
+    "about": "Despre noi",
+    "contact": "Contact",
+    "login": "Autentificare"
+  },
+
+  "hero": {
+    "title": "Soluții inteligente de creditare",
+    "highlight": "rapide și sigure",
+    "subtitle": "Proces 100% digital, verificări automate și aprobare rapidă.",
+    "cta": "Aplică acum",
+    "badges": {
+      "security": "Siguranță garantată",
+      "digital": "Proces digital"
+    },
+    "card": {
+      "title": "O experiență modernă",
+      "description": "Verificări inteligente, documente electronice și aprobare rapidă.",
+      "feature": {
+        "title": "Plăți integrate",
+        "text": "Tot într-un singur loc."
+      }
+    }
+  },
+
+  "brandStory": {
+    "sectionLabel": "Povestea VIVE CREDIT",
+    "sectionTitle": "Un IFN digital construit pentru viteză, siguranță și transparență",
+    "description": "VIVE CREDIT a apărut din nevoia de a simplifica accesul la finanțare. Am îmbinat tehnologia cu experiența în domeniul financiar pentru a crea un proces de creditare rapid, clar și 100% digital, fără birocrație inutilă.",
+    "features": {
+      "modernIFN": {
+        "title": "IFN modern",
+        "text": "Platformă construită pe microservicii, cu fluxuri automatizate pentru analiză și decizie."
+      },
+      "transparency": {
+        "title": "Transparență totală",
+        "text": "Explicăm clar dobânzile, comisioanele și pașii din proces. Fără surprize neplăcute."
+      },
+      "fastDigital": {
+        "title": "Rapid și digital",
+        "text": "Aplici online în câteva minute, iar decizia este generată prin motorul nostru de scoring."
+      }
+    }
+  },
+
+  "benefits": {
+    "sectionTitle": "Beneficii pentru clienții noștri",
+    "fastApproval": {
+      "title": "Aprobări rapide",
+      "text": "Proces optimizat, fără așteptări inutile."
+    },
+    "fullSecurity": {
+      "title": "Siguranță completă",
+      "text": "Protecție avansată și verificări AML."
+    },
+    "digital": {
+      "title": "100% digital",
+      "text": "Totul online – rapid și eficient."
+    },
+    "transparency": {
+      "title": "Transparență totală",
+      "text": "Fără costuri ascunse, fără surprize."
+    }
+  },
+
+  "products": {
+    "title": "Produse de credit adaptate nevoilor tale",
+    "rate": "Dobândă",
+    "limit": "Limită",
+    "showDetails": "Vezi detalii",
+    "hideDetails": "Ascunde detalii",
+    "items": [
+      {
+        "name": "Credit Rapid",
+        "rate": "9.5%",
+        "limit": "10.000 RON",
+        "description": "Ideal pentru nevoi urgente. Proces accelerat, documente minime și transfer rapid.",
+        "features": [
+          "Aprobări în câteva minute",
+          "Documente puține",
+          "Proces 100% digital"
+        ]
+      },
+      {
+        "name": "Credit Flexibil",
+        "rate": "10.2%",
+        "limit": "20.000 RON",
+        "description": "Potrivit pentru planuri personale. Rambursare flexibilă și dobânzi competitive.",
+        "features": [
+          "Rate flexibile",
+          "Posibilitate de rambursare anticipată",
+          "Dobândă adaptată profilului"
+        ]
+      },
+      {
+        "name": "Refinanțare",
+        "rate": "8.9%",
+        "limit": "30.000 RON",
+        "description": "Refinanțează-ți împrumuturile existente la o dobândă mai avantajoasă.",
+        "features": [
+          "Dobândă redusă",
+          "Comasare datorii",
+          "Ofertă personalizată în funcție de scor"
+        ]
+      }
+    ]
+  },
+
+  "costs": {
+    "label": "COSTURI & DAE",
+    "sectionTitle": "Exemplu reprezentativ de costuri",
+    "description": "Dorim să fim complet transparenți în privința costurilor. Mai jos este un exemplu reprezentativ de credit.",
+    "exampleTitle": "Exemplu de calcul",
+    "loanAmount": "Suma împrumutată:",
+    "loanDuration": "Durata creditului:",
+    "dae": "DAE (exemplu)",
+    "monthlyRate": "Rată lunară estimată:",
+    "totalRepayment": "Valoare totală de rambursat:",
+    "exampleNote": "Exemplu orientativ. Valorile exacte pot diferi.",
+    "daeDescription": "Include dobânda de bază și comisioanele obligatorii.",
+    "totalCostsDescription": "Îți prezentăm întotdeauna costurile totale.",
+    "personalizedOffer": "Poți începe oricând procesul online.",
+    "values": {
+      "loanAmount": "{{amount}}",
+      "loanDuration": "{{months}} luni",
+      "dae": "{{value}} / an",
+      "monthlyRate": "{{amount}}",
+      "totalRepayment": "{{amount}}"
+    }
+  },
+
+  "steps": {
+    "title": "Proces simplu și rapid",
+    "step1": "Creezi contul",
+    "step2": "Încarci documentele",
+    "step3": "Primești decizia"
+  },
+
+  "security": {
+    "label": "Siguranță & GDPR",
+    "title": "Protecția datelor și securitatea ta",
+    "description": "Ne asigurăm că datele tale sunt protejate și respectăm toate normele GDPR.",
+    "cards": {
+      "gdpr": {
+        "title": "Conform GDPR",
+        "text": "Respectăm toate cerințele Regulamentului General privind Protecția Datelor."
+      },
+      "encryption": {
+        "title": "Criptare Avansată",
+        "text": "Datele tale sunt securizate prin criptare de ultimă generație."
+      },
+      "rights": {
+        "title": "Drepturile tale",
+        "text": "Ai control complet asupra datelor tale și poți solicita acces sau ștergere."
+      }
+    },
+    "footer": {
+      "before": "Află mai multe în",
+      "privacy": "Politica de Confidențialitate",
+      "and": "și",
+      "terms": "Termeni și Condiții"
+    }
+  },
+
+  "testimonials": {
+    "title": "Ce spun clienții noștri",
+    "subtitle": "Experiențe reale de la utilizatorii noștri",
+    "items": [
+      {
+        "name": "Andrei I.",
+        "role": "Client VIVE CREDIT",
+        "text": "Proces extrem de rapid și ușor. Am primit aprobarea în câteva minute."
+      },
+      {
+        "name": "Maria P.",
+        "role": "Client VIVE CREDIT",
+        "text": "Platforma este modernă și ușor de folosit. Transparență totală."
+      },
+      {
+        "name": "George L.",
+        "role": "Client VIVE CREDIT",
+        "text": "Totul digital, clar și profesionist. Recomand!"
+      }
+    ]
+  },
+
+  "faq": {
+    "title": "Întrebări frecvente",
+    "subtitle": "Tot ce trebuie să știi înainte să aplici",
+    "faq1": {
+      "q": "Cât durează aprobarea?",
+      "a": "În majoritatea cazurilor, sub 2 minute."
+    },
+    "faq2": {
+      "q": "Este necesară prezența fizică?",
+      "a": "Nu. Totul este 100% digital."
+    },
+    "faq3": {
+      "q": "Ce documente sunt necesare?",
+      "a": "Act de identitate și dovada veniturilor."
+    },
+    "faq4": {
+      "q": "Există costuri ascunse?",
+      "a": "Nu. Totul este transparent."
+    }
+  },
+
+  "cta": {
+    "title": "Ești pregătit să aplici?",
+    "subtitle": "Rapid, digital, fără birocrație.",
+    "button": "Aplică acum",
+    "note": "100% digital • Fără costuri ascunse"
+  },
+
+  "footer": {
+    "description": "Soluții moderne de creditare, 100% digitale.",
+    "nav": {
+      "title": "Navigație",
+      "home": "Acasă",
+      "products": "Produse",
+      "about": "Despre noi",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal",
+      "terms": "Termeni și Condiții",
+      "privacy": "Politica de Confidențialitate",
+      "cookies": "Politica Cookie-uri",
+      "anpc": "ANPC"
+    },
+    "copyright": "© {{year}} Vive Credit. Toate drepturile rezervate."
+  },
+
+  "calculator": {
+    "title": "Calculator Credit",
+    "amountLabel": "Sumă dorită",
+    "periodLabel": "Perioadă",
+    "currency": "lei",
+    "monthsUnit": "luni",
+    "results": {
+      "monthlyRate": "Rată lunară estimată",
+      "totalCost": "Cost total credit",
+      "dae": "DAE estimată (demo)"
+    },
+    "disclaimer": "Exemplu informativ. Calcule reale sunt generate în contractul final."
+  }
+}

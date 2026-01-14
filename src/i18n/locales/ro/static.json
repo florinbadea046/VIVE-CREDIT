@@ -1,0 +1,266 @@
+{
+  "products": {
+    "meta": {
+      "title": "Produse | Vive Credit",
+      "description": "Află mai multe despre produsele noastre de creditare, calculator rate și DAE."
+    },
+    "headline": "Produse de creditare",
+    "calculator": {
+      "title": "Calculator de credit",
+      "amountLabel": "Suma dorită",
+      "periodLabel": "Perioada",
+      "monthsUnit": "luni",
+      "results": {
+        "monthlyRate": "Rata lunară estimată",
+        "totalCost": "Cost total",
+        "dae": "DAE estimată"
+      },
+      "disclaimer": "* Calcul automat cu valori demo pentru prezentare. DAE reală poate varia în funcție de profilul clientului și evaluarea riscului."
+    },
+    "feature": {
+      "title": "Credit rapid, 100% online",
+      "description": "Vive Credit oferă un proces simplu, automatizat și transparent. Aplici în câteva minute, verifici eligibilitatea instant și primești banii în aceeași zi."
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "Despre noi – Vive Credit",
+      "description": "Află povestea Vive Credit și cum transformăm industria IFN prin tehnologie, transparență și procese 100% digitale."
+    },
+    "headline": "Tehnologie, transparență și încredere.",
+    "headlineHighlight": "Așa arată viitorul creditării.",
+    "intro": "Vive Credit a fost creat cu un obiectiv simplu: să ofere o experiență financiară corectă, rapidă și complet digitală. Eliminăm birocrația, simplificăm procesele și punem controlul financiar în mâinile oamenilor — exact unde trebuie să fie.",
+    "cards": {
+      "transparency": {
+        "title": "Transparență totală",
+        "text": "Fără costuri ascunse, fără surprize. Toate informațiile sunt clare, corecte și ușor de înțeles."
+      },
+      "tech": {
+        "title": "Tehnologie modernă",
+        "text": "Algoritmi inteligenți, scoring automatizat și verificări online în câteva secunde."
+      },
+      "speed": {
+        "title": "Rapiditate & Simplitate",
+        "text": "Proces complet digital — aplici în minute, primești decizia imediat, fără drumuri inutile."
+      }
+    },
+    "mission": {
+      "title": "Misiunea noastră",
+      "text": "Ne propunem să redefinim industria IFN prin viteză, tehnologie și respect pentru client. Credem într-o lume în care accesul la finanțare este simplu, sigur și corect pentru toată lumea."
+    },
+    "vision": {
+      "title": "Viziunea noastră",
+      "text": "Să devenim standardul industriei în ceea ce privește digitalizarea, analiza riscului și experiența clientului — oferind un proces de creditare modern și uman."
+    },
+    "evolutionTitle": "Evoluția Vive Credit",
+    "evolution": [
+      {
+        "year": "2020",
+        "title": "Lansarea oficială",
+        "text": "Prima platformă IFN complet digitală, creată pentru viteză și simplitate."
+      },
+      {
+        "year": "2022",
+        "title": "Scoring automatizat",
+        "text": "Implementarea motorului AI pentru evaluarea riscului în timp real."
+      },
+      {
+        "year": "2024",
+        "title": "Integrare Open Banking",
+        "text": "Conectare directă la conturile bancare pentru verificări instant și proces complet digital."
+      }
+    ]
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact · Vive Credit",
+      "description": "Contactează echipa Vive Credit pentru întrebări, suport și soluții rapide."
+    },
+    "headline": "Contactează-ne",
+    "subheadline": "Suntem aici pentru tine! Alege metoda preferată de contact.",
+    "cards": {
+      "phone": {
+        "title": "Telefon",
+        "availability": "Suntem disponibili de Luni–Vineri, 09:00 – 18:00",
+        "number": "0312 345 678"
+      },
+      "email": {
+        "title": "Email",
+        "responseTime": "Răspundem în maximum 24 de ore lucrătoare.",
+        "address": "contact@vivecredit.ro"
+      },
+      "location": {
+        "title": "Sediu central",
+        "description": "Ne găsești la adresa:",
+        "address": "Str. Exemplului nr. 15, București"
+      }
+    },
+    "form": {
+      "title": "Trimite-ne un mesaj",
+      "description": "Completează formularul și te contactăm cât mai rapid.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ex: ion.popescu@email.com",
+      "emailError": "Te rugăm introdu un email valid.",
+      "messageLabel": "Mesaj",
+      "messagePlaceholder": "Scrie mesajul tău aici...",
+      "successMessage": "Mesajul tău a fost trimis cu succes!",
+      "submitButton": "Trimite mesajul"
+    },
+    "map": {
+      "title": "Ne găsești aici"
+    }
+  },
+  "terms": {
+    "meta": {
+      "title": "Termeni și Condiții • Vive Credit",
+      "description": "Termenii și condițiile de utilizare ale platformei Vive Credit. Citește regulile privind serviciile, contractele și responsabilitățile tale."
+    },
+    "headline": "Termeni și Condiții",
+    "intro": "Prezentul document stabilește termenii și condițiile de utilizare ale platformei Vive Credit, un serviciu digital de creditare oferit în mod electronic. Continuarea utilizării platformei reprezintă acordul tău asupra acestor termeni.",
+    "sections": {
+      "definitions": {
+        "title": "1. Definiții",
+        "text": "Platformă înseamnă site-ul și aplicațiile Vive Credit."
+      },
+      "eligibility": {
+        "title": "2. Eligibilitate",
+        "text": "Pentru a aplica pentru un credit, utilizatorul trebuie să aibă cel puțin 18 ani și să ofere informații reale, complete și actualizate."
+      },
+      "process": {
+        "title": "3. Procesul de creditare",
+        "items": [
+          "Aplicare 100% online",
+          "Verificări automate de scoring",
+          "Transmiterea deciziei prin email și în contul clientului",
+          "Semnare electronică a documentelor"
+        ]
+      },
+      "responsibilities": {
+        "title": "4. Responsabilitățile utilizatorului",
+        "items": [
+          "Să furnizeze date reale",
+          "Să nu folosească platforma în scopuri frauduloase",
+          "Să ramburseze creditul conform graficului primit la aprobare"
+        ]
+      },
+      "liability": {
+        "title": "5. Limitarea răspunderii",
+        "text": "Vive Credit depune toate eforturile pentru funcționarea corectă a platformei, însă nu poate garanta funcționarea continuă și fără întreruperi din motive independente."
+      },
+      "modifications": {
+        "title": "6. Modificări",
+        "text": "Ne rezervăm dreptul de a modifica termenii, cu informarea utilizatorilor prin email sau în platformă."
+      }
+    },
+    "lastUpdated": "Ultima actualizare: 2025"
+  },
+  "privacy": {
+    "meta": {
+      "title": "Politica de Confidențialitate • Vive Credit",
+      "description": "Află cum colectăm, utilizăm și protejăm datele tale personale conform GDPR în platforma Vive Credit."
+    },
+    "headline": "Politica de Confidențialitate",
+    "intro": "Această politică explică modul în care Vive Credit colectează, utilizează și protejează datele tale personale în conformitate cu Regulamentul (UE) 2016/679 (GDPR).",
+    "sections": {
+      "dataCollection": {
+        "title": "1. Ce date colectăm",
+        "items": [
+          "Date de identificare (nume, CNP, adresă)",
+          "Date de contact (email, telefon)",
+          "Date financiare (venit, angajator, situație creditare)",
+          "Documente încărcate (CI, adeverințe, extrase)"
+        ]
+      },
+      "purpose": {
+        "title": "2. Scopul colectării",
+        "text": "Procesarea cererilor de credit, verificări AML/KYC, scoring, contractare și comunicări legate de cont."
+      },
+      "legalBasis": {
+        "title": "3. Temeiul legal",
+        "items": [
+          "Executarea unui contract",
+          "Obligații legale (Legea 129/2019 AML)",
+          "Interes legitim (prevenirea fraudelor)"
+        ]
+      },
+      "retention": {
+        "title": "4. Perioada de stocare",
+        "text": "Datele sunt păstrate conform legislației financiar-contabile: între 5 și 10 ani."
+      },
+      "rights": {
+        "title": "5. Drepturile tale",
+        "items": [
+          "Dreptul de acces",
+          "Dreptul la rectificare",
+          "Dreptul la ștergere",
+          "Dreptul la opoziție",
+          "Dreptul la portabilitatea datelor"
+        ]
+      },
+      "security": {
+        "title": "6. Securitatea datelor",
+        "text": "Datele sunt criptate, stocate în medii securizate și protejate prin proceduri stricte anti-fraudă."
+      },
+      "dpo": {
+        "title": "7. Contact DPO",
+        "email": "Email: dpo@vivecredit.ro",
+        "phone": "Telefon: +40 744 000 000"
+      }
+    },
+    "lastUpdated": "Ultima actualizare: 2025"
+  },
+  "cookies": {
+    "meta": {
+      "title": "Politica cookie-uri • Vive Credit",
+      "description": "Află ce cookie-uri folosim, cum le utilizăm și cum îți poți gestiona preferințele."
+    },
+    "headline": "Politica privind Cookie-urile",
+    "intro": "Website-ul Vive Credit utilizează cookie-uri pentru a îmbunătăți experiența utilizatorilor, pentru analiză și pentru funcționalități esențiale.",
+    "sections": {
+      "what": {
+        "title": "Ce sunt cookie-urile?",
+        "text": "Cookie-urile sunt fișiere text mici care sunt stocate pe dispozitivul tău atunci când vizitezi un website."
+      },
+      "types": {
+        "title": "Tipuri de cookie-uri",
+        "items": [
+          "Cookie-uri esențiale",
+          "Cookie-uri de analiză",
+          "Cookie-uri de marketing"
+        ]
+      },
+      "manage": {
+        "title": "Cum poți gestiona cookie-urile?",
+        "text": "Poți modifica setările din browser sau poți respinge anumite categorii direct din banner-ul cookie."
+      }
+    }
+  },
+  "anpc": {
+    "meta": {
+      "title": "ANPC & Soluționarea litigiilor • Vive Credit",
+      "description": "Află procedura de soluționare a reclamațiilor, datele ANPC și opțiunile de rezolvare alternativă a disputelor pentru creditele Vive Credit."
+    },
+    "headline": "ANPC & Soluționarea litigiilor",
+    "intro": "La Vive Credit, transparența și corectitudinea sunt fundamentale. Dacă ai o nemulțumire, o poți transmite către noi, iar dacă nu ești mulțumit de răspuns, ai la dispoziție mecanisme oficiale de soluționare a disputelor.",
+    "sections": {
+      "complaints": {
+        "title": "1. Sesizări către Vive Credit",
+        "text": "Poți transmite o reclamație la adresa:",
+        "email": "suport@vivecredit.ro"
+      },
+      "authority": {
+        "title": "2. Autoritatea Națională pentru Protecția Consumatorilor",
+        "text": "Dacă răspunsul nostru nu este satisfăcător, te poți adresa ANPC:",
+        "website": "Site oficial",
+        "phoneLabel": "Telefon InfoConsumator",
+        "phone": "021 9551"
+      },
+      "sol": {
+        "title": "3. SOL – Soluționarea Online a Litigiilor (UE)",
+        "text": "Poți folosi platforma SOL pentru rezolvarea disputelor online cu comercianții din UE:",
+        "button": "Accesează platforma SOL"
+      }
+    },
+    "commitment": "Ne angajăm să soluționăm orice sesizare în maximum 30 zile calendaristice."
+  }
+}

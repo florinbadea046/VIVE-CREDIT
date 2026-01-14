@@ -1,81 +1,82 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 const AnpcPage = () => {
+  const { t } = useTranslation("static");
+
   return (
     <>
       <Helmet>
-        <title>ANPC & Soluționarea litigiilor • Vive Credit</title>
-        <meta
-          name="description"
-          content="Află procedura de soluționare a reclamațiilor, datele ANPC și opțiunile de rezolvare alternativă a disputelor pentru creditele Vive Credit."
-        />
+        <title>{t("anpc.meta.title")}</title>
+        <meta name="description" content={t("anpc.meta.description")} />
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-6 py-16">
         <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">
-          ANPC & Soluționarea litigiilor
+          {t("anpc.headline")}
         </h1>
 
         <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-          La Vive Credit, transparența și corectitudinea sunt fundamentale. Dacă
-          ai o nemulțumire, o poți transmite către noi, iar dacă nu ești
-          mulțumit de răspuns, ai la dispoziție mecanisme oficiale de
-          soluționare a disputelor.
+          {t("anpc.intro")}
         </p>
 
         <h2 className="mt-10 text-2xl font-semibold text-slate-900 dark:text-white">
-          1. Sesizări către Vive Credit
+          {t("anpc.sections.complaints.title")}
         </h2>
         <p className="text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
-          Poți transmite o reclamație la adresa:
+          {t("anpc.sections.complaints.text")}
           <br />
-          <strong className="text-blue-600">suport@vivecredit.ro</strong>
+          <strong className="text-blue-600">
+            {t("anpc.sections.complaints.email")}
+          </strong>
         </p>
 
         <h2 className="mt-10 text-2xl font-semibold text-slate-900 dark:text-white">
-          2. Autoritatea Națională pentru Protecția Consumatorilor
+          {t("anpc.sections.authority.title")}
         </h2>
         <p className="text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
-          Dacă răspunsul nostru nu este satisfăcător, te poți adresa ANPC:
+          {t("anpc.sections.authority.text")}
         </p>
 
         <ul className="list-disc ml-6 mt-3 text-slate-600 dark:text-slate-300">
           <li>
-            Site oficial:{" "}
+            {t("anpc.sections.authority.website")}:{" "}
             <a
               href="https://anpc.ro"
               className="text-blue-600 hover:underline"
               target="_blank"
+              rel="noopener noreferrer"
             >
               https://anpc.ro
             </a>
           </li>
           <li>
-            Telefon InfoConsumator:{" "}
-            <strong className="text-blue-600">021 9551</strong>
+            {t("anpc.sections.authority.phoneLabel")}:{" "}
+            <strong className="text-blue-600">
+              {t("anpc.sections.authority.phone")}
+            </strong>
           </li>
         </ul>
 
         <h2 className="mt-10 text-2xl font-semibold text-slate-900 dark:text-white">
-          3. SOL – Soluționarea Online a Litigiilor (UE)
+          {t("anpc.sections.sol.title")}
         </h2>
         <p className="text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
-          Poți folosi platforma SOL pentru rezolvarea disputelor online cu
-          comercianții din UE:
+          {t("anpc.sections.sol.text")}
         </p>
 
         <a
           href="https://ec.europa.eu/consumers/odr"
           target="_blank"
+          rel="noopener noreferrer"
           className="inline-block mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow"
         >
-          Accesează platforma SOL
+          {t("anpc.sections.sol.button")}
         </a>
 
         <div className="mt-16 p-6 bg-blue-50 dark:bg-slate-800 rounded-xl">
           <p className="text-slate-800 dark:text-slate-200">
-            Ne angajăm să soluționăm orice sesizare în maximum{" "}
-            <strong>30 zile calendaristice</strong>.
+            {t("anpc.commitment")}
           </p>
         </div>
       </div>

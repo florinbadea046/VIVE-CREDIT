@@ -1,0 +1,28 @@
+{
+  "profile": {
+    "accountMenu": "Account menu",
+    "loggedIn": "Logged in",
+    "activeAccount": "Active account",
+    "clientPortal": "Client portal access",
+    "logout": "Logout"
+  },
+  "language": "Select language",
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Create account",
+  "home": "Home",
+  "products": "Products",
+  "about": "About us",
+  "contact": "Contact",
+  "apply": "Apply",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "success": "Operation completed successfully",
+  "cookieBanner": {
+    "text": "We use cookies to provide you with an optimal experience. By continuing, you agree to our",
+    "link": "Cookie Policy",
+    "button": "I agree"
+  }
+}

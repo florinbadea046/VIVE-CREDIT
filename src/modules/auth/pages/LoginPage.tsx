@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
   const goToClientLogin = () => {
@@ -27,11 +29,11 @@ const LoginPage = () => {
         </button>
 
         <h1 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-3">
-          Autentificare
+          {t("login.title")}
         </h1>
 
         <p className="text-center text-slate-500 dark:text-slate-300 mb-8">
-          Alege tipul contului
+          {t("login.subtitle")}
         </p>
 
         <button
@@ -39,7 +41,7 @@ const LoginPage = () => {
           className="w-full bg-blue-600 hover:bg-blue-700 
             text-white font-semibold py-3 rounded-lg transition"
         >
-          Client
+          {t("login.clientButton")}
         </button>
 
         <button
@@ -49,7 +51,7 @@ const LoginPage = () => {
             hover:bg-slate-100 dark:hover:bg-slate-700 
             font-semibold py-3 rounded-lg transition"
         >
-          Operator
+          {t("login.operatorButton")}
         </button>
       </div>
     </div>

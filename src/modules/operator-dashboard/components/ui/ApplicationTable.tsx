@@ -64,18 +64,20 @@ export default function ApplicationTable<T>({
         </div>
 
         {/* ROWS */}
-        {paginated.map((item, idx) => {
+        {paginated.map((item) => {
           const isSelected =
             selectedRow && getRowId && getRowId(item) === getRowId(selectedRow);
-
           return (
             <div
-              key={idx}
+              key={getRowId ? getRowId(item) : (item as any).id}
               onClick={() => onRowClick?.(item)}
               className={`grid px-4 py-3 border-b text-sm transition
-  ${onRowClick ? "cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-700" : ""}
-  ${isSelected ? "bg-blue-100 dark:bg-blue-900/40" : ""}
-`}
+                ${
+                  onRowClick
+                    ? "cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-700"
+                    : ""
+                }
+                ${isSelected ? "bg-blue-100 dark:bg-blue-900/40" : ""}`}
               style={{ gridTemplateColumns: gridTemplate }}
             >
               {columns.map((col) => {
@@ -95,23 +97,14 @@ export default function ApplicationTable<T>({
 
                 const value = item[col.key as keyof T];
 
-                const isTextColumn = col.align !== "right";
-
                 return (
                   <div
                     key={String(col.key)}
                     className={`${alignClass(col.align)} ${
                       col.className ?? ""
-                    } ${isTextColumn ? "break-words" : "whitespace-nowrap"}`}
+                    } break-words`}
                   >
-                    {col.render
-                      ? col.render(item)
-                      : value !== undefined &&
-                        (typeof value === "string" ||
-                          typeof value === "number" ||
-                          typeof value === "boolean")
-                      ? String(value)
-                      : null}
+                    {col.render ? col.render(item) : value ?? "N/A"}
                   </div>
                 );
               })}

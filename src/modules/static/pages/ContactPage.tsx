@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ContactPage = () => {
+  const { t } = useTranslation("static");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
@@ -18,12 +20,12 @@ const ContactPage = () => {
     setSuccess("");
 
     if (!validateEmail(email)) {
-      setErrorEmail("Te rugăm introdu un email valid.");
+      setErrorEmail(t("contact.form.emailError"));
       return;
     }
 
     setErrorEmail("");
-    setSuccess("Mesajul tău a fost trimis cu succes!");
+    setSuccess(t("contact.form.successMessage"));
     setEmail("");
     setMessage("");
   };
@@ -31,57 +33,56 @@ const ContactPage = () => {
   return (
     <>
       <Helmet>
-        <title>Contact · Vive Credit</title>
-        <meta
-          name="description"
-          content="Contactează echipa Vive Credit pentru întrebări, suport și soluții rapide."
-        />
+        <title>{t("contact.meta.title")}</title>
+        <meta name="description" content={t("contact.meta.description")} />
       </Helmet>
 
       <div className="min-h-screen bg-white dark:bg-slate-900 py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
-            Contactează-ne
+            {t("contact.headline")}
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-2">
-            Suntem aici pentru tine! Alege metoda preferată de contact.
+            {t("contact.subheadline")}
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mt-12">
             <div className="p-6 rounded-2xl border bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition">
               <Phone className="w-8 h-8 text-blue-600 mb-4" />
               <h3 className="font-semibold text-slate-900 dark:text-white text-lg">
-                Telefon
+                {t("contact.cards.phone.title")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-300 mt-1">
-                Suntem disponibili de Luni–Vineri, 09:00 – 18:00
+                {t("contact.cards.phone.availability")}
               </p>
-              <p className="text-blue-600 mt-3 font-medium">0312 345 678</p>
+              <p className="text-blue-600 mt-3 font-medium">
+                {t("contact.cards.phone.number")}
+              </p>
             </div>
 
             <div className="p-6 rounded-2xl border bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition">
               <Mail className="w-8 h-8 text-blue-600 mb-4" />
               <h3 className="font-semibold text-slate-900 dark:text-white text-lg">
-                Email
+                {t("contact.cards.email.title")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-300 mt-1">
-                Răspundem în maximum 24 de ore lucrătoare.
+                {t("contact.cards.email.responseTime")}
               </p>
               <p className="text-blue-600 mt-3 font-medium">
-                contact@vivecredit.ro
+                {t("contact.cards.email.address")}
               </p>
             </div>
 
             <div className="p-6 rounded-2xl border bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition">
               <MapPin className="w-8 h-8 text-blue-600 mb-4" />
               <h3 className="font-semibold text-slate-900 dark:text-white text-lg">
-                Sediu central
+                {t("contact.cards.location.title")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-300 mt-1">
-                Ne găsești la adresa:
+                {t("contact.cards.location.description")}
               </p>
               <p className="text-blue-600 mt-3 font-medium">
-                Str. Exemplului nr. 15, București
+                {t("contact.cards.location.address")}
               </p>
             </div>
           </div>
@@ -89,11 +90,11 @@ const ContactPage = () => {
           <div className="mt-20 flex justify-center">
             <div className="w-full max-w-2xl">
               <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">
-                Trimite-ne un mesaj
+                {t("contact.form.title")}
               </h2>
 
               <p className="text-slate-600 dark:text-slate-400 mb-8">
-                Completează formularul și te contactăm cât mai rapid.
+                {t("contact.form.description")}
               </p>
 
               <form
@@ -102,13 +103,13 @@ const ContactPage = () => {
               >
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Email
+                    {t("contact.form.emailLabel")}
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ex: ion.popescu@email.com"
+                    placeholder={t("contact.form.emailPlaceholder")}
                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition"
                   />
                   {errorEmail && (
@@ -118,12 +119,12 @@ const ContactPage = () => {
 
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Mesaj
+                    {t("contact.form.messageLabel")}
                   </label>
                   <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Scrie mesajul tău aici..."
+                    placeholder={t("contact.form.messagePlaceholder")}
                     rows={5}
                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition resize-none"
                   />
@@ -139,7 +140,7 @@ const ContactPage = () => {
                   type="submit"
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition shadow-md active:scale-[0.98]"
                 >
-                  Trimite mesajul
+                  {t("contact.form.submitButton")}
                 </button>
               </form>
             </div>
@@ -147,7 +148,7 @@ const ContactPage = () => {
 
           <div className="mt-20">
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">
-              Ne găsești aici
+              {t("contact.map.title")}
             </h2>
 
             <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-300 dark:border-slate-700">

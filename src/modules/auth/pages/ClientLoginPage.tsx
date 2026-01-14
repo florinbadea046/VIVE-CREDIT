@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Lock, Eye, EyeOff } from "lucide-react";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { login } from "@/store/authSlice";
+import { useTranslation } from "react-i18next";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const ClientLoginPage = () => {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -25,19 +27,19 @@ const ClientLoginPage = () => {
     setPasswordError("");
 
     if (!isValidEmail(email)) {
-      setEmailError("Introdu un email valid.");
+      setEmailError(t("clientLogin.errors.invalidEmail"));
       return;
     }
 
     if (password.length < 8) {
-      setPasswordError("Parola trebuie să aibă minim 8 caractere.");
+      setPasswordError(t("clientLogin.errors.passwordLength"));
       return;
     }
 
     const storedAccount = localStorage.getItem("clientAccount");
 
     if (!storedAccount) {
-      setEmailError("Nu există niciun cont creat. Creează unul.");
+      setEmailError(t("clientLogin.errors.noAccount"));
       return;
     }
 
@@ -47,12 +49,12 @@ const ClientLoginPage = () => {
     const isMockAccount = savedEmail === "client@client.ro";
 
     if (email !== savedEmail) {
-      setEmailError("Nu există un cont asociat acestui email.");
+      setEmailError(t("clientLogin.errors.emailNotFound"));
       return;
     }
 
     if (password !== savedPassword) {
-      setPasswordError("Parola este incorectă.");
+      setPasswordError(t("clientLogin.errors.incorrectPassword"));
       return;
     }
 
@@ -79,22 +81,22 @@ const ClientLoginPage = () => {
         </button>
 
         <h1 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-2">
-          Autentificare client
+          {t("clientLogin.title")}
         </h1>
 
         <p className="text-center text-slate-500 dark:text-slate-300 mb-2">
-          Accesează contul tău Vive Credit în siguranță
+          {t("clientLogin.subtitle")}
         </p>
 
         <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-8">
           <Lock size={14} />
-          Conexiune securizată • Datele tale sunt protejate
+          {t("clientLogin.securityNote")}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Email
+              {t("clientLogin.form.emailLabel")}
             </label>
             <input
               type="email"
@@ -121,7 +123,7 @@ const ClientLoginPage = () => {
 
           <div>
             <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Parolă
+              {t("clientLogin.form.passwordLabel")}
             </label>
 
             <div className="relative">
@@ -164,7 +166,7 @@ const ClientLoginPage = () => {
               onClick={() => navigate("/forgot-password")}
               className="text-sm text-blue-600 hover:underline"
             >
-              Ai uitat parola?
+              {t("clientLogin.form.forgotPassword")}
             </button>
           </div>
 
@@ -173,17 +175,17 @@ const ClientLoginPage = () => {
             disabled={!email || !password}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-3 rounded-lg transition"
           >
-            Intră
+            {t("clientLogin.form.submitButton")}
           </button>
         </form>
 
         <p className="text-center text-sm mt-6 text-slate-500 dark:text-slate-300">
-          Nu ai cont?{" "}
+          {t("clientLogin.noAccount")}{" "}
           <button
             onClick={() => navigate("/register/client")}
             className="text-blue-600 hover:underline"
           >
-            Creează unul
+            {t("clientLogin.createAccount")}
           </button>
         </p>
       </div>

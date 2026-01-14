@@ -49,9 +49,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       )}
 
       <div className="md:hidden fixed top-0 left-0 w-full bg-white dark:bg-gray-800 shadow-sm z-30 p-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400">
+        <NavLink
+          to="/"
+          className="text-xl font-bold text-blue-600 dark:text-blue-400 hover:opacity-80 transition focus:outline-none"
+        >
           VIVE CREDIT
-        </h2>
+        </NavLink>
 
         <div className="flex items-center gap-3">
           <NotificationBell />
@@ -99,9 +102,12 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </button>
 
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-blue-600 dark:text-blue-400 hidden md:block">
+          <NavLink
+            to="/"
+            className="text-2xl font-bold text-blue-600 dark:text-blue-400 hover:opacity-80 transition"
+          >
             VIVE CREDIT
-          </h2>
+          </NavLink>
 
           <div className="flex items-center gap-2">
             <NotificationBell />

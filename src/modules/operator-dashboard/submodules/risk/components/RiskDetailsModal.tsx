@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import Modal from "../../../components/ui/Modal";
 import Button from "@/modules/operator-dashboard/components/ui/Button";
-
 import { ChevronDown, ShieldCheck } from "lucide-react";
 import { Menu } from "@headlessui/react";
 import toast from "react-hot-toast";
-import type { RiskApplication } from "../types";
+import { formatStatus } from "@/modules/operator-dashboard/utils/formatters";
+import type { Application } from "@/modules/operator-dashboard/types/Application";
 
 interface Props {
-  application: RiskApplication;
+  application: Application;
   isOpen: boolean;
   onClose: () => void;
   onApprove: (id: string) => void;
@@ -16,7 +16,7 @@ interface Props {
   onManualReview: (id: string) => void;
   onRequestDocs: (id: string, docs: string[], custom?: string) => void;
   onSendToAML: (id: string) => void;
-  onAddNote?: (id: string, text: string) => void;
+  // onAddNote?: (id: string, text: string) => void;
 }
 
 export default function RiskDetailsModal({
@@ -49,9 +49,38 @@ export default function RiskDetailsModal({
 
   const availableDocs = ["CI", "Venituri", "Contract muncă", "Altele"];
 
-  const standardDocs = ["CI", "Venituri", "Contract"];
+  // const standardDocs = ["CI", "Venituri", "Contract"];
   const isFinalized =
     application.status === "approved" || application.status === "rejected";
+
+  const renderCollectionsStatus = (status?: CollectionsStatus) => {
+    switch (status) {
+      case "current":
+        return (
+          <span className="text-green-700 bg-green-100 px-2 py-1 rounded-full text-xs font-medium">
+            La zi
+          </span>
+        );
+      case "overdue":
+        return (
+          <span className="text-red-700 bg-red-100 px-2 py-1 rounded-full text-xs font-medium">
+            Restant
+          </span>
+        );
+      case "defaulted":
+        return (
+          <span className="text-red-900 bg-red-200 px-2 py-1 rounded-full text-xs font-medium">
+            Impagat
+          </span>
+        );
+      default:
+        return (
+          <span className="text-gray-500 bg-gray-100 px-2 py-1 rounded-full text-xs font-medium">
+            N/A
+          </span>
+        );
+    }
+  };
 
   return (
     <Modal
@@ -74,16 +103,28 @@ export default function RiskDetailsModal({
               <strong>Nume:</strong> {application.client}
             </p>
             <p>
-              <strong>Status:</strong> {application.status.replace("_", " ")}
+              <strong>Email:</strong> {application.contact.email}
             </p>
             <p>
-              <strong>Email:</strong> client@exemplu.com
+              <strong>Telefon:</strong> {application.contact.phone}
             </p>
             <p>
-              <strong>Telefon:</strong> 0722 123 456
+              <strong>Status:</strong> {formatStatus(application.status)}
             </p>
+
             <p className="sm:col-span-2">
-              <strong>Adresă:</strong> Str. Exemplu, nr.1, Timișoara
+              <strong>Adresă:</strong>{" "}
+              {application.address
+                ? `${application.address.street}, ${application.address.city}${
+                    application.address.country
+                      ? ", " + application.address.country
+                      : ""
+                  }`
+                : "-"}
+            </p>
+            <p>
+              <strong>Stare plata:</strong>
+              {renderCollectionsStatus(application.collectionsStatus)}
             </p>
           </div>
         </section>

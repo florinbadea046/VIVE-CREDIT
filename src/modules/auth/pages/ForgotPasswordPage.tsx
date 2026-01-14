@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const isValidEmail = (email: string): boolean =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const ForgotPasswordPage = () => {
+  const { t } = useTranslation("auth");
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -17,11 +19,10 @@ const ForgotPasswordPage = () => {
     setError("");
 
     if (!isValidEmail(email)) {
-      setError("Introdu un email valid.");
+      setError(t("forgotPassword.errors.invalidEmail"));
       return;
     }
 
-    // simulăm trimiterea linkului
     setSubmitted(true);
   };
 
@@ -32,18 +33,18 @@ const ForgotPasswordPage = () => {
           <Mail className="mx-auto mb-4 text-blue-600" size={40} />
 
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-            Email trimis!
+            {t("forgotPassword.success.title")}
           </h2>
 
           <p className="text-slate-600 dark:text-slate-300 mb-6">
-            Verifică inbox-ul pentru linkul de resetare a parolei.
+            {t("forgotPassword.success.message")}
           </p>
 
           <Link
             to="/login"
             className="inline-block text-blue-600 hover:underline font-medium"
           >
-            Înapoi la Login
+            {t("forgotPassword.success.backToLogin")}
           </Link>
         </div>
       </div>
@@ -61,17 +62,17 @@ const ForgotPasswordPage = () => {
         </button>
 
         <h1 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-2">
-          Ai uitat parola?
+          {t("forgotPassword.title")}
         </h1>
 
         <p className="text-center text-slate-500 dark:text-slate-300 mb-8">
-          Introdu adresa de email și îți vom trimite un link de resetare.
+          {t("forgotPassword.subtitle")}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
-              Email
+              {t("forgotPassword.form.emailLabel")}
             </label>
             <input
               type="email"
@@ -100,14 +101,14 @@ const ForgotPasswordPage = () => {
             disabled={!email}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-3 rounded-lg transition"
           >
-            Trimite link
+            {t("forgotPassword.form.submitButton")}
           </button>
         </form>
 
         <p className="text-center text-sm mt-6 text-slate-500 dark:text-slate-300">
-          Ți-ai amintit parola?{" "}
+          {t("forgotPassword.rememberPassword")}{" "}
           <Link to="/login" className="text-blue-600 hover:underline">
-            Autentifică-te
+            {t("forgotPassword.loginLink")}
           </Link>
         </p>
       </div>
