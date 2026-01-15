@@ -48,9 +48,7 @@ import OperatorDashboardPage from "@/modules/operator-dashboard/pages/OperatorDa
 import RiskPage from "@/modules/operator-dashboard/pages/RiskPage";
 import ApplicationDetail from "@/modules/operator-dashboard/submodules/sales/ApplicationDetail";
 import SalesDashboard from "@/modules/operator-dashboard/submodules/sales/SalesDashboard";
-import AuditLog from "@/modules/admin/pages/AuditLog";
-import ReportsPage from "@/modules/operator-dashboard/submodules/reports/ReportsPage";
-import CollectionsDashboard from "@/modules/operator-dashboard/submodules/collections/components/CollectionsDashboard";
+import Scadentar from "@/components/scadentar";
 
 /* Engines */
 import { AuditDashboard } from "@/modules/admin-audit/AuditDashboard";
@@ -78,6 +76,7 @@ const AppRoutes = () => {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/anpc" element={<AnpcPage />} />
@@ -252,6 +251,10 @@ const AppRoutes = () => {
         element={<DecisionResultCard />}
       />
       {/* Scoring */}
+
+      <Route path="/calculator" element={<ScoringCalculatorPage />} />
+      <Route path="/form" element={<FormScorecardClient />} />
+
       <Route
         path="/dashboard/decision-result"
         element={<DecisionResultCard />}
@@ -282,9 +285,7 @@ const AppRoutes = () => {
         <Route path="policy-engine" element={<PolicyEnginePage />} />
         <Route path="decision-engine" element={<DecisionPage />} />
         <Route path="scorecard" element={<ScorecardEngine />} />
-        <Route path="collections" element={<CollectionsDashboard />} />
-        <Route path="audit-log" element={<AuditLog />} />
-        <Route path="reports" element={<ReportsPage />} />
+        <Route path="scadentar" element={<Scadentar />} />
       </Route>
 
       {/* ENGINES */}
@@ -303,6 +304,9 @@ const AppRoutes = () => {
 
       {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/" replace />} />
+
+      {/* Policy Engine */}
+      <Route path="/policy-engine" element={<PolicyEnginePage />} />
     </Routes>
   );
 };
