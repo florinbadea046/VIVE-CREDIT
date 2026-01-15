@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { X, Search, Loader2, AlertCircle } from "lucide-react";
-import {
+import type {
   AMLScreeningRequest,
   AMLScreeningResult,
 } from "../types/amlScreening.types";

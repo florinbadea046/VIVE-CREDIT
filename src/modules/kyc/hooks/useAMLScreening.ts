@@ -1,10 +1,9 @@
 import { useState, useCallback } from "react";
-import {
+import type {
   AMLScreeningRequest,
   AMLScreeningResult,
   AMLScreeningHistory,
   AMLOperatorDashboard,
-  AMLScreeningStatus,
 } from "../types/amlScreening.types";
 import { amlScreeningMockService } from "../services/amlScreeningService";
 

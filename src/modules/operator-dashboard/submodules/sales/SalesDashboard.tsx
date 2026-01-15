@@ -1,233 +1,679 @@
-import { useState } from "react";
+import React, { useState, useMemo } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useApplications } from "../../hooks/ApplicationsContext";
 
-import { salesData, type SalesApplication } from "./mock-data";
-import SalesStatusBadge from "./components/SalesStatusBadge";
-import CustomSelect from "./components/CustomSelect";
+interface Application {
+  id: number;
+  name: string;
+  amount: string;
+  date: string;
+  status: 'nou' | 'in-lucru' | 'aprobat' | 'respins';
+  phone?: string;
+  email?: string;
+  cnp?: string;
+  address?: string;
+}
 
-import PDFModal from "./components/PDFModal";
-import DocsModal from "./components/DocsModal";
+const ApplicationsTable = () => {
+  // ✅ Citește din Context
+  const { applications: contextApps, updateStatus: updateContextStatus } = useApplications();
 
-import { generateClientPdf } from "@/utils/generatePdf";
+  const [selectedStatus, setSelectedStatus] = useState<string>('toate');
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Application | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+  
+  // ✅ TRANSFORMĂ datele din Context în format local - NU mai e useState
+  const applications = useMemo(() => 
+    contextApps.map((app, index) => ({
+      id: index + 1,
+      name: app.client,
+      amount: `${app.creditAmount} RON`,
+      date: new Date().toLocaleDateString('ro-RO'),
+      status: app.status === 'manual_review' ? 'in-lucru' as const : 
+              app.status === 'pending' ? 'nou' as const :
+              app.status === 'approved' ? 'aprobat' as const : 
+              app.status === 'rejected' ? 'respins' as const : 'nou' as const,
+      phone: app.contact?.phone,
+      email: app.contact?.email,
+      cnp: undefined,
+      address: undefined,
+    })),
+    [contextApps] // ✅ Re-calculează când contextApps se schimbă
+  );
 
-import ViewModal from "./components/ViewModal";
-
-export default function SalesDashboard() {
-  const [searchClient, setSearchClient] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState("all");
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedAgent, setSelectedAgent] = useState("");
-
-  // Pagination
-  const [page, setPage] = useState(1);
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(salesData.length / itemsPerPage);
-
-  // 📄 PDF modal
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-
-  const openPdf = (app: SalesApplication) => {
-    const blob = generateClientPdf(app);
-    const url = URL.createObjectURL(blob);
-    setPdfUrl(url);
+  const statusColors = {
+    'nou': 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+    'in-lucru': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300',
+    'aprobat': 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
+    'respins': 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
   };
 
-  const closePdf = () => setPdfUrl(null);
-
-  const [viewOpen, setViewOpen] = useState(false);
-  const [viewApp, setViewApp] = useState<SalesApplication | null>(null);
-
-  const openView = (app: SalesApplication) => {
-    setViewApp(app);
-    setViewOpen(true);
+  const statusLabels = {
+    'nou': 'Nou',
+    'in-lucru': 'În lucru',
+    'aprobat': 'Aprobat',
+    'respins': 'Respins'
   };
 
-  const closeView = () => {
-    setViewOpen(false);
-    setViewApp(null);
+  const filteredApplications = applications.filter(app => {
+    if (selectedStatus === 'toate') return true;
+    return app.status === selectedStatus;
+  });
+
+  const totalPages = Math.ceil(filteredApplications.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentApplications = filteredApplications.slice(startIndex, endIndex);
+
+  React.useEffect(() => {
+    setCurrentPage(1);
+    setSelectedIds([]);
+    setShowCheckboxes(false);
+  }, [selectedStatus]);
+
+  const toggleSelection = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedIds(prev => 
+      prev.includes(id) 
+        ? prev.filter(selectedId => selectedId !== id)
+        : [...prev, id]
+    );
   };
 
-  // 📁 DOCS modal
-  const [, setDocsOpen] = useState(false);
-  const [selectedApp, setSelectedApp] = useState<SalesApplication | null>(null);
-
-  const openDocs = (app: SalesApplication) => {
-    setSelectedApp(app);
-    setDocsOpen(true);
+  const toggleSelectAll = () => {
+    if (showCheckboxes && selectedIds.length === currentApplications.length) {
+      setSelectedIds([]);
+    } else {
+      setShowCheckboxes(true);
+      setSelectedIds(currentApplications.map(app => app.id));
+    }
   };
 
-  const closeDocs = () => {
-    setDocsOpen(false);
-    setSelectedApp(null);
+  const toggleCheckboxMode = () => {
+    if (showCheckboxes) {
+      setShowCheckboxes(false);
+      setSelectedIds([]);
+    } else {
+      setShowCheckboxes(true);
+    }
   };
 
-  // 🔍 Filter logic
-  const filteredData = salesData
-    .filter((app) => {
-      const matchClient = app.client.toLowerCase().includes(searchClient.toLowerCase());
-      const matchProduct = selectedProduct === "all" || app.productValue === selectedProduct;
-      const matchStatus = selectedStatus === "all" || app.statusValue === selectedStatus;
-      const matchAgent = selectedAgent === "" || app.agent.toLowerCase().includes(selectedAgent.toLowerCase());
-      return matchClient && matchProduct && matchStatus && matchAgent;
-    })
-    .slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const openClientDetails = (app: Application) => {
+    setSelectedClient(app);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedClient(null), 300);
+  };
+
+  const selectedApps = applications.filter(app => selectedIds.includes(app.id));
+  const canApprove = selectedApps.some(app => app.status === 'nou' || app.status === 'in-lucru');
+  const canReject = selectedApps.some(app => app.status === 'nou' || app.status === 'in-lucru');
+  const canReview = selectedApps.some(app => app.status === 'in-lucru');
+
+  // ✅ Funcții bulk - folosesc DOAR Context
+  const handleBulkApprove = () => {
+    if (selectedIds.length === 0) {
+      alert('Selectează cel puțin o aplicație');
+      return;
+    }
+    
+    const eligibleIds = selectedIds.filter(id => {
+      const app = applications.find(a => a.id === id);
+      return app && (app.status === 'nou' || app.status === 'in-lucru');
+    });
+
+    if (eligibleIds.length === 0) {
+      alert('Nicio aplicație selectată nu poate fi aprobată');
+      return;
+    }
+    
+    if (confirm(`Ești sigur că vrei să aprobi ${eligibleIds.length} aplicații?`)) {
+      eligibleIds.forEach(id => {
+        const originalApp = contextApps[id - 1];
+        if (originalApp?.id) {
+          updateContextStatus(originalApp.id, 'approved');
+        }
+      });
+      
+      setSelectedIds([]);
+      setShowCheckboxes(false);
+      alert(`${eligibleIds.length} aplicații au fost aprobate!`);
+    }
+  };
+
+  const handleBulkReject = () => {
+    if (selectedIds.length === 0) {
+      alert('Selectează cel puțin o aplicație');
+      return;
+    }
+    
+    const eligibleIds = selectedIds.filter(id => {
+      const app = applications.find(a => a.id === id);
+      return app && (app.status === 'nou' || app.status === 'in-lucru');
+    });
+
+    if (eligibleIds.length === 0) {
+      alert('Nicio aplicație selectată nu poate fi respinsă');
+      return;
+    }
+    
+    if (confirm(`Ești sigur că vrei să respingi ${eligibleIds.length} aplicații?`)) {
+      eligibleIds.forEach(id => {
+        const originalApp = contextApps[id - 1];
+        if (originalApp?.id) {
+          updateContextStatus(originalApp.id, 'rejected');
+        }
+      });
+      
+      setSelectedIds([]);
+      setShowCheckboxes(false);
+      alert(`${eligibleIds.length} aplicații au fost respinse!`);
+    }
+  };
+
+  const handleBulkReview = () => {
+    if (selectedIds.length === 0) {
+      alert('Selectează cel puțin o aplicație');
+      return;
+    }
+    
+    const eligibleIds = selectedIds.filter(id => {
+      const app = applications.find(a => a.id === id);
+      return app && app.status === 'in-lucru';
+    });
+
+    if (eligibleIds.length === 0) {
+      alert('Nicio aplicație selectată nu poate fi revizuită');
+      return;
+    }
+    
+    if (confirm(`Ești sigur că vrei să revizuiești ${eligibleIds.length} aplicații?`)) {
+      eligibleIds.forEach(id => {
+        const originalApp = contextApps[id - 1];
+        if (originalApp?.id) {
+          updateContextStatus(originalApp.id, 'pending');
+        }
+      });
+      
+      setSelectedIds([]);
+      setShowCheckboxes(false);
+      alert(`${eligibleIds.length} aplicații au fost trimise la revizuire!`);
+    }
+  };
+
+  // ✅ Funcții individuale - folosesc DOAR Context
+  const handleApprove = (id: number, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const originalApp = contextApps[id - 1];
+    if (originalApp?.id) {
+      updateContextStatus(originalApp.id, 'approved');
+    }
+  };
+
+  const handleReject = (id: number, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const originalApp = contextApps[id - 1];
+    if (originalApp?.id) {
+      updateContextStatus(originalApp.id, 'rejected');
+    }
+  };
+
+  const handleReturnToReview = (id: number, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const originalApp = contextApps[id - 1];
+    if (originalApp?.id) {
+      updateContextStatus(originalApp.id, 'pending');
+    }
+  };
 
   const resetFilters = () => {
-    setSearchClient("");
-    setSelectedProduct("all");
-    setSelectedStatus("all");
-    setSelectedAgent("");
+    setSelectedStatus('toate');
+    setSelectedIds([]);
+    setShowCheckboxes(false);
+    setCurrentPage(1);
   };
 
-  // Suppress unused variable warning - openPdf is available for future use
-  void openPdf;
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+      setSelectedIds([]);
+      setShowCheckboxes(false);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
+      setSelectedIds([]);
+      setShowCheckboxes(false);
+    }
+  };
 
   return (
-    <div className="p-6 md:p-10">
-      <h1 className="text-3xl font-bold mb-6">Sales Dashboard</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 p-4 sm:p-6 lg:p-8">
+      <Card className="bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm">
+        <CardContent className="p-4 sm:p-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">Tabel Aplicații</h1>
 
-      {/* --- Filters --- */}
-      <div className="grid md:grid-cols-4 gap-5 mb-6">
-        {/* Client */}
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold">Client</label>
-          <input
-            type="text"
-            value={searchClient}
-            onChange={(e) => setSearchClient(e.target.value)}
-            placeholder="Caută client..."
-            className="border dark:border-gray-600 px-3 py-2 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
-          />
-        </div>
+          {/* Filtru Status */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-4 sm:mb-6">
+            <div className="flex-1">
+              <label className="text-gray-900 dark:text-white text-sm font-medium mb-2 block">Status</label>
+              <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                <SelectTrigger className="bg-white dark:bg-slate-700 border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-slate-700 border-gray-300 dark:border-slate-600">
+                  <SelectItem value="toate" className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-600">Toate</SelectItem>
+                  <SelectItem value="nou" className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-600">Nou</SelectItem>
+                  <SelectItem value="in-lucru" className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-600">În lucru</SelectItem>
+                  <SelectItem value="aprobat" className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-600">Aprobat</SelectItem>
+                  <SelectItem value="respins" className="text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-600">Respins</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button 
+              onClick={resetFilters}
+              className="bg-blue-600 hover:bg-blue-700 text-white sm:mt-6 w-full sm:w-auto"
+            >
+              Resetează filtre
+            </Button>
+          </div>
 
-        {/* Product */}
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold">Produs</label>
-          <CustomSelect
-            value={selectedProduct}
-            onChange={setSelectedProduct}
-            options={[
-              { label: "Toate", value: "all" },
-              { label: "Credit Casa", value: "casa" },
-              { label: "Credit Auto", value: "auto" },
-              { label: "Card Credit", value: "card" },
-            ]}
-          />
-        </div>
+          {/* Acțiuni în masă */}
+          {selectedIds.length > 0 && (
+            <div className="bg-gray-100 dark:bg-slate-700 p-4 rounded-lg mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-gray-200 dark:border-slate-600">
+              <div className="flex items-center gap-4">
+                <span className="text-gray-900 dark:text-white font-medium">
+                  {selectedIds.length} selectate
+                </span>
+              </div>
+              
+              <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                {canApprove && (
+                  <Button 
+                    onClick={handleBulkApprove}
+                    className="bg-blue-600 hover:bg-blue-700 text-white flex-1 sm:flex-none"
+                    size="sm"
+                  >
+                    Aprobă
+                  </Button>
+                )}
+                {canReject && (
+                  <Button 
+                    onClick={handleBulkReject}
+                    className="bg-blue-600 hover:bg-blue-700 text-white flex-1 sm:flex-none"
+                    size="sm"
+                  >
+                    Respinge
+                  </Button>
+                )}
+                {canReview && (
+                  <Button 
+                    onClick={handleBulkReview}
+                    className="bg-blue-600 hover:bg-blue-700 text-white flex-1 sm:flex-none"
+                    size="sm"
+                  >
+                    Revizuiește
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
 
-        {/* Status */}
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold">Stare</label>
-          <CustomSelect
-            value={selectedStatus}
-            onChange={setSelectedStatus}
-            options={[
-              { label: "Toate", value: "all" },
-              { label: "Nou", value: "nou" },
-              { label: "În lucru", value: "in_lucru" },
-              { label: "Finalizat", value: "finalizat" },
-            ]}
-          />
-        </div>
-
-        {/* Agent */}
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold">Agent</label>
-          <input
-            type="text"
-            value={selectedAgent}
-            onChange={(e) => setSelectedAgent(e.target.value)}
-            placeholder="Caută agent..."
-            className="border dark:border-gray-600 px-3 py-2 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
-          />
-        </div>
-      </div>
-
-      {/* Reset button */}
-      <button
-        onClick={resetFilters}
-        className="px-6 py-2 mb-6 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
-      >
-        Resetează filtre
-      </button>
-
-      {/* --- Table --- */}
-      <div className="overflow-x-auto border rounded-xl shadow-sm">
-        <table className="w-full text-left">
-          <thead className="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700">
-            <tr>
-              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">ID</th>
-              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Client</th>
-              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Produs</th>
-              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Sumă</th>
-              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Status</th>
-              <th className="px-4 py-3 font-semibold text-gray-700 dark:text-gray-300">Acțiuni</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredData.map((app) => (
-              <tr
-                key={app.id}
-                onClick={() => openView(app)}
-                className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
-              >
-                <td className="px-4 py-3">{app.id}</td>
-                <td className="px-4 py-3">{app.client}</td>
-                <td className="px-4 py-3">{app.product}</td>
-                <td className="px-4 py-3">{app.amount} RON</td>
-                <td className="px-4 py-3">
-                  <SalesStatusBadge status={app.status} />
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
-                    <button
-                      onClick={() => openView(app)}
-                      className="px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          {/* Tabel - Desktop */}
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200 dark:border-slate-700">
+                  <th className="text-left p-4 text-gray-600 dark:text-slate-300 font-medium w-12">
+                    <Checkbox 
+                      checked={showCheckboxes && selectedIds.length === currentApplications.length && currentApplications.length > 0}
+                      onCheckedChange={toggleSelectAll}
+                      onClick={toggleCheckboxMode}
+                      className="border-gray-400 dark:border-white data-[state=checked]:bg-blue-600"
+                    />
+                  </th>
+                  <th className="text-left p-4 text-gray-600 dark:text-slate-300 font-medium">Nume</th>
+                  <th className="text-left p-4 text-gray-600 dark:text-slate-300 font-medium">Sumă</th>
+                  <th className="text-left p-4 text-gray-600 dark:text-slate-300 font-medium">Data</th>
+                  <th className="text-left p-4 text-gray-600 dark:text-slate-300 font-medium">Status</th>
+                  <th className="text-left p-4 text-gray-600 dark:text-slate-300 font-medium">Acțiuni</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentApplications.map((app) => {
+                  const isNew = app.status === 'nou';
+                  const isInProgress = app.status === 'in-lucru';
+                  
+                  return (
+                    <tr 
+                      key={app.id} 
+                      onClick={() => openClientDetails(app)}
+                      className="border-b border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/30 cursor-pointer transition-colors"
                     >
-                      View
-                    </button>
+                      <td className="p-4" onClick={(e) => e.stopPropagation()}>
+                        {showCheckboxes && (
+                          <Checkbox 
+                            checked={selectedIds.includes(app.id)}
+                            onCheckedChange={() => toggleSelection(app.id, {} as React.MouseEvent)}
+                            onClick={(e) => e.stopPropagation()}
+                            className="border-gray-400 dark:border-white data-[state=checked]:bg-blue-600"
+                          />
+                        )}
+                      </td>
+                      <td className="p-4 text-gray-900 dark:text-white font-medium">{app.name}</td>
+                      <td className="p-4 text-gray-900 dark:text-white">{app.amount}</td>
+                      <td className="p-4 text-gray-900 dark:text-white">{app.date}</td>
+                      <td className="p-4">
+                        <span className={`${statusColors[app.status]} px-4 py-2 rounded-full text-sm font-medium inline-block`}>
+                          {statusLabels[app.status]}
+                        </span>
+                      </td>
+                      <td className="p-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex gap-2">
+                          {(isNew || isInProgress) && (
+                            <>
+                              <Button 
+                                onClick={(e) => handleApprove(app.id, e)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                                size="sm"
+                              >
+                                Aprobă
+                              </Button>
+                              <Button 
+                                onClick={(e) => handleReject(app.id, e)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white"
+                                size="sm"
+                              >
+                                Respinge
+                              </Button>
+                            </>
+                          )}
+                          {isInProgress && (
+                            <Button 
+                              onClick={(e) => handleReturnToReview(app.id, e)}
+                              className="bg-blue-600 hover:bg-blue-700 text-white"
+                              size="sm"
+                            >
+                              Revizuiește
+                            </Button>
+                          )}
+                          <Button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openClientDetails(app);
+                            }}
+                            className="bg-blue-600 hover:bg-blue-700 text-white"
+                            size="sm"
+                          >
+                            Detalii
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
 
-                    {/* DOCS */}
-                    <button
-                      onClick={() => openDocs(app)}
-                      className="px-4 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                    >
-                      Docs
-                    </button>
+          {/* Cards - Mobile/Tablet */}
+          <div className="lg:hidden space-y-4">
+            {/* Select All Checkbox */}
+            <div className="bg-gray-100 dark:bg-slate-700 p-4 rounded-lg flex items-center gap-3 border border-gray-200 dark:border-slate-600">
+              <Checkbox 
+                checked={showCheckboxes && selectedIds.length === currentApplications.length && currentApplications.length > 0}
+                onCheckedChange={toggleSelectAll}
+                onClick={toggleCheckboxMode}
+                className="border-gray-400 dark:border-white data-[state=checked]:bg-blue-600"
+              />
+              <span className="text-gray-900 dark:text-white font-medium">Selectează toate</span>
+            </div>
+
+            {currentApplications.map((app) => {
+              const isNew = app.status === 'nou';
+              const isInProgress = app.status === 'in-lucru';
+              
+              return (
+                <div 
+                  key={app.id} 
+                  onClick={() => openClientDetails(app)}
+                  className="bg-white dark:bg-slate-700 rounded-lg p-4 space-y-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-650 transition-colors border border-gray-200 dark:border-slate-600 shadow-sm"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3 flex-1">
+                      {showCheckboxes && (
+                        <Checkbox 
+                          checked={selectedIds.includes(app.id)}
+                          onCheckedChange={() => toggleSelection(app.id, {} as React.MouseEvent)}
+                          onClick={(e) => e.stopPropagation()}
+                          className="border-gray-400 dark:border-white data-[state=checked]:bg-blue-600 mt-1"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <h3 className="text-gray-900 dark:text-white font-semibold text-lg">{app.name}</h3>
+                        <p className="text-gray-600 dark:text-slate-300 text-sm">{app.amount}</p>
+                      </div>
+                    </div>
+                    <span className={`${statusColors[app.status]} px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap`}>
+                      {statusLabels[app.status]}
+                    </span>
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                  
+                  <div className="text-gray-600 dark:text-slate-300 text-sm">
+                    <span className="font-medium">Data:</span> {app.date}
+                  </div>
 
-      {/* PAGINATION */}
-      {totalPages > 1 && (
-        <div className="flex justify-center gap-3 p-4">
-          <button
-            disabled={page === 1}
-            onClick={() => setPage(page - 1)}
-            className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg disabled:opacity-40"
-          >
-            Prev
-          </button>
+                  <div className="flex flex-wrap gap-2 pt-2" onClick={(e) => e.stopPropagation()}>
+                    {(isNew || isInProgress) && (
+                      <>
+                        <Button 
+                          onClick={(e) => handleApprove(app.id, e)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                          size="sm"
+                        >
+                          Aprobă
+                        </Button>
+                        <Button 
+                          onClick={(e) => handleReject(app.id, e)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                          size="sm"
+                        >
+                          Respinge
+                        </Button>
+                      </>
+                    )}
+                    {isInProgress && (
+                      <Button 
+                        onClick={(e) => handleReturnToReview(app.id, e)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                        size="sm"
+                      >
+                        Revizuiește
+                      </Button>
+                    )}
+                    <Button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openClientDetails(app);
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                      size="sm"
+                    >
+                      Detalii
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
-          <button
-            disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
-            className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg disabled:opacity-40"
+          {/* Paginare */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+            <div className="text-gray-600 dark:text-slate-400 text-sm">
+              Pagina {currentPage} din {totalPages} ({filteredApplications.length} total)
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                onClick={goToPrevPage}
+                disabled={currentPage === 1}
+                className="bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="h-4 w-4 mr-1" />
+                Prev
+              </Button>
+              <Button 
+                onClick={goToNextPage}
+                disabled={currentPage === totalPages}
+                className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+                <ChevronRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Modal Custom - Responsive */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+          onClick={closeModal}
+        >
+          <div 
+            className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            Next
-          </button>
+            {/* Header */}
+            <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 p-4 sm:p-6 flex items-center justify-between z-10">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Detalii Client</h2>
+              <button
+                onClick={closeModal}
+                className="bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 p-2 rounded-lg transition-colors"
+              >
+                <X className="h-5 w-5 text-gray-900 dark:text-white" />
+              </button>
+            </div>
+
+            {/* Content */}
+            {selectedClient && (
+              <div className="p-4 sm:p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Nume complet</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg font-semibold">{selectedClient.name}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Status</label>
+                    <div className="flex items-center">
+                      <span className={`${statusColors[selectedClient.status]} px-3 py-1 rounded-full text-xs font-medium inline-block`}>
+                        {statusLabels[selectedClient.status]}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Sumă solicitată</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg font-semibold">{selectedClient.amount}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Data aplicației</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg">{selectedClient.date}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Telefon</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg">{selectedClient.phone}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Email</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg break-all">{selectedClient.email}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">CNP</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg font-mono">{selectedClient.cnp}</p>
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="text-gray-600 dark:text-slate-400 text-sm font-medium">Adresă</label>
+                    <p className="text-gray-900 dark:text-white text-base sm:text-lg">{selectedClient.address}</p>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200 dark:border-slate-700">
+                  {(selectedClient.status === 'nou' || selectedClient.status === 'in-lucru') && (
+                    <>
+                      <Button 
+                        onClick={() => {
+                          handleApprove(selectedClient.id);
+                          closeModal();
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                      >
+                        Aprobă
+                      </Button>
+                      <Button 
+                        onClick={() => {
+                          handleReject(selectedClient.id);
+                          closeModal();
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                      >
+                        Respinge
+                      </Button>
+                    </>
+                  )}
+                  {selectedClient.status === 'in-lucru' && (
+                    <Button 
+                      onClick={() => {
+                        handleReturnToReview(selectedClient.id);
+                        closeModal();
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                    >
+                      Revizuiește
+                    </Button>
+                  )}
+                  <Button 
+                    onClick={closeModal}
+                    className="bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-900 dark:text-white flex-1"
+                  >
+                    Închide
+                  </Button>
+
+                  
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
-
-      {/* --- Modals --- */}
-      <PDFModal pdfUrl={pdfUrl} onClose={closePdf} />
-
-      <DocsModal app={selectedApp} onClose={closeDocs} />
-      <ViewModal app={viewApp} open={viewOpen} onClose={closeView} />
     </div>
   );
-}
+};
+
+export default ApplicationsTable;

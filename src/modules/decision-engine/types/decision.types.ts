@@ -1,12 +1,12 @@
-export type DecisionStatus = 'APPROVED' | 'REJECTED' | 'MANUAL_REVIEW';
+export type DecisionStatus = 'approved' | 'rejected' | 'pending';
 
 export interface ScoringResult {
   applicationId: string;
-  decision: DecisionStatus;
-  score: number;           
-  maxAmount?: number;      
+  decision: DecisionStatus; 
+  score: number;
+  maxAmount?: number;
   currency: string;
-  summary: string;         
-  reasonCodes: string[];   
+  summary: string;
+  reasonCodes: string[];
   createdAt: string;
 }

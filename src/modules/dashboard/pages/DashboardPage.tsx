@@ -1,5 +1,7 @@
 import DashboardLayout from "../layout/DashboardLayout";
 import { dashboardMock } from "../mock/dashboardMock";
+import { useEffect, useState } from "react";
+import ScoringStatusCard from "../components/home/ScoringStatusCard";
 
 import ApplicationStatusCard from "../components/dashboard/ApplicationStatusCard";
 import LoanDetailsCard from "../components/loan/LoanDetailsCard";
@@ -9,6 +11,14 @@ import VerificationStatusCard from "../components/VerificationStatusCard";
 
 export default function DashboardPage() {
   const data = dashboardMock;
+  const [scoringData, setScoringData] = useState<any>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("scoring-final");
+    if (saved) {
+      setScoringData(JSON.parse(saved));
+    }
+  }, []);
 
   return (
     <DashboardLayout>
@@ -25,6 +35,13 @@ export default function DashboardPage() {
 
         {/* Card status verificare */}
         <VerificationStatusCard clientId={1} />
+
+        {scoringData && (
+          <ScoringStatusCard
+            status={scoringData.status}
+            score={scoringData.score}
+          />
+        )}
       </div>
     </DashboardLayout>
   );

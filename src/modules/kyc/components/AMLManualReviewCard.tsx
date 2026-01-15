@@ -7,7 +7,7 @@ import {
   User,
   AlertTriangle,
 } from "lucide-react";
-import { AMLScreeningHistory } from "../types/amlScreening.types";
+import type { AMLScreeningHistory } from "../types/amlScreening.types";
 import {
   getRiskLevelIcon,
   getRiskLevelLabel,
@@ -134,7 +134,7 @@ export const AMLManualReviewCard: React.FC<AMLManualReviewCardProps> = ({
                           {getAMLCheckTypeLabel(match.type)} - {match.listName}
                         </p>
                         <span
-                          className={`text-xs font-semibold ${scoreIndicator.color}`}
+                          className={`text-xs font-semibold px-2 py-1 rounded ${scoreIndicator.color}`}
                         >
                           {match.matchScore}%
                         </span>

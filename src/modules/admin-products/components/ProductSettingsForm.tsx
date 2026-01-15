@@ -32,7 +32,6 @@ export default function ProductSettingsForm({
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<FormSchema>({
     resolver: zodResolver(schema),

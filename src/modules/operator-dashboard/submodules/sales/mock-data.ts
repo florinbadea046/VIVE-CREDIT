@@ -8,6 +8,7 @@ export interface SalesApplication {
   statusValue: string;
   agent: string;
   score: number;
+  date: string; // ⬅️ ADĂUGAT
 }
 
 export const salesData: SalesApplication[] = [
@@ -21,6 +22,7 @@ export const salesData: SalesApplication[] = [
     statusValue: "nou",
     agent: "Andrei",
     score: 500,
+    date: "15.12.2025", // ⬅️ ADĂUGAT
   },
   {
     id: "AP-1002",
@@ -32,6 +34,7 @@ export const salesData: SalesApplication[] = [
     statusValue: "in_lucru",
     agent: "Mihai",
     score: 700,
+    date: "18.12.2025", // ⬅️ ADĂUGAT
   },
   {
     id: "AP-1003",
@@ -43,6 +46,7 @@ export const salesData: SalesApplication[] = [
     statusValue: "finalizat",
     agent: "Andrada",
     score: 300,
+    date: "10.12.2025", // ⬅️ ADĂUGAT
   },
   {
     id: "AP-1004",
@@ -54,6 +58,7 @@ export const salesData: SalesApplication[] = [
     statusValue: "in_lucru",
     agent: "Andrei",
     score: 650,
+    date: "20.12.2025", // ⬅️ ADĂUGAT
   },
   {
     id: "AP-1005",
@@ -65,6 +70,7 @@ export const salesData: SalesApplication[] = [
     statusValue: "nou",
     agent: "Mihai",
     score: 400,
+    date: "22.12.2025", // ⬅️ ADĂUGAT
   },
   {
     id: "AP-1006",
@@ -76,5 +82,6 @@ export const salesData: SalesApplication[] = [
     statusValue: "finalizat",
     agent: "Andrei",
     score: 800,
+    date: "05.12.2025", // ⬅️ ADĂUGAT
   },
 ];

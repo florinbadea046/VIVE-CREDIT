@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const CookieBanner = () => {
+  // @ts-ignore - Type instantiation is excessively deep (circular type dependency with i18n)
   const { t } = useTranslation("common");
   const [visible, setVisible] = useState(false);
 
@@ -20,8 +21,10 @@ const CookieBanner = () => {
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[95%] md:w-[600px] bg-white dark:bg-slate-800 shadow-xl rounded-xl p-5 border border-slate-200 dark:border-slate-700">
       <p className="text-slate-700 dark:text-slate-300 text-sm">
+        {/* @ts-ignore */}
         {t("cookieBanner.text")}{" "}
         <a href="/cookies" className="text-blue-600 hover:underline">
+          {/* @ts-ignore */}
           {t("cookieBanner.link")}
         </a>
         .

@@ -6,6 +6,7 @@ import {
   CheckCircle,
   Clock,
   BarChart3,
+  XCircle,
 } from "lucide-react";
 import { useAMLScreening } from "../hooks/useAMLScreening";
 import { AMLScreeningModal } from "../components/AMLScreeningModal";

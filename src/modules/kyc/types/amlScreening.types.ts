@@ -1,26 +1,32 @@
-export enum AMLCheckType {
-  SANCTIONS_LIST = "SANCTIONS_LIST", // Liste sanctiuni internationale
-  PEP_CHECK = "PEP_CHECK", // Politically Exposed Person
-  ADVERSE_MEDIA = "ADVERSE_MEDIA", // Media negativa
-  WATCHLIST = "WATCHLIST", // Liste de monitorizare
-  INTERNAL_BLACKLIST = "INTERNAL_BLACKLIST", // Blacklist intern
-}
+export const AMLCheckType = {
+  SANCTIONS_LIST: "SANCTIONS_LIST", // Liste sanctiuni internationale
+  PEP_CHECK: "PEP_CHECK", // Politically Exposed Person
+  ADVERSE_MEDIA: "ADVERSE_MEDIA", // Media negativa
+  WATCHLIST: "WATCHLIST", // Liste de monitorizare
+  INTERNAL_BLACKLIST: "INTERNAL_BLACKLIST", // Blacklist intern
+} as const;
 
-export enum AMLRiskLevel {
-  LOW = "LOW", // Risc scazut
-  MEDIUM = "MEDIUM", // Risc mediu
-  HIGH = "HIGH", // Risc ridicat
-  CRITICAL = "CRITICAL", // Risc critic (stop immediate)
-}
+export type AMLCheckType = typeof AMLCheckType[keyof typeof AMLCheckType];
 
-export enum AMLScreeningStatus {
-  PENDING = "PENDING",
-  IN_PROGRESS = "IN_PROGRESS",
-  CLEARED = "CLEARED",
-  FLAGGED = "FLAGGED",
-  REJECTED = "REJECTED",
-  MANUAL_REVIEW = "MANUAL_REVIEW",
-}
+export const AMLRiskLevel = {
+  LOW: "LOW", // Risc scazut
+  MEDIUM: "MEDIUM", // Risc mediu
+  HIGH: "HIGH", // Risc ridicat
+  CRITICAL: "CRITICAL", // Risc critic (stop immediate)
+} as const;
+
+export type AMLRiskLevel = typeof AMLRiskLevel[keyof typeof AMLRiskLevel];
+
+export const AMLScreeningStatus = {
+  PENDING: "PENDING",
+  IN_PROGRESS: "IN_PROGRESS",
+  CLEARED: "CLEARED",
+  FLAGGED: "FLAGGED",
+  REJECTED: "REJECTED",
+  MANUAL_REVIEW: "MANUAL_REVIEW",
+} as const;
+
+export type AMLScreeningStatus = typeof AMLScreeningStatus[keyof typeof AMLScreeningStatus];
 
 export interface AMLMatch {
   id: string;

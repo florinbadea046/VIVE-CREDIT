@@ -1,15 +1,17 @@
-import React from "react";
+interface PDFModalProps {
+  pdfUrl: string;
+  onClose: () => void;
+}
 
-export default function PDFModal({ pdfUrl, onClose }) {
+export default function PDFModal({ pdfUrl, onClose }: PDFModalProps) {
   if (!pdfUrl) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-lg w-[90%] h-[90%] relative overflow-hidden">
-
         {/* 🔵 Injectăm CSS personalizat pentru toolbar */}
         <style>
-{`
+          {`
   /* Bara PDF = gri închis */
   .toolbar {
     background-color: #3c3c3c !important;
@@ -43,8 +45,7 @@ export default function PDFModal({ pdfUrl, onClose }) {
     background: rgba(255,255,255,0.2);
   }
 `}
-</style>
-
+        </style>
 
         {/* 🔵 X Button în bara PDF */}
         <div className="absolute top-[8px] right-[8px] z-[80]">
